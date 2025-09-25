@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import { forwardRef } from 'react'
 
 interface CosmicButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'glass' | 'brand' | 'navy' | 'deepTeal' | 'steelBlue' | 'monoDark'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'glass' | 'brand' | 'navy' | 'deepTeal' | 'steelBlue' | 'steelBlueInverted' | 'monoDark'
   size?: 'sm' | 'md' | 'lg'
   glow?: boolean
 }
@@ -28,6 +28,7 @@ export const CosmicButton = forwardRef<HTMLButtonElement, CosmicButtonProps>(
       navy: 'bg-[#0C1A31] text-[#BFDBFE] font-medium hover:bg-[#132542] focus:outline-none focus:ring-2 focus:ring-[#0C1A31]/40',
       deepTeal: 'bg-[#0F3B46] text-[#E6FFFA] font-medium hover:bg-[#125261] focus:outline-none focus:ring-2 focus:ring-[#0F3B46]/40',
       steelBlue: 'bg-[#1B3A5A] text-[#E6F0FF] font-medium hover:bg-[#21476E] focus:outline-none focus:ring-2 focus:ring-[#1B3A5A]/40',
+      steelBlueInverted: 'bg-white text-[#1B3A5A] font-medium hover:bg-[#1B3A5A] hover:text-[#E6F0FF] focus:outline-none focus:ring-2 focus:ring-[#1B3A5A]/40',
       monoDark: 'bg-[#111827] text-white font-medium hover:bg-[#1F2937] focus:outline-none focus:ring-2 focus:ring-[#111827]/40'
     } as const
 

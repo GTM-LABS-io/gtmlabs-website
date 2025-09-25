@@ -39,7 +39,7 @@ export default function BentoSectionOptionA() {
           <CardDeepLink />
         </BentoItem>
 
-        {/* Private Channel aligned to same row as attachments (row 2, right) — pulled up more */}
+        {/* Private Channel aligned to same row as attachments (row 2, right) - pulled up more */}
         <BentoItem variant="md" className="md:col-start-5 md:row-start-2 md:-mt-7">
           <CardPrivateChannel />
         </BentoItem>

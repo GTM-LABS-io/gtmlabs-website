@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { GlassCard } from './glass-card'
 import { uiBlueprint as ui } from '@/components/ui/ui-blueprint'
@@ -61,17 +62,29 @@ export function FeatureTabs({ tabs, defaultTab, className }: FeatureTabsProps) {
     <section className={cn("mx-auto max-w-6xl space-y-6", className)} style={ui.fontStyle()}>
       {/* Tab Navigation - Enhanced for mobile */}
       <div className="flex justify-center">
-        <div className="inline-flex rounded-xl bg-[#090C14] p-1">
+        <div className="inline-flex rounded-xl bg-[#090C14] p-1" role="tablist" aria-label="Feature tabs">
           {tabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-200 min-w-[80px] sm:min-w-[100px] inline-flex items-center gap-2",
+                "px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-sm sm:text-base font-medium transition-all duration-200 min-w-[80px] sm:min-w-[100px] inline-flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none",
                 activeTab === tab.id
                   ? "bg-[#191A23] text-[color:var(--brand-pill-text,#BFDBFE)] shadow-sm"
                   : "text-[color:var(--brand-pill-text,#BFDBFE)] hover:bg-[#191A23]/40"
               )}
+              role="tab"
+              aria-selected={activeTab === tab.id}
+              aria-controls={`panel-${tab.id}`}
+              tabIndex={activeTab === tab.id ? 0 : -1}
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                  e.preventDefault();
+                  const idx = tabs.findIndex(t => t.id === activeTab);
+                  const next = e.key === 'ArrowRight' ? (idx + 1) % tabs.length : (idx - 1 + tabs.length) % tabs.length;
+                  setActiveTab(tabs[next].id);
+                }
+              }}
             >
               {getTabIcon(tab.id)}
               <span>{tab.label}</span>
@@ -84,19 +97,25 @@ export function FeatureTabs({ tabs, defaultTab, className }: FeatureTabsProps) {
       <div>
         <GlassCard variant="elevated" className="overflow-hidden bg-[#090C14]">
           <div className="relative min-h-[300px] sm:min-h-[400px]">
-            {tabs.map((tab) => (
-              <div
-                key={tab.id}
-                className={cn(
-                  "transition-all duration-[240ms] ease-out transform p-4 sm:p-0",
-                  activeTab === tab.id
-                    ? "opacity-100 translate-y-0 block"
-                    : "opacity-0 translate-y-1 absolute inset-0 pointer-events-none"
-                )}
-              >
-                {tab.content}
-              </div>
-            ))}
+            <AnimatePresence mode="wait">
+              {tabs.map((tab) => (
+                activeTab === tab.id && (
+                  <motion.div
+                    key={tab.id}
+                    initial={{ opacity: 0, x: 12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -12 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className={cn("p-4 sm:p-0")}
+                    role="tabpanel"
+                    id={`panel-${tab.id}`}
+                    aria-labelledby={tab.id}
+                  >
+                    {tab.content}
+                  </motion.div>
+                )
+              ))}
+            </AnimatePresence>
             
             {/* Subtle gradient overlay at bottom */}
             <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black/20 to-transparent" />
@@ -107,7 +126,7 @@ export function FeatureTabs({ tabs, defaultTab, className }: FeatureTabsProps) {
       {/* Bottom Description Component - Mobile prominent */}
       {currentDescription && (
         <div 
-          className="rounded-xl p-4 sm:p-6 border border-white/10 backdrop-blur-sm transition-all duration-[240ms] text-center sm:text-left"
+          className="rounded-xl p-4 sm:p-6 border border-white/10 backdrop-blur-sm transition-all duration-200 text-center sm:text-left"
           style={{
             backgroundColor: ui.colors.mainHeader,
             ...ui.fontStyle()

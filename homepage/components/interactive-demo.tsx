@@ -924,17 +924,18 @@ What would you like to explore first?`
     animationRef.current = requestAnimationFrame(animate)
   }, [])
 
-  // Scene-based demo sequence (Scenes 1–8)
+  // Scene based demo sequence (Scenes 1-8)
+  // Scene based demo sequence (Scenes 1-8)
   const runDemoSequence = useCallback(async () => {
     // Wait for initial load
     await new Promise(resolve => setTimeout(resolve, 900))
 
-    // Scene 1 — Approach plus to create channel
+    // Scene 1 - Approach plus to create channel
     await moveCursorTo(LEFT_PANEL_WIDTH - 24, 28, 800)
     await setZoomTarget(1.35)
     await new Promise(resolve => setTimeout(resolve, 300))
 
-    // Scene 2 — Click plus (ripple + punch zoom), show inline input slide-down
+    // Scene 2 - Click plus (ripple + punch zoom), show inline input slide down
     await clickAt(LEFT_PANEL_WIDTH - 24, 28)
     const newChannelIndex = (demoStateRef.current ?? demoState).channels.length
     setDemoState(prev => {
@@ -950,7 +951,7 @@ What would you like to explore first?`
     setTypingState(prev => ({ ...prev, context: 'channel', isTyping: true, text: '' }))
     await new Promise(resolve => setTimeout(resolve, 500))
 
-    // Scene 3 — Type channel name with fast forward; press Enter; success underline; pulse active
+    // Scene 3 - Type channel name with fast forward; press Enter; success underline; pulse active
     const channelInputY = 60 + newChannelIndex * 32
     await moveCursorTo(48, channelInputY, 500)
     await setZoomTarget(1.6)
@@ -967,7 +968,7 @@ What would you like to explore first?`
     await new Promise(resolve => setTimeout(resolve, 700))
     await setZoomTarget(1.0)
 
-    // Scene 4 — Move to composer attach button, open picker, select file, then move to input
+    // Scene 4 - Move to composer attach button, open picker, select file, then move to input
     const composerInputX = LEFT_PANEL_WIDTH + 80
     const composerInputY = DEMO_HEIGHT - 68
     // Precompute composer geometry for attach/post buttons
@@ -1011,11 +1012,11 @@ What would you like to explore first?`
     await setZoomTarget(1.7)
     await new Promise(resolve => setTimeout(resolve, 200))
 
-    // Scene 5 — Type text: slow first few letters then fast-forward full message
+    // Scene 5 - Type text: slow first few letters then fast forward full message
     await typeText(WELCOME_TEXT, 'composer', { normalDelayMs: 70, normalCharsCount: 7, fastForwardDelay: 220 })
     await new Promise(resolve => setTimeout(resolve, 400))
 
-    // Scene 6 — Post the entry (click exact button center)
+    // Scene 6 - Post the entry (click exact button center)
     const postCenterX = postLeftXAbs + 25
     const postCenterY = composerInputY + 16
     await moveCursorTo(postCenterX, postCenterY, 800, 'inOutCubic')
@@ -1029,7 +1030,7 @@ What would you like to explore first?`
 
     await new Promise(resolve => setTimeout(resolve, 800))
 
-    // Scene 7 — Like the entry (pre-hover, click, pop and flip) — Slack-like reaction chip center
+    // Scene 7 - Like the entry (pre hover, click, pop and flip) - Slack like reaction chip center
     const firstEntryY = HEADER_HEIGHT + 40
     const entryX = LEFT_PANEL_WIDTH + 20
     const entryHeightForCalc = 100
@@ -1050,7 +1051,7 @@ What would you like to explore first?`
     }))
     await new Promise(resolve => setTimeout(resolve, 900))
 
-    // Scene 8 — First reply: move to Reply input under the entry
+    // Scene 8 - First reply: move to Reply input under the entry
     const replyInputY = HEADER_HEIGHT + 100
     const replyInputX = LEFT_PANEL_WIDTH + 60
     await moveCursorTo(replyInputX, replyInputY, 700)

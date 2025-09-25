@@ -13,7 +13,7 @@ export const FREE_PLAN_FEATURES: string[] = [
 
 export const TOOLTIP_COPY = {
   highlightedDeepLink:
-    'Share a link that auto-scrolls to a channel, a specific message, or a sentence/KPI within it—and highlights that exact part.',
+    'Share a link that auto-scrolls to a channel, a specific message, or a sentence/KPI within it, and highlights that exact part.',
   limits:
     'Free limits: 1 workspace, 3 channels, 5 messages total, and up to 5 replies per thread.',
   messageLimit:

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: APP_NAME,
   description:
-    'Share your work like you actually do it — in channels and threads. One link people get in 30 seconds.',
+    'Share your work like you actually do it, in channels and threads. One link people get in 30 seconds.',
   generator: 'Next.js',
   openGraph: {
     title: APP_NAME,

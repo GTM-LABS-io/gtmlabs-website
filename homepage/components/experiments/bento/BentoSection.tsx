@@ -18,12 +18,12 @@ export default function BentoSection() {
           <CardHeroRecruiter />
         </BentoItem>
 
-        {/* Combined Locked Channel Composite — replaces top-right + middle-right */}
+        {/* Combined Locked Channel Composite - replaces top-right + middle-right */}
         <BentoItem variant="md" className="md:col-start-5 md:row-start-1 md:row-span-2 md:-mt-3">
           <CardLockedChannelComposite />
         </BentoItem>
 
-        {/* Attachments with right thread panel (wide) — directly under hero */}
+        {/* Attachments with right thread panel (wide) - directly under hero */}
         <BentoItem variant="lgwide" className="md:col-start-1 md:row-start-3 md:-mt-5">
           <CardAttachmentsThread />
         </BentoItem>

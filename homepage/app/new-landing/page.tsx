@@ -12,10 +12,15 @@ import {
 } from '@/components/cosmic'
 import { TiltedScroll } from '@/components/ui/tilted-scroll'
 import DisplayCards from '@/components/ui/display-cards'
+import AnalyticsCards from '@/components/ui/analytics-cards'
+import CustomizationGraph from '@/components/ui/customization-graph'
 import { PricingSection } from '@/components/pricing-section'
+import { ShimmerBorder } from '@/components/ui/shimmer-border'
 import { AnimatedGroup } from '@/components/ui/animated-group'
 import { ContainerTextFlip } from '@/components/container-text-flip'
 import RuixenFeaturedImageSection from '@/components/ui/ruixen-featured-image-section'
+import ProblemParallaxCards from '@/components/ui/problem-parallax-cards'
+import HowItWorksSection from '@/components/ui/how-it-works-section'
 import {
   MessageCircle,
   FileText,
@@ -88,7 +93,7 @@ export default function NewLandingPage() {
     },
     {
       question: "Can I cancel anytime?",
-      answer: "Absolutely—self-serve cancel, no lock-in."
+      answer: "Absolutely. Self-serve cancel, no lock-in."
     },
     {
       question: "Is my data private?",
@@ -96,7 +101,7 @@ export default function NewLandingPage() {
     },
     {
       question: "Does it work on mobile?",
-      answer: "Yes—public pages are tuned for quick, on-the-go skimming."
+      answer: "Yes. Public pages are tuned for quick, on the go skimming."
     },
     {
       question: "Custom domain and analytics?",
@@ -130,18 +135,18 @@ export default function NewLandingPage() {
                 {/* Brand Pill above headline */}
                 <div className="flex justify-center">
                   <CosmicPill tone="brand" size="md" className="section-pill-text">
-                    Convert & Engage: All-in-One Solution
+                    Repurpose
                   </CosmicPill>
                 </div>
 
                 {/* Animated Headline */}
                 <div className="flex flex-col items-center gap-4">
                   <h1 className="hero-headline gradient-headline">
-                    Show your work like you
+                    Repurpose long-form content into
                   </h1>
                   <div className="h-20 md:h-24 flex items-center justify-center">
                     <ContainerTextFlip
-                      words={["actually do it", "share it in channels", "reply in threads"]}
+                      words={["blog posts", "LinkedIn content", "newsletters", "lead magnets", "30 pieces of content"]}
                       interval={2300}
                       animationDuration={240}
                       className="text-4xl md:text-5xl font-bold rounded-lg border border-white/20 bg-[#090C14] backdrop-blur-sm px-4 py-2 h-full flex items-center justify-center"
@@ -151,7 +156,7 @@ export default function NewLandingPage() {
                 </div>
                 
                 <p className="section-description max-w-3xl mx-auto">
-                  Turn your launches, case studies, and wins into simple threads with attachments and outcomes so anyone "gets it" in 30 seconds.
+                  We transform your recorded webinars into blog posts, LinkedIn content, newsletters, and lead magnets - all on autopilot
                 </p>
 
                 {/* Benefit Pills (smaller) */}
@@ -170,11 +175,13 @@ export default function NewLandingPage() {
                   </span>
                 </div>
                 
-                {/* CTA Buttons */}
+                {/* CTA Buttons: shimmer only on primary */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <CosmicButton variant="steelBlue" size="lg" onClick={() => router.push('/login')}>
-                    Start Free Trial
-                  </CosmicButton>
+                  <ShimmerBorder roundedClass="rounded-xl">
+                    <CosmicButton variant="steelBlueInverted" size="lg" onClick={() => router.push('/login')}>
+                      Start Free Trial
+                    </CosmicButton>
+                  </ShimmerBorder>
                   <CosmicButton
                     variant="monoDark"
                     size="lg"
@@ -189,13 +196,17 @@ export default function NewLandingPage() {
               </AnimatedGroup>
             </section>
 
-            
+            {/* Problem Section */}
+            <section id="problem" className="space-y-6">
+              <ProblemParallaxCards />
+            </section>
 
-            
+            {/* How It Works Timeline */}
+            <section id="how-it-works" className="space-y-6">
+              <HowItWorksSection />
+            </section>
 
-            
-
-            
+            {/* Removed older FeatureTabs block; new Ruixen tabbed section below is authoritative */}
 
             {/* Ruixen Featured Image Section (new, separate from existing FeatureTabs) */}
             <section id="features-ruixen" className="space-y-12">
@@ -206,22 +217,23 @@ export default function NewLandingPage() {
 
             {/* Benefits - Alternating two-column features */}
             <section id="benefits" className="space-y-14">
+              <div className="text-center">
+                <h2 className="section-headline gradient-headline">Powered by AI, Delivered with Precision</h2>
+              </div>
               <TwoColumnFeature
-                eyebrow="Onboarding"
-                title="The Easiest Onboarding Builder"
-                description="Craft onboarding flows with steps, tooltips, and checklists in minutes. Preview instantly and iterate fast without code."
+                eyebrow="Repurpose"
+                title="The Fastest Way to Repurpose Webinars"
+                description="Get blog posts, LinkedIn content, newsletters, and lead magnets. Delivered in 48 hours."
                 imageFrame="plain"
                 image={
                   <TiltedScroll
                     items={[
-                      { id: '1', text: 'Create steps, tooltips, and checklists' },
-                      { id: '2', text: 'Preview changes instantly' },
-                      { id: '3', text: 'Drag-and-drop ordering' },
-                      { id: '4', text: 'Reusable templates' },
-                      { id: '5', text: 'Team collaboration' },
-                      { id: '6', text: 'No code changes required' },
-                      { id: '7', text: 'One‑click publish' },
-                      { id: '8', text: 'Version history' },
+                      { id: '1', text: 'Upload webinar once' },
+                      { id: '2', text: '30+ assets created automatically' },
+                      { id: '3', text: 'Ready to post in 48 hours' },
+                      { id: '4', text: 'Blog posts written for you' },
+                      { id: '5', text: 'LinkedIn content in bulk' },
+                      { id: '6', text: 'Social clips that grab attention' },
                     ]}
                     className="mx-auto"
                   />
@@ -229,21 +241,21 @@ export default function NewLandingPage() {
               >
                 <div className="space-y-3">
                   <MiniFeatureCard
-                    icon={<ListChecks className="w-5 h-5 text-blue-300" />}
-                    title="Step-by-step Builder"
-                    description="Create steps, tooltips, and checklists fast."
+                    icon={<Sparkles className="w-5 h-5 text-blue-300" />}
+                    title="Fully Managed"
+                    description="Upload once; we handle writing, design, and delivery."
                   />
                   <MiniFeatureCard
                     icon={<Zap className="w-5 h-5 text-blue-300" />}
-                    title="Live Preview"
-                    description="See changes instantly without code."
+                    title="Zero Hassle"
+                    description="No extra tools. Brand voice applied. Publish-ready."
                   />
                 </div>
               </TwoColumnFeature>
               <TwoColumnFeature
-                eyebrow="Themes"
-                title="Fully Customizable Themes"
-                description="Pick a theme or fine‑tune colors, radii, and typography. Keep your brand consistent across every touchpoint."
+                eyebrow="Branding"
+                title="Keep Every Asset On-Brand"
+                description="Your webinar repurposing does not just save time; it looks like you created it yourself. Every blog, post, and clip matches your brand voice and design."
                 reverse
                 imageFrame="plain"
                 image={<DisplayCards />}
@@ -252,50 +264,54 @@ export default function NewLandingPage() {
                 <div className="space-y-3">
                   <MiniFeatureCard
                     icon={<Palette className="w-5 h-5 text-blue-300" />}
-                    title="Personalized Colors and Fonts"
-                    description="Adjust text, button colors, and more to match your branding. Select your preferred font family and size to maintain consistency."
+                    title="Custom Brand Guidelines"
+                    description="We adapt your colors, fonts, and tone so each content piece feels native to your company."
                   />
                   <MiniFeatureCard
-                    icon={<Sparkles className="w-5 h-5 text-blue-300" />}
-                    title="Support for Multiple Themes"
-                    description="Design and manage multiple themes, applying them to different flows as needed for a cohesive user experience."
+                    icon={<Layers className="w-5 h-5 text-blue-300" />}
+                    title="Multiple Formats, One Brand"
+                    description="From LinkedIn threads to PDF lead magnets, your brand stays consistent across every channel."
                   />
                 </div>
               </TwoColumnFeature>
               <TwoColumnFeature
-                eyebrow="Analytics"
-                title="Actionable Insights"
-                description="See completion rates, drop‑offs, and time‑to‑value at a glance. Drill into steps to remove friction and improve activation."
+                eyebrow="Results"
+                title="Actionable Results"
+                description="See exactly how your repurposed content performs. Track views, clicks, and shares across every channel so you know what is working and what is not."
+                imageFrame="plain"
+                image={<AnalyticsCards className="mx-auto" />}
               >
                 <div className="space-y-3">
                   <MiniFeatureCard
                     icon={<BarChart3 className="w-5 h-5 text-blue-300" />}
-                    title="Completion & Drop‑offs"
-                    description="Track completion rates and where users drop off."
+                    title="Engagement & Reach"
+                    description="Measure impressions, engagement rates, and traffic driven from each piece."
                   />
                   <MiniFeatureCard
-                    icon={<Timer className="w-5 h-5 text-blue-300" />}
-                    title="Time to Value"
-                    description="Measure time to first success and optimize."
+                    icon={<ListChecks className="w-5 h-5 text-blue-300" />}
+                    title="Lead Impact"
+                    description="Track which content pieces generate signups, downloads, or webinar replays."
                   />
                 </div>
               </TwoColumnFeature>
               <TwoColumnFeature
-                eyebrow="Personalization"
-                title="Personalized Onboarding"
-                description="Serve the right guidance for different personas, plans, and lifecycle stages. Trigger flows based on user actions."
+                eyebrow="Customization"
+                title="Personalized Repurposing"
+                description="Not all webinars are the same, your content should not be either. We tailor assets to match your audience, industry, and brand tone."
+                imageFrame="plain"
+                image={<CustomizationGraph className="mx-auto" />}
                 reverse
               >
                 <div className="space-y-3">
                   <MiniFeatureCard
                     icon={<Sliders className="w-5 h-5 text-blue-300" />}
-                    title="Persona‑based Flows"
-                    description="Tailor guidance by persona and plan."
+                    title="Persona-Based Content"
+                    description="Repurposed outputs written and styled for executives, prospects, or community audiences."
                   />
                   <MiniFeatureCard
                     icon={<Sparkles className="w-5 h-5 text-blue-300" />}
-                    title="Behavior Triggers"
-                    description="Launch flows based on user actions."
+                    title="Channel-Specific Formats"
+                    description="Clips optimized for LinkedIn vs TikTok, blogs written for SEO vs thought leadership."
                   />
                 </div>
               </TwoColumnFeature>

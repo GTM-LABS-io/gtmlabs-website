@@ -48,7 +48,7 @@ export function CardSelectiveShare() {
                 <span className="text-[11px] bg-amber-500/20 text-amber-200 px-1.5 py-0.5 rounded">Private</span>
               </div>
               <div className="text-sm text-slate-200 mb-2">
-                Rollout notes – v1.3 release. We’re shipping a sequence to improve activation and clarify handoffs. Key changes below.
+                Rollout notes - v1.3 release. We’re shipping a sequence to improve activation and clarify handoffs. Key changes below.
               </div>
               <div className="text-[13px] text-slate-200 space-y-1">
                 <div>1. Segment signups by intent</div>
