@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { slackTokens } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
+import { ThinBlueBorderCard } from "@/components/ui/thin-blue-border-card";
 import { Rocket, Linkedin, Twitter, Instagram, Facebook, Youtube, Image as ImageIcon, Pin, Check, Share2 } from "lucide-react";
 
 const blue500 = slackTokens.colors.blue[500];
@@ -20,32 +21,25 @@ function hex(hex: string, a: number) {
 export function SocialBottomBar() {
   const blue500 = slackTokens.colors.blue[500];
   return (
-    <div
-      className="flex items-center justify-between rounded-xl border px-6 py-4"
-      style={{
-        background: `linear-gradient(90deg, #1A1B23 0%, ${hex(blue500, 0.06)} 100%)`,
-        borderColor: "#2A2B35",
-      }}
-    >
-      <div className="flex items-center">
+    <ThinBlueBorderCard className="flex flex-col gap-4 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex items-center gap-4">
         <div
           className="flex h-12 w-12 items-center justify-center rounded-xl"
           style={{ background: hex(blue500, 0.12) }}
         >
           <Share2 className="w-6 h-6" style={{ color: hex(blue500, 0.9) }} />
         </div>
-        <div className="ml-5">
+        <div>
           <div className="text-white text-lg font-semibold">30+ social posts ready to schedule.</div>
           <div className="text-sm" style={{ color: "#8B8D96" }}>
             Platform-optimized content that drives engagement and grows your following
           </div>
         </div>
       </div>
-      {/* See Sample button disabled until target is available */}
+      {/* See Sample button placeholder - styling retained for future enablement */}
       {false && (
         <button
-          className="group rounded-lg px-4 py-2 text-sm transition-colors inline-flex items-center"
-          style={{ border: "1px solid #2A2B35", color: hex(blue500, 0.9) }}
+          className="group inline-flex items-center rounded-lg border border-blue-500/20 px-4 py-2 text-sm text-blue-300 transition-colors"
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = hex(blue500, 0.12))}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
         >
@@ -53,15 +47,15 @@ export function SocialBottomBar() {
           <Check className="ml-2 w-4 h-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100" style={{ color: hex(blue500, 0.9) }} />
         </button>
       )}
-    </div>
+    </ThinBlueBorderCard>
   );
 }
 
 export default function SocialPlatforms({ className }: { className?: string }) {
   return (
     <div className={cn("mx-auto max-w-[1200px]", className)}>
-      {/* Frame container */}
-      <div className="mx-auto rounded-2xl border p-8" style={{ background: "#13141A", borderColor: "#2A2B35" }}>
+      {/* Direct content - no inner frame */}
+      <div className="mx-auto p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 cards-grid">
           <PlatformCard icon={<Linkedin className="w-5 h-5" />} title="LinkedIn Carousel" subtitle="Swipe-ready carousel" variant="carousel" />
           <PlatformCard icon={<Twitter className="w-5 h-5" />} title="Twitter/X Thread" subtitle="10-tweet thread" variant="thread" />
@@ -70,8 +64,6 @@ export default function SocialPlatforms({ className }: { className?: string }) {
           <PlatformCard icon={<Youtube className="w-5 h-5" />} title="YouTube Descriptions" subtitle="SEO and links" variant="yt" />
           <PlatformCard icon={<ImageIcon className="w-5 h-5" />} title="Pinterest Pins" subtitle="Clickable visuals" variant="pin" />
         </div>
-
-        {/* Bottom bar moved outside the frame (rendered in RuixenFeaturedImageSection) */}
       </div>
     </div>
   );
@@ -80,8 +72,7 @@ export default function SocialPlatforms({ className }: { className?: string }) {
 function CardBase({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
-      className="card hover-glow-blue rounded-xl border p-5 h-[180px] overflow-hidden relative"
-      style={{ background: "linear-gradient(180deg, #1A1B23 0%, #0F1014 100%)", borderColor: "#2A2B35" }}
+      className="card hover-glow-blue rounded-xl border border-blue-500/20 bg-black p-5 h-[180px] overflow-hidden relative"
       whileHover={{ y: -4 }}
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >

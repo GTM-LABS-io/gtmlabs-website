@@ -6,7 +6,10 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "echo 'no lint configured'"
+    "lint": "echo 'no lint configured'",
+    "prepare": "husky",
+    "guard:unlock": "bash scripts/guard/unlock.sh",
+    "guard:lock": "bash scripts/guard/lock.sh"
   },
   "dependencies": {
     "@21st-extension/react": "^0.5.14",
@@ -29,6 +32,7 @@
     "@types/node": "^24.5.2",
     "@types/react": "19.1.13",
     "autoprefixer": "^10.4.20",
+    "husky": "^9.1.7",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",

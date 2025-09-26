@@ -40,19 +40,74 @@ const fade: Variants = {
 };
 
 /**
+ * MOTION_GUARDS
+ *
+ * Guardrail: Do NOT modify these values without review.
+ * Only card content (text/images) should be edited elsewhere.
+ */
+export const MOTION_GUARDS = Object.freeze({
+  // Simple easing to match reference - no complex curves
+  easing: "easeOut" as const,
+  durations: Object.freeze({
+    // Match reference: simple CSS transitions, no rushing
+    layout: 0.3, // Keep Framer Motion minimal
+    default: 0.3,
+    css: 500, // 500ms like reference (duration-500)
+    content: 500, // Main expand/collapse timing
+    opacity: 300, // Slightly faster opacity
+  }),
+  zones: Object.freeze({
+    expandStartRatio: 0.75, // expand starts 75% down the viewport
+    collapseEndRatio: 0.5,  // collapse once bottom hits 50% (center)
+    metaCenterRatio: 0.35,  // meta proximity center
+  }),
+});
+
+/**
  * Scroll-activated timeline.
  * - Left column is sticky and highlights the active item.
  * - Right column expands the active card and collapses the others.
  */
 export default function HowItWorksTimeline({ title, description, entries, className }: HowItWorksTimelineProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0); // Keep for meta card highlighting
+  const [cardStates, setCardStates] = useState<boolean[]>(new Array(entries.length).fill(false)); // Individual card expand states
+  const [navbarHeight, setNavbarHeight] = useState(80); // Default fallback
   const sentinelRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const metaRefs = useRef<(HTMLDivElement | null)[]>([]);
   const frameRef = useRef<number | null>(null);
   const lastIdxRef = useRef(0);
   const lastSwitchTimeRef = useRef(0);
 
+  // Dev-time watchdog to detect motion guard drift
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      const expected = {
+        easing: [0.23, 1, 0.32, 1] as const,
+        durations: { layout: 1.2, default: 1.0, css: 1.0, content: 1.2, opacity: 1.0 },
+        zones: { expandStartRatio: 0.75, collapseEndRatio: 0.5, metaCenterRatio: 0.35 },
+      };
+      const same =
+        JSON.stringify(MOTION_GUARDS.easing) === JSON.stringify(expected.easing) &&
+        JSON.stringify(MOTION_GUARDS.durations) === JSON.stringify(expected.durations) &&
+        JSON.stringify(MOTION_GUARDS.zones) === JSON.stringify(expected.zones);
+      if (!same) {
+        // eslint-disable-next-line no-console
+        console.warn("[HowItWorksTimeline] Motion guard values changed. This is restricted.");
+      }
+    }
+  }, []);
+
   const setSentinelRef = (el: HTMLDivElement | null, i: number) => {
     sentinelRefs.current[i] = el;
+  };
+
+  const setCardRef = (el: HTMLElement | null, i: number) => {
+    cardRefs.current[i] = el;
+  };
+
+  const setMetaRef = (el: HTMLDivElement | null, i: number) => {
+    metaRefs.current[i] = el;
   };
 
   const renderSkeleton = (index: number) => {
@@ -245,10 +300,66 @@ export default function HowItWorksTimeline({ title, description, entries, classN
     }
   };
 
+  const renderMetaCard = (entry: HowItWorksEntry, isActive: boolean) => {
+    const Icon = entry.icon;
+    return (
+      <ShimmerBorder
+        className="block w-full"
+        roundedClass="rounded-xl"
+        borderColor="#3b82f6"
+        duration={6}
+        borderWidth={2}
+      >
+        <div
+          className={cn(
+            "flex items-center gap-3 rounded-xl border px-3 py-2",
+            isActive ? "border-slate-600/40 bg-white/5" : "border-slate-700/30 bg-white/[0.02]"
+          )}
+        >
+          <div
+            className={cn(
+              "h-8 w-8 rounded-lg flex items-center justify-center",
+              isActive ? "bg-blue-500/15" : "bg-white/10"
+            )}
+          >
+            <Icon className="h-4 w-4" />
+          </div>
+          <div className="flex-1">
+            <div className="text-sm font-semibold text-white/90">{entry.title}</div>
+            <div className="text-xs text-slate-400">{entry.subtitle}</div>
+          </div>
+        </div>
+      </ShimmerBorder>
+    );
+  };
+
   useEffect(() => {
     const loop = () => {
       frameRef.current = requestAnimationFrame(loop);
-      const centerY = window.innerHeight * 0.35; // original demo felt centered a bit higher
+      const viewportHeight = window.innerHeight;
+      const expandZoneStart = viewportHeight * MOTION_GUARDS.zones.expandStartRatio;
+      const expandZoneEnd = viewportHeight * MOTION_GUARDS.zones.collapseEndRatio;
+      const centerY = viewportHeight * MOTION_GUARDS.zones.metaCenterRatio;
+      
+      // Calculate individual card states based on viewport position
+      const newCardStates = cardRefs.current.map((card, i) => {
+        if (!card) return false;
+        const rect = card.getBoundingClientRect();
+        const cardTop = rect.top;
+        const cardBottom = rect.bottom;
+        
+        // Card should be expanded when it's in the "expansion zone" of the viewport
+        const shouldExpand = cardTop < expandZoneStart && cardBottom > expandZoneEnd;
+        return shouldExpand;
+      });
+      
+      // Update card states if they changed
+      setCardStates(prevStates => {
+        const hasChanged = prevStates.some((state, i) => state !== newCardStates[i]);
+        return hasChanged ? newCardStates : prevStates;
+      });
+      
+      // Keep meta card highlighting logic for sticky left column
       let bestIndex = 0;
       let bestDist = Infinity;
       sentinelRefs.current.forEach((node, i) => {
@@ -262,7 +373,7 @@ export default function HowItWorksTimeline({ title, description, entries, classN
         }
       });
 
-      // Hysteresis to avoid ping-pong: require a margin and minimal interval
+      // Hysteresis for meta card highlighting
       const currentIndex = lastIdxRef.current;
       const currentNode = sentinelRefs.current[currentIndex];
       let currentDist = Infinity;
@@ -271,10 +382,15 @@ export default function HowItWorksTimeline({ title, description, entries, classN
         const mid = rect.top + rect.height / 2;
         currentDist = Math.abs(mid - centerY);
       }
-      const margin = 80; // px, stronger hysteresis to avoid threshold ping-pong
+      const margin = 80;
       const now = performance.now();
-      const minInterval = 320; // ms between switches to prevent rapid toggles
-      if (bestIndex !== currentIndex && (bestDist + margin < currentDist) && (now - lastSwitchTimeRef.current > minInterval)) {
+      const minInterval = 320;
+      
+      if (
+        bestIndex !== currentIndex &&
+        (bestDist + margin < currentDist) &&
+        (now - lastSwitchTimeRef.current > minInterval)
+      ) {
         lastIdxRef.current = bestIndex;
         setActiveIndex(bestIndex);
         lastSwitchTimeRef.current = now;
@@ -286,70 +402,255 @@ export default function HowItWorksTimeline({ title, description, entries, classN
     };
   }, []);
 
+  useEffect(() => {
+    const setInitialIndex = () => setActiveIndex(0);
+    setInitialIndex();
+  }, []);
+
+  // Calculate navbar height dynamically
+  useEffect(() => {
+    const calculateNavbarHeight = () => {
+      const navbar = document.querySelector('header nav');
+      if (navbar) {
+        const rect = navbar.getBoundingClientRect();
+        const computedHeight = rect.height;
+        console.log(`📏 [NAVBAR HEIGHT] Calculated: ${computedHeight}px`);
+        setNavbarHeight(computedHeight + 16); // Add 16px padding below navbar
+      } else {
+        // Fallback calculation based on CosmicHeader structure:
+        // mt-2 (8px) + py-3/py-4 (12px/16px) + content height (~40px) + py-3/py-4 (12px/16px)
+        const isMobile = window.innerWidth < 1024;
+        const fallbackHeight = 8 + (isMobile ? 12 : 16) + 40 + (isMobile ? 12 : 16) + 16; // +16px padding
+        console.log(`📏 [NAVBAR HEIGHT] Fallback: ${fallbackHeight}px (mobile: ${isMobile})`);
+        setNavbarHeight(fallbackHeight);
+      }
+    };
+
+    // Calculate on mount and when window resizes
+    calculateNavbarHeight();
+    
+    const handleResize = () => {
+      setTimeout(calculateNavbarHeight, 100); // Debounce for CSS transitions
+    };
+    
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('scroll', calculateNavbarHeight); // Recalc on scroll for dynamic navbar
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', calculateNavbarHeight);
+    };
+  }, []);
+
+  // AGGRESSIVE LOGGING for sticky debugging
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    
+    console.group(`🔍 [STICKY DEBUG] Active Index: ${activeIndex}`);
+    
+    // Log all meta cards and their sticky status
+    metaRefs.current.forEach((meta, i) => {
+      if (!meta) return;
+      const metaStyles = window.getComputedStyle(meta);
+      const rect = meta.getBoundingClientRect();
+      const isCurrentlyActive = i === activeIndex;
+      
+      console.log(`📍 Meta Card ${i} ${isCurrentlyActive ? '(ACTIVE)' : ''}:`, {
+        element: meta,
+        position: metaStyles.position,
+        top: metaStyles.top,
+        zIndex: metaStyles.zIndex,
+        transform: metaStyles.transform,
+        rect: {
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height
+        },
+        viewport: {
+          windowHeight: window.innerHeight,
+          scrollY: window.scrollY
+        },
+        classes: meta.className,
+        shouldStick: isCurrentlyActive,
+        actuallySticking: metaStyles.position === 'sticky' && rect.top <= navbarHeight + 5 // Within 5px of target position
+      });
+    });
+    
+    // Check for sticky-breaking ancestors
+    const activeMeta = metaRefs.current[activeIndex];
+    if (activeMeta) {
+      let ancestor = activeMeta.parentElement;
+      let depth = 0;
+      while (ancestor && depth < 8) {
+        const styles = window.getComputedStyle(ancestor);
+        const hasStickyBreaker = 
+          styles.overflow !== 'visible' || 
+          styles.transform !== 'none' ||
+          styles.perspective !== 'none' ||
+          styles.filter !== 'none';
+          
+        if (hasStickyBreaker) {
+          console.warn(`⚠️  STICKY BREAKER at depth ${depth}:`, {
+            element: ancestor,
+            tagName: ancestor.tagName,
+            className: ancestor.className,
+            overflow: styles.overflow,
+            transform: styles.transform,
+            perspective: styles.perspective,
+            filter: styles.filter
+          });
+        } else if (depth < 3) {
+          // Log first few clean ancestors to confirm fix
+          console.log(`✅ Clean ancestor at depth ${depth}:`, {
+            tagName: ancestor.tagName,
+            className: ancestor.className,
+            overflow: styles.overflow
+          });
+        }
+        
+        ancestor = ancestor.parentElement;
+        depth += 1;
+      }
+    }
+    
+    console.groupEnd();
+  }, [activeIndex]);
+  
+  // Add scroll-based logging
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+    
+    let lastLogTime = 0;
+    const handleScroll = () => {
+      const now = Date.now();
+      if (now - lastLogTime < 500) return; // Throttle to every 500ms
+      lastLogTime = now;
+      
+      console.log(`📜 [SCROLL DEBUG] Y: ${window.scrollY}, Active: ${activeIndex}`);
+      
+      const activeMeta = metaRefs.current[activeIndex];
+      if (activeMeta) {
+        const rect = activeMeta.getBoundingClientRect();
+        const styles = window.getComputedStyle(activeMeta);
+        console.log(`🔗 Active meta position:`, {
+          rect: { top: rect.top, left: rect.left },
+          computed: { position: styles.position, top: styles.top },
+          isSticking: styles.position === 'sticky' && rect.top <= 32
+        });
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [activeIndex]);
+
   return (
     <section className={cn("py-24", className)}>
       <div className="mx-auto w-full max-w-[1100px] px-4">
         {title && (
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl md:text-5xl font-bold gradient-headline">{title}</h2>
-            {description && (
-              <p className="mt-3 text-slate-400 md:text-lg">{description}</p>
-            )}
+            {description && <p className="mt-3 text-slate-400 md:text-lg">{description}</p>}
           </div>
         )}
 
         <div className="mx-auto mt-14 max-w-4xl space-y-14 md:space-y-20">
           {entries.map((entry, index) => {
-            const isActive = index === activeIndex;
-            const Icon = entry.icon;
+            const isMetaActive = index === activeIndex; // For meta card highlighting
+            const isCardExpanded = cardStates[index]; // For individual card expansion
             return (
-              <motion.div key={index} variants={container} initial="hidden" whileInView="show" viewport={{ amount: 0.4, once: false }} className="relative flex flex-col gap-4 md:flex-row md:gap-10">
-                {/* Sticky meta column */}
-                <motion.div variants={fade} className="md:sticky md:top-24 md:h-min w-full md:w-64 shrink-0">
-                  <ShimmerBorder className="block w-full" roundedClass="rounded-xl" borderColor="#3b82f6" duration={6} borderWidth={2}>
-                    <div className={cn("flex items-center gap-3 rounded-xl border px-3 py-2", isActive ? "border-slate-600/40 bg-white/5" : "border-slate-700/30 bg-white/[0.02]")}> 
-                      <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center", isActive ? "bg-blue-500/15" : "bg-white/10")}> 
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-sm font-semibold text-white/90">{entry.title}</div>
-                        <div className="text-xs text-slate-400">{entry.subtitle}</div>
-                      </div>
-                    </div>
-                  </ShimmerBorder>
-                </motion.div>
+              <div
+                key={index}
+                className="relative flex flex-col gap-4 md:flex-row md:items-start md:gap-10"
+              >
+                {/* Sticky meta column - simplified to match sample */}
+                <div 
+                  className="w-full shrink-0 md:w-64 md:h-min md:sticky"
+                  style={{ top: `${navbarHeight}px` }}
+                  ref={(el) => setMetaRef(el, index)}
+                  data-meta-index={index}
+                >
+                  {renderMetaCard(entry, isMetaActive)}
+                </div>
 
-                {/* Invisible sentinel for proximity calc */}
-                <div ref={(el) => setSentinelRef(el, index)} aria-hidden className="absolute -top-24 left-0 h-12 w-12 opacity-0" />
+                <div
+                  ref={(el) => setSentinelRef(el, index)}
+                  aria-hidden
+                  className="absolute -top-24 left-0 h-12 w-12 opacity-0"
+                  data-debug-sentinel-index={index}
+                />
 
-                {/* Content card */}
-                <motion.article layout variants={fade} initial={false} transition={{ layout: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }} className={cn("flex-1 rounded-2xl border transition-all", isActive ? "border-slate-600/40 bg-[#0E1016] shadow-lg" : "border-slate-800/50 bg-[#0C0D12]")}> 
+                <motion.article
+                  layout
+                  variants={fade}
+                  initial={false}
+                  transition={{ 
+                    layout: { duration: MOTION_GUARDS.durations.layout, ease: MOTION_GUARDS.easing },
+                    default: { duration: MOTION_GUARDS.durations.default, ease: MOTION_GUARDS.easing }
+                  }}
+                  className={cn(
+                    "flex-1 rounded-2xl border transition-all duration-300 ease-out",
+                    isCardExpanded ? "border-blue-500/20 bg-black shadow-2xl shadow-blue-500/10" : "border-zinc-800/30 bg-black/95"
+                  )}
+                  data-debug-card-index={index}
+                  style={{ transform: "none" }}
+                  ref={(el) => setCardRef(el, index)}
+                >
                   <div className="p-4 md:p-6">
-                    {/* Skeleton visual tailored to each card */}
                     <div className="mb-4">{renderSkeleton(index)}</div>
                     <div className="space-y-3">
-                      <h3 className={cn("text-lg md:text-xl font-semibold", isActive ? "text-white" : "text-white/80")}>{entry.title}</h3>
-                      <p className={cn("text-sm leading-relaxed text-slate-400 transition-all", isActive ? "line-clamp-none" : "line-clamp-2")}>{entry.description}</p>
+                      <h3 className={cn("text-lg md:text-xl font-semibold", isCardExpanded ? "text-white" : "text-white/80")}>{entry.title}</h3>
+                      <p
+                        className={cn(
+                          "text-sm leading-relaxed text-slate-400 transition-all",
+                          isCardExpanded ? "line-clamp-none" : "line-clamp-2"
+                        )}
+                      >
+                        {entry.description}
+                      </p>
                     </div>
 
-                    <motion.div layout className={cn("grid transition-all", isActive ? "grid-rows-[1fr] opacity-100 pt-3" : "grid-rows-[0fr] opacity-0")}> 
+                    <motion.div
+                      layout
+                      className={cn(
+                        "grid transition-all duration-500 ease-out",
+                        isCardExpanded ? "grid-rows-[1fr] opacity-100 pt-3" : "grid-rows-[0fr] opacity-0"
+                      )}
+                      transition={{
+                        duration: MOTION_GUARDS.durations.layout,
+                        ease: MOTION_GUARDS.easing
+                      }}
+                    >
                       <div className="overflow-hidden">
                         {entry.items && entry.items.length > 0 && (
-                          <ul className="mt-2 space-y-2">
-                            {entry.items.map((item, i) => (
-                              <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
-                                <span className="mt-1 h-1.5 w-1.5 rounded-full bg-blue-400/70" />
-                                <span className="leading-relaxed">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
+                          <div className="mt-3 rounded-xl border border-blue-500/20 bg-zinc-950/50 p-4">
+                            <ul className="space-y-3">
+                              {entry.items.map((item, i) => (
+                                <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
+                                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-400/80" />
+                                  <span className="leading-relaxed">{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         )}
+
                         {entry.button && (
                           <div className="mt-4 flex justify-end">
-                            <Button variant="default" size="sm" className="group">
-                              <a href={entry.button.url} className="inline-flex items-center" target="_blank" rel="noreferrer">
+                            <Button 
+                              variant="default" 
+                              size="sm" 
+                              className="group bg-blue-600/90 hover:bg-blue-500 border-blue-500/30 transition-all duration-300 ease-out"
+                            >
+                              <a
+                                href={entry.button.url}
+                                className="inline-flex items-center"
+                                target="_blank"
+                                rel="noreferrer"
+                              >
                                 {entry.button.text}
-                                <ArrowUpRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                                <ArrowUpRight className="ml-1.5 h-3.5 w-3.5 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                               </a>
                             </Button>
                           </div>
@@ -358,7 +659,7 @@ export default function HowItWorksTimeline({ title, description, entries, classN
                     </motion.div>
                   </div>
                 </motion.article>
-              </motion.div>
+              </div>
             );
           })}
         </div>

@@ -144,18 +144,13 @@ export default function RuixenFeaturedImageSection() {
           </div>
         </div>
 
-        {/* Main Frame: double white curved frame with blue beam around it */}
+        {/* Main Frame: thin blue border with blue beam around it */}
         <div className="mt-8">
           <div
-            className="relative overflow-hidden rounded-2xl border border-white/20"
+            className="relative overflow-hidden rounded-2xl border border-blue-500/20 bg-black"
             data-guard="ruixen-frame"
             data-locked={(canRemoveFrame ? "false" : "true")}
           >
-            {/* inner subtle border to create double-frame look */}
-            <div
-              className="pointer-events-none absolute inset-px rounded-[inherit] border border-white/10"
-              data-guard="ruixen-frame-inner"
-            />
             {/* beam orbiting the frame */}
             <BorderBeam
               duration={8}

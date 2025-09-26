@@ -113,7 +113,7 @@ export default function NewLandingPage() {
       <CosmicHeader menuItems={navItems} showScrolledCta={false} />
       
       <CosmicBackground variant="hero" className="min-h-screen" brand="black">
-        <main className="overflow-hidden">
+        <main>
           <div className="container mx-auto px-4 pt-20 lg:pt-24 space-y-16 md:space-y-20">
         
             {/* Hero Section - Single Column */}
@@ -202,7 +202,7 @@ export default function NewLandingPage() {
             </section>
 
             {/* How It Works Timeline */}
-            <section id="how-it-works" className="space-y-6">
+            <section id="how-it-works" className="relative space-y-6 overflow-visible">
               <HowItWorksSection />
             </section>
 
