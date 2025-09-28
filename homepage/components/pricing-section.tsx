@@ -150,8 +150,8 @@ export function PricingSection({ showTitle = true, className = '', darkTheme = f
 
                 <Button
                   onClick={() => handlePlanSelect(plan.id)}
-                  variant={plan.highlighted ? 'brand' : undefined}
-                  className={`w-full mb-6 ${!plan.highlighted ? 'bg-gray-900 hover:bg-gray-800' : ''}`}
+                  variant={plan.highlighted ? 'default' : undefined}
+                  className={`w-full mb-6 ${plan.highlighted ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'bg-gray-900 hover:bg-gray-800'}`}
                 >
                   {plan.ctaText || 'Get Started'}
                 </Button>

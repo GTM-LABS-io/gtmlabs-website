@@ -21,6 +21,7 @@ import { ContainerTextFlip } from '@/components/container-text-flip'
 import RuixenFeaturedImageSection from '@/components/ui/ruixen-featured-image-section'
 import ProblemParallaxCards from '@/components/ui/problem-parallax-cards'
 import HowItWorksSection from '@/components/ui/how-it-works-section'
+import { InteractivePricingSection } from '@/components/ui/interactive-pricing-section'
 import {
   MessageCircle,
   FileText,
@@ -336,10 +337,10 @@ export default function NewLandingPage() {
               />
             </section>
 
-            {/* Pricing Section (inline on new landing, cosmic-blended) */}
+            {/* Interactive Pricing Section */}
             <section id="pricing" className="relative py-20">
               <div className="relative z-10">
-                <PricingSection showTitle={true} className="bg-transparent" darkTheme={true} />
+                <InteractivePricingSection />
               </div>
             </section>
 
@@ -385,8 +386,8 @@ export default function NewLandingPage() {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button 
-                      variant="brand"
-                      className="shadow-lg hover:shadow-xl transition-all duration-200"
+                      variant="default"
+                      className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
                       onClick={() => router.push('/login')}
                     >
                       Create Your Free Portfolio
