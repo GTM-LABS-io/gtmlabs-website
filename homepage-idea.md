@@ -38,7 +38,7 @@ Animation: Cards flip on hover to show examples
 PROCESS SECTION
 Design: Horizontal scrolling timeline or vertical stepper
 Layout: Step-by-step flow diagram
-Title: "From Webinar to Content Library in 48 Hours"
+Title: "From Webinar to Content Library in 72 Hours"
 Steps:
 
 Upload your webinar recording

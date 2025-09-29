@@ -151,7 +151,7 @@ export default function AlternatingSection({ className }: { className?: string }
             side="right"
             icon={<ShieldCheck className="w-5 h-5" style={{ color: hex(brandBlue, 0.9) }} />}
             title="QC & Delivery"
-            bullets={["Human review pass", "Formatting & links verified", "Delivered in 48 hours"]}
+            bullets={["Human review pass", "Formatting & links verified", "Delivered in 72 hours"]}
           />
         </div>
       </div>

@@ -19,7 +19,7 @@ function DisplayCard({
   icon = <Sparkles className="size-4 text-blue-300" />,
   title = "On-brand assets",
   description = "Repurposed from your webinar — ready to publish",
-  date = "48 hours delivery",
+  date = "72 hours delivery",
   iconClassName = "text-blue-300",
   titleClassName = "text-white",
 }: DisplayCardProps) {
@@ -74,7 +74,7 @@ export default function DisplayCards({ cards }: DisplayCardsProps) {
       icon: <Sparkles className="size-4 text-blue-300" />,
       title: "Evergreen",
       description: "Lead magnet PDFs & guides",
-      date: "Delivered in 48 hours",
+      date: "Delivered in 72 hours",
       className: "[grid-area:stack] translate-x-24 translate-y-20 hover:translate-y-10",
     },
   ];

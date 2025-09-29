@@ -448,7 +448,7 @@ export function InteractivePricing() {
                       '5+ lead magnets & guides',
                       'Email sequence templates',
                       'Custom brand voice training',
-                      'Priority 48-hour delivery',
+                      'Priority 72-hour delivery',
                       'Dedicated account manager',
                       'Monthly strategy calls',
                       'Performance analytics & reporting'
@@ -462,7 +462,14 @@ export function InteractivePricing() {
 
                   {/* Call to Action */}
                   <div className="mt-8">
-                    <Button className="w-full bg-blue-600 text-white hover:bg-blue-700">
+                    <Button
+                      className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                      onClick={() => {
+                        if (typeof window !== 'undefined') {
+                          window.location.href = 'https://account.gtmlabs.io/services/9UcVMV8grrQGxuVBgGk4Rcjc/checkouts';
+                        }
+                      }}
+                    >
                       Get Started
                     </Button>
                   </div>

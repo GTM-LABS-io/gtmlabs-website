@@ -131,7 +131,7 @@ export default function SocialCalendar({ className }: { className?: string }) {
         <CalloutChip icon={<Video className="w-3.5 h-3.5" />} text="10 to 15 clips and carousels" />
         <CalloutChip icon={<MessageSquare className="w-3.5 h-3.5" />} text="LinkedIn daily for two weeks" />
         <CalloutChip icon={<PanelsTopLeft className="w-3.5 h-3.5" />} text="Hooks, CTAs, and captions included" />
-        <CalloutChip icon={<Timer className="w-3.5 h-3.5" />} text="Delivered in 48 hours" />
+        <CalloutChip icon={<Timer className="w-3.5 h-3.5" />} text="Delivered in 72 hours" />
       </div>
     </div>
   );
