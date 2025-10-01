@@ -35,6 +35,7 @@ import {
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { APP_NAME, CONTACT_EMAIL } from '@/lib/brand'
 
@@ -140,7 +141,7 @@ export default function NewLandingPage() {
                   </h1>
                   <div className="h-20 md:h-24 flex items-center justify-center">
                     <ContainerTextFlip
-                      words={["blog posts", "LinkedIn content", "newsletters", "lead magnets", "30 pieces of content"]}
+                      words={["blog posts", "LinkedIn content", "newsletters", "lead magnets", "30+ pieces of content"]}
                       interval={2300}
                       animationDuration={240}
                       className="text-4xl md:text-5xl font-bold rounded-lg border border-white/20 bg-[#090C14] backdrop-blur-sm px-4 py-2 h-full flex items-center justify-center"
@@ -172,7 +173,11 @@ export default function NewLandingPage() {
                 {/* CTA Buttons: shimmer only on primary */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <ShimmerBorder roundedClass="rounded-xl">
-                    <CosmicButton variant="steelBlueInverted" size="lg" onClick={() => router.push('/login')}>
+                    <CosmicButton
+                      variant="steelBlueInverted"
+                      size="lg"
+                      onClick={() => router.push('/#pricing')}
+                    >
                       Start Free Trial
                     </CosmicButton>
                   </ShimmerBorder>
@@ -378,9 +383,13 @@ export default function NewLandingPage() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="flex flex-col md:flex-row justify-between items-center">
                     <Link href="/" className="flex items-center gap-3 mb-4 md:mb-0">
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 via-sky-500 to-fuchsia-500 flex items-center justify-center">
-                        <Sparkles className="w-4 h-4 text-white" />
-                      </div>
+                      <Image
+                        src="/gtm-labs-logo.svg"
+                        alt={`${APP_NAME} logo`}
+                        width={32}
+                        height={32}
+                        className="h-8 w-8"
+                      />
                       <span className="text-xl font-bold text-white">{APP_NAME}</span>
                     </Link>
                     <div className="flex gap-6 text-sm text-slate-400">

@@ -33,7 +33,7 @@ export const howItWorksEntries: HowItWorksEntry[] = [
       "Our AI transcribes and analyzes your webinar while our team ensures everything matches your brand voice perfectly.",
     items: [
       "AI extracts key insights and quotes",
-      "Creates 50+ unique content pieces",
+      "Creates 30+ unique content pieces",
       "Human editors ensure quality and accuracy",
       "Brand voice matching from your style guide",
       "SEO optimization for all written content",

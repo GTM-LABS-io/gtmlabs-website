@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: APP_NAME,
   description:
-    'Share your work like you actually do it, in channels and threads. One link people get in 30 seconds.',
+    'Turn webinars into GTM engines. GTM LABS repurposes your long-form content into blogs, clips, newsletters, and lead magnets in 72 hours.',
   generator: 'Next.js',
   openGraph: {
     title: APP_NAME,
     description:
-      'Compose in channels, reply in threads, attach artifacts. Share a single link you control.',
+      'Repurpose every webinar into 30+ on-brand assets with GTM LABS. Launch-ready blogs, LinkedIn posts, newsletters, and lead magnets delivered fast.',
     url: SITE_URL,
     siteName: APP_NAME,
     images: [
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    shortcut: ['/favicon.svg'],
+    apple: ['/favicon.svg'],
   },
   twitter: {
     card: 'summary_large_image',
     title: APP_NAME,
-    description: 'Share smart. Stay in control.',
+    description: 'Transform webinars into full-funnel content with GTM LABS.',
     images: ['/og-image.png'],
   },
 }

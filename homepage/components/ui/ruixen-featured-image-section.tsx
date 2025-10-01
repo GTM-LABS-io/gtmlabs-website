@@ -124,7 +124,7 @@ export default function RuixenFeaturedImageSection() {
       <div className="mx-auto w-full max-w-[1200px] px-4">
         {/* Header Area */}
         <h2 className="text-center font-bold" style={{ fontSize: 48, lineHeight: 1.2 }}>
-          <span className="gradient-headline">From One Webinar to 50+ Assets</span>
+          <span className="gradient-headline">From One Webinar to 30+ Assets</span>
         </h2>
         <p className="mx-auto mt-4 max-w-3xl text-center" style={{ fontSize: 18, color: '#8B8D96' }}>
           See exactly what content we'll create from your recorded sessions

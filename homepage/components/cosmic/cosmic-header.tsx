@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Menu, X, Sparkles } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { CosmicButton } from './cosmic-button'
 import { cn } from '@/lib/utils'
 import { APP_NAME } from '@/lib/brand'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 type MenuItem = { name: string; href: string; onClick?: (e: React.MouseEvent) => void }
 
@@ -21,6 +22,16 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
   const [menuState, setMenuState] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const router = useRouter()
+
+  const handlePricingClick = () => {
+    setMenuState(false)
+    if (typeof window === 'undefined') return
+    if (window.location.pathname !== '/') {
+      router.push('/#pricing')
+      return
+    }
+    document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,31 +104,33 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
                     </li>
                   ))}
                   <li>
-                    <a
-                      href="https://threadfolio.featurebase.app/changelog"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={handlePricingClick}
                       className="text-zinc-400 hover:text-white flex items-center gap-2 duration-150 w-fit"
                     >
-                      <span>What's New</span>
-                    </a>
+                      <span>Pricing</span>
+                    </button>
                   </li>
                 </ul>
               </div>
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                <a
-                  href="https://threadfolio.featurebase.app/changelog"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={handlePricingClick}
                   className="hidden md:flex items-center gap-2 px-3 py-2 text-sm text-zinc-400 hover:text-white border border-white/10 rounded-lg hover:border-white/20 transition-all duration-200 bg-white/5 backdrop-blur-sm"
                 >
-                  <span>What's New</span>
-                </a>
+                  <span>Pricing</span>
+                </button>
                 <CosmicButton
                   variant="ghost"
                   size="sm"
                   className={cn(isScrolled && showScrolledCta && 'lg:hidden')}
-                  onClick={() => router.push('/login')}
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      window.location.href = 'https://account.gtmlabs.io/';
+                    }
+                  }}
                 >
                   Sign In
                 </CosmicButton>
@@ -145,9 +158,14 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
 const CosmicLogo = ({ className }: { className?: string }) => {
   return (
     <div className={cn('flex items-center space-x-2', className)}>
-      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 via-sky-500 to-fuchsia-500 flex items-center justify-center">
-        <Sparkles className="w-4 h-4 text-white" />
-      </div>
+      <Image
+        src="/gtm-labs-logo.svg"
+        alt={`${APP_NAME} logo`}
+        width={32}
+        height={32}
+        className="h-8 w-8"
+        priority
+      />
       <span className="text-white font-bold text-lg">{APP_NAME}</span>
     </div>
   )

@@ -89,7 +89,7 @@ Component: Animated node-based workflow visualization
 CASE STUDY SECTION
 Design: Carousel or tabbed interface
 Layout: Before/after comparison cards
-Title: "From One Webinar to 50+ Content Pieces"
+Title: "From One Webinar to 30+ Content Pieces"
 Examples: Show actual content outputs from single webinar
 Animation: Slide transitions with fade effects
 

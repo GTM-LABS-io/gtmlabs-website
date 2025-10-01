@@ -166,7 +166,7 @@ export default function HowItWorksTimeline({ title, description, entries, classN
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-2">
                   <div className="rounded-md bg-blue-500/20 p-2 text-blue-100/90">
-                    <div className="text-xs font-semibold">50+ clips</div>
+                    <div className="text-xs font-semibold">30+ clips</div>
                     <div className="text-[10px]">Auto-generated</div>
                   </div>
                   <div className="rounded-md bg-white/5 p-2">

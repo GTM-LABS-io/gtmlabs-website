@@ -66,7 +66,7 @@ function AnimatedAssetsShowcase() {
               ease: "easeInOut"
             }}
           >
-            50+
+            30+
           </motion.div>
           <div className="text-sm text-slate-400 font-medium">Assets per webinar</div>
           <div className="text-xs text-slate-500">Blog posts, social content, lead magnets & more</div>
@@ -355,7 +355,7 @@ export function InteractivePricing() {
                   <Button 
                     onClick={handleGetContentClick}
                     disabled={!contentUrl.trim()}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg animate-soft-glow"
                   >
                     <LinkIcon className="w-4 h-4 mr-2" />
                     Get Content
