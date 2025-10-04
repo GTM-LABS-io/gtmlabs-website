@@ -15,9 +15,9 @@ export function TiltedScroll({
   className 
 }: TiltedScrollProps) {
   return (
-    <div className={cn("flex items-center justify-center", className)}>
-      <div className="relative overflow-hidden">
-        <div className="grid h-[250px] w-[300px] gap-5 animate-skew-scroll grid-cols-1">
+    <div className={cn("flex w-full items-center justify-center overflow-hidden", className)}>
+      <div className="relative w-full max-w-[300px] overflow-hidden">
+        <div className="grid h-[250px] w-full gap-5 animate-skew-scroll grid-cols-1">
           {items.map((item) => (
             <div
               key={item.id}

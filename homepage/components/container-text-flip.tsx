@@ -38,9 +38,10 @@ export function ContainerTextFlip({
 
   const updateWidthForWord = () => {
     if (textRef.current) {
-      // Add some padding to the text width
-      const textWidth = textRef.current.scrollWidth + 30;
-      setWidth(textWidth);
+      // Add responsive padding to the text width - less on mobile
+      const basePadding = window.innerWidth < 640 ? 16 : 30;
+      const textWidth = textRef.current.scrollWidth + basePadding;
+      setWidth(Math.min(textWidth, window.innerWidth - 32)); // Ensure it doesn't exceed viewport minus margins
     }
   };
 

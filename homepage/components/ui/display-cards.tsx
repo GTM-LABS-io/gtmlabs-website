@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Sparkles, FileText, Clapperboard, BookOpen } from "lucide-react";
+import { useDebugRect } from "@/lib/debug-layout";
 
 interface DisplayCardProps {
   className?: string;
@@ -27,7 +28,7 @@ function DisplayCard({
     <div
       data-guard="display-card"
       className={cn(
-        "relative isolate flex h-36 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border-2 border-white/10 bg-[#000]/90 backdrop-blur-sm px-4 py-3 transition-all duration-700 after:pointer-events-none after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[20rem] after:bg-gradient-to-l after:from-[#000] after:to-transparent after:rounded-tr-2xl after:content-[''] hover:border-white/20 hover:bg-[#000] [&>*]:flex [&>*]:items-center [&>*]:gap-2",
+        "relative isolate flex h-36 w-full max-w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border-2 border-white/10 bg-[#000]/90 backdrop-blur-sm px-4 py-3 transition-all duration-700 after:pointer-events-none after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-0 after:bg-gradient-to-l after:from-[#000] after:to-transparent after:rounded-tr-2xl after:content-[''] hover:border-white/20 hover:bg-[#000] [&>*]:flex [&>*]:items-center [&>*]:gap-2 sm:after:w-[20rem]",
         className
       )}
     >
@@ -52,6 +53,9 @@ export default function DisplayCards({ cards }: DisplayCardsProps) {
   const FRAME_DELETE_KEY = "RUIXEN_BEAM_FRAME_OK";
   const providedKey = process.env.NEXT_PUBLIC_FRAME_DELETE_KEY;
   const canEditCards = providedKey === FRAME_DELETE_KEY;
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useDebugRect(rootRef, 'DisplayCards<root>');
 
   const defaultCards = [
     {
@@ -68,14 +72,14 @@ export default function DisplayCards({ cards }: DisplayCardsProps) {
       description: "Clips cut for LinkedIn & TikTok",
       date: "10+ posts per webinar",
       className:
-        "[grid-area:stack] translate-x-12 translate-y-10 hover:-translate-y-1 grayscale-[100%] hover:grayscale-0",
+        "[grid-area:stack] hover:-translate-y-1 grayscale-[100%] hover:grayscale-0 translate-x-0 translate-y-0 sm:translate-x-12 sm:translate-y-10",
     },
     {
       icon: <Sparkles className="size-4 text-blue-300" />,
       title: "Evergreen",
       description: "Lead magnet PDFs & guides",
       date: "Delivered in 72 hours",
-      className: "[grid-area:stack] translate-x-24 translate-y-20 hover:translate-y-10",
+      className: "[grid-area:stack] translate-x-0 translate-y-0 hover:translate-y-10 sm:translate-x-24 sm:translate-y-20",
     },
   ];
 
@@ -104,6 +108,7 @@ export default function DisplayCards({ cards }: DisplayCardsProps) {
 
   return (
     <div
+      ref={rootRef}
       className="grid [grid-template-areas:'stack'] place-items-center opacity-100 animate-in fade-in-0 duration-700"
       data-guard="display-cards"
       data-locked={canEditCards ? "false" : "true"}

@@ -3,9 +3,19 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useMotionValue, useScroll, useSpring, useTransform, animate } from "framer-motion";
 import { slackTokens } from "@/lib/design-tokens";
+import { useDebugRect } from "@/lib/debug-layout";
 
 // Utility: clamp
 const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
+type CardConfig = {
+  id: number;
+  title: string;
+  dataLabel: string;
+  color: string;
+  glow: string;
+  variant: "countdown" | "clock" | "graph";
+};
 
 // Counter hook for animated numbers
 function useCountUp(to: number, duration = 1.2) {
@@ -44,7 +54,13 @@ function useCountdown(fromSeconds = 60, duration = 1.8) {
 
 export default function ProblemParallaxCards({ className }: { className?: string }) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
+  const mobileStackRef = useRef<HTMLDivElement | null>(null);
+  const deckRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+
+  useDebugRect(sectionRef, 'ProblemParallax<section>');
+  useDebugRect(mobileStackRef, 'ProblemParallax<mobile-stack>');
+  useDebugRect(deckRef, 'ProblemParallax<deck>');
 
   // Spread/rotation/opacities with scroll
   const spreadBase = 30; // base distance
@@ -102,7 +118,7 @@ export default function ProblemParallaxCards({ className }: { className?: string
   }
 
   // Cards data (content only; visuals use stage props)
-  const cards = useMemo(() => ([
+  const cards = useMemo<CardConfig[]>(() => ([
     {
       id: 1,
       title: "Your Webinars Die After 60 Minutes",
@@ -146,6 +162,47 @@ export default function ProblemParallaxCards({ className }: { className?: string
   const impressions = useCountUp(10000, 1.2);
   const timeLeft = useCountdown(60, 1.8);
 
+  const renderCardBody = (card: CardConfig) => (
+    <div className="relative z-10">
+      <div className="text-white text-sm font-semibold">{card.title}</div>
+      <div className="mt-3">
+        {card.variant === "countdown" && (
+          <div className="flex items-center gap-3">
+            <div className="font-mono text-2xl" style={{ letterSpacing: '0.08em' }}>{timeLeft}</div>
+            <div className="h-6 w-px bg-white/10" />
+            <div className="text-sm text-white/70">
+              <span className="font-semibold">{wasted}%</span> {card.dataLabel}
+            </div>
+          </div>
+        )}
+        {card.variant === "clock" && (
+          <div className="flex items-center gap-3">
+            <div className="relative h-10 w-10 rounded-full border" style={{ borderColor: '#2A2B35' }}>
+              <div className="absolute left-1/2 bottom-1/2 h-4 w-0.5 origin-bottom bg-white/80 animate-spin" style={{ animationDuration: '6s' }} />
+              <div className="absolute left-1/2 bottom-1/2 h-3 w-0.5 origin-bottom bg-white/60 animate-spin" style={{ animationDuration: '12s' }} />
+            </div>
+            <div className="text-sm text-white/70">
+              <span className="font-semibold">${labor.toLocaleString()}</span> {card.dataLabel}
+            </div>
+          </div>
+        )}
+        {card.variant === "graph" && (
+          <div className="grid h-16 grid-cols-8 items-end gap-1">
+            {[2, 2, 2, 2].map((h, i) => (
+              <motion.div key={`flat-${i}`} className="col-span-1 rounded bg-white/10" initial={{ height: 0 }} animate={{ height: h }} transition={{ delay: 0.05 + i * 0.05 }} />
+            ))}
+            {[4, 8, 12, 16].map((h, i) => (
+              <motion.div key={`growth-${i}`} className="col-span-1 rounded bg-white/20" initial={{ height: 0 }} animate={{ height: h }} transition={{ delay: 0.15 + i * 0.05 }} />
+            ))}
+            <div className="col-span-8 mt-2 text-sm text-white/70">
+              <span className="font-semibold">{impressions.toLocaleString()}+</span> {card.dataLabel}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <section ref={sectionRef} className={"py-20"} style={{ background: "transparent" }}>
       <div className="mx-auto w-full max-w-[1200px] px-4">
@@ -153,9 +210,22 @@ export default function ProblemParallaxCards({ className }: { className?: string
           <span className="gradient-headline">67% of B2B Companies Run Webinars, But...</span>
         </h2>
 
+        <div className="mt-10 flex flex-col gap-4 md:hidden" ref={mobileStackRef}>
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              className="relative rounded-2xl border border-[#2A2B35] bg-[#0F1014] p-5"
+              style={{ boxShadow: `0 0 0 1px rgba(255,255,255,0.04), 0 0 40px ${card.color}` }}
+            >
+              {renderCardBody(card)}
+            </div>
+          ))}
+        </div>
+
         <div
-          className="relative mx-auto mt-10"
-          style={{ width: 620, height: 360, perspective: 1000 }}
+          ref={deckRef}
+          className="relative mx-auto mt-10 hidden md:block"
+          style={{ width: 'min(100%, 620px)', height: 360, perspective: 1000 }}
           onMouseMove={onMove}
           onMouseLeave={onLeave}
         >
@@ -173,7 +243,7 @@ export default function ProblemParallaxCards({ className }: { className?: string
             return (
               <motion.div
                 key={card.id}
-                className="absolute rounded-2xl border p-5 select-none"
+                className="absolute select-none rounded-2xl border p-5"
                 style={{
                   width: 380,
                   height: 220,
@@ -198,51 +268,9 @@ export default function ProblemParallaxCards({ className }: { className?: string
                 onClick={() => cycleDeck()}
                 transition={{ type: "spring", stiffness: 140, damping: 18 }}
               >
-                <motion.div className="w-full h-full">
-                  {/* card tint overlay */}
+                <motion.div className="h-full w-full">
                   <div className="absolute inset-0 rounded-2xl" style={{ pointerEvents: 'none', boxShadow: `inset 0 0 0 1px rgba(255,255,255,0.04), 0 0 80px ${card.color}` }} />
-                  <div className="relative z-10">
-                    <div className="text-white text-sm font-semibold">{card.title}</div>
-                    {/* Visual per variant */}
-                    <div className="mt-3">
-                      {card.variant === "countdown" && (
-                        <div className="flex items-center gap-3">
-                          <div className="font-mono text-2xl" style={{ letterSpacing: '0.08em' }}>{timeLeft}</div>
-                          <div className="h-6 w-px bg-white/10" />
-                          <div className="text-sm text-white/70">
-                            <span className="font-semibold">{wasted}%</span> {card.dataLabel}
-                          </div>
-                        </div>
-                      )}
-                      {card.variant === "clock" && (
-                        <div className="flex items-center gap-3">
-                          {/* clock */}
-                          <div className="relative w-10 h-10 rounded-full border" style={{ borderColor: '#2A2B35' }}>
-                            <div className="absolute left-1/2 bottom-1/2 w-0.5 h-4 bg-white/80 origin-bottom animate-spin" style={{ animationDuration: '6s' }} />
-                            <div className="absolute left-1/2 bottom-1/2 w-0.5 h-3 bg-white/60 origin-bottom animate-spin" style={{ animationDuration: '12s' }} />
-                          </div>
-                          <div className="text-sm text-white/70">
-                            <span className="font-semibold">${labor.toLocaleString()}</span> {card.dataLabel}
-                          </div>
-                        </div>
-                      )}
-                      {card.variant === "graph" && (
-                        <div className="grid grid-cols-8 gap-1 items-end h-16">
-                          {/* flatline */}
-                          {[2,2,2,2].map((h, i) => (
-                            <motion.div key={i} className="col-span-1 bg-white/10 rounded" initial={{ height: 0 }} animate={{ height: h }} transition={{ delay: 0.05 + i * 0.05 }} />
-                          ))}
-                          {/* growth */}
-                          {[4,8,12,16].map((h, i) => (
-                            <motion.div key={i} className="col-span-1 bg-white/20 rounded" initial={{ height: 0 }} animate={{ height: h }} transition={{ delay: 0.15 + i * 0.05 }} />
-                          ))}
-                          <div className="col-span-8 mt-2 text-sm text-white/70">
-                            <span className="font-semibold">{impressions.toLocaleString()}+</span> {card.dataLabel}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                  {renderCardBody(card)}
                 </motion.div>
               </motion.div>
             );

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Menu, X } from 'lucide-react'
 import { CosmicButton } from './cosmic-button'
 import { cn } from '@/lib/utils'
@@ -8,6 +8,7 @@ import { APP_NAME } from '@/lib/brand'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { useDebugRect, logOverflowCandidates } from '@/lib/debug-layout'
 
 type MenuItem = { name: string; href: string; onClick?: (e: React.MouseEvent) => void }
 
@@ -22,6 +23,13 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
   const [menuState, setMenuState] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const router = useRouter()
+  const navRef = useRef<HTMLElement | null>(null)
+  const shellRef = useRef<HTMLDivElement | null>(null)
+  const menuPanelRef = useRef<HTMLDivElement | null>(null)
+
+  useDebugRect(navRef, 'CosmicHeader<nav>')
+  useDebugRect(shellRef, 'CosmicHeader<shell>')
+  useDebugRect(menuPanelRef, 'CosmicHeader<menu-panel>')
 
   const handlePricingClick = () => {
     setMenuState(false)
@@ -41,24 +49,51 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  useEffect(() => {
+    console.log('[Layout][CosmicHeader] menu state change', {
+      menuState,
+      viewport: {
+        innerWidth: window.innerWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+      },
+    })
+    logOverflowCandidates()
+  }, [menuState])
+
+  useEffect(() => {
+    console.log('[Layout][CosmicHeader] scroll state change', {
+      isScrolled,
+      scrollY: window.scrollY,
+      viewport: {
+        innerWidth: window.innerWidth,
+        scrollWidth: document.documentElement.scrollWidth,
+      },
+    })
+    logOverflowCandidates()
+  }, [isScrolled])
+
   return (
     <header>
       <nav
         data-state={menuState && 'active'}
-        className="fixed group z-50 w-full px-2"
+        className="fixed inset-x-0 top-0 z-50 w-full px-[env(safe-area-inset-left,0)] pr-[env(safe-area-inset-right,0)] group"
+        ref={navRef}
       >
-        <div className={cn(
+        <div
+          ref={shellRef}
+          className={cn(
           // Keep rounded corners at all times to avoid corner flash during size transitions
-          'mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12 rounded-2xl overflow-hidden backdrop-blur-md border border-transparent',
+          'box-border mx-0 mt-0 w-full rounded-none border-b border-white/15 bg-black/70 px-3 py-2 transition-all duration-300 backdrop-blur-md sm:mx-auto sm:mt-2 sm:w-auto sm:max-w-6xl sm:rounded-2xl sm:border sm:border-transparent sm:bg-transparent sm:px-6 sm:py-0 lg:px-12',
           // When scrolled, tighten width and reveal subtle background + border
-          isScrolled && 'bg-white/5 max-w-4xl border-white/10 lg:px-5'
-        )}>
-          <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
+          isScrolled && 'bg-white/5 sm:max-w-4xl border-white/10 lg:px-5'
+        )}
+        >
+          <div className="relative flex flex-wrap items-center justify-between gap-4 py-2 lg:gap-0 lg:py-4">
             <div className="flex w-full justify-between lg:w-auto">
               <Link
                 href="/"
                 aria-label="home"
-                className="flex items-center space-x-2"
+                className="flex shrink-0 items-center space-x-1.5 sm:space-x-2"
               >
                 <CosmicLogo />
               </Link>
@@ -66,7 +101,7 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
               <button
                 onClick={() => setMenuState(!menuState)}
                 aria-label={menuState ? 'Close Menu' : 'Open Menu'}
-                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden text-white"
+                className="relative z-20 block h-10 w-10 shrink-0 cursor-pointer overflow-hidden rounded-full p-2.5 text-white lg:hidden"
               >
                 <Menu className="group-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
                 <X className="group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
@@ -89,7 +124,10 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
               </ul>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-md group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border border-white/10 p-6 shadow-2xl md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none">
+            <div
+              ref={menuPanelRef}
+              className="bg-white/5 backdrop-blur-md group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border border-white/10 p-6 shadow-2xl md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none"
+            >
               <div className="lg:hidden">
                 <ul className="space-y-6 text-base">
                   {(menuItems ?? defaultMenuItems).map((item, index) => (
@@ -156,8 +194,10 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
 }
 
 const CosmicLogo = ({ className }: { className?: string }) => {
+  const logoRef = useRef<HTMLDivElement | null>(null)
+  useDebugRect(logoRef, 'CosmicLogo')
   return (
-    <div className={cn('flex items-center space-x-2', className)}>
+    <div ref={logoRef} className={cn('flex shrink-0 items-center space-x-2', className)}>
       <Image
         src="/gtm-labs-logo.svg"
         alt={`${APP_NAME} logo`}
@@ -166,8 +206,7 @@ const CosmicLogo = ({ className }: { className?: string }) => {
         className="h-8 w-8"
         priority
       />
-      <span className="text-white font-bold text-lg">{APP_NAME}</span>
+      <span className="shrink-0 text-white text-base font-bold sm:text-lg">{APP_NAME}</span>
     </div>
   )
 }
-

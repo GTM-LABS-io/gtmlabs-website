@@ -27,7 +27,7 @@ export default function AnalyticsCards({ className }: { className?: string }) {
 
   return (
     <div ref={containerRef} className={cn("w-full max-w-xl mx-auto", className)}>
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <MetricCard
           icon={<Share2 className="w-4 h-4" />}
           label="Shares"
@@ -103,7 +103,7 @@ function MetricCard({
       onMouseMove={onMove}
       onClick={() => setFlipped((f) => !f)}
       whileHover={{ scale: 1.05 }}
-      className="relative rounded-xl border bg-[#090C14] p-3 shadow-sm cursor-pointer select-none perspective-1000"
+      className="relative w-full rounded-xl border bg-[#090C14] p-3 shadow-sm cursor-pointer select-none perspective-1000"
       style={{
         transformStyle: "preserve-3d",
         transform: `perspective(800px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`,

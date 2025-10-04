@@ -292,6 +292,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
   }
 }
 
@@ -526,8 +527,8 @@
 .hero-headline {
   font-family: var(--font-sans, GeistSans, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif);
   font-weight: 700;
-  font-size: 60px;
-  line-height: 60px;
+  font-size: clamp(32px, 8vw, 60px);
+  line-height: clamp(36px, 8vw, 60px);
 }
 
 .section-headline {

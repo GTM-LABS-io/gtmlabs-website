@@ -146,8 +146,8 @@ export function InteractivePricing() {
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [baseCalHeight, setBaseCalHeight] = useState(600); // Unscaled calendar height used for iframe
   
-  // Fixed base size to enforce Zcal two-column layout without horizontal scrolling
-  const BASE_CAL_WIDTH = 960; // px, >= 800 keeps two-column (avatar + calendar)
+  // Responsive base size to enforce Zcal two-column layout without horizontal scrolling
+  const BASE_CAL_WIDTH = 960; // px, >= 800 keeps two-column (avatar + calendar) on desktop
   const MIN_SCALE = 0.35;
   const MAX_SCALE = 0.85;
   const MIN_BASE_HEIGHT = 520;

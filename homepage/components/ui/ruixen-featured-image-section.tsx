@@ -121,7 +121,7 @@ export default function RuixenFeaturedImageSection() {
 
   return (
     <section className="py-20">
-      <div className="mx-auto w-full max-w-[1200px] px-4">
+      <div className="mx-auto w-full max-w-[1200px] px-4 overflow-hidden">
         {/* Header Area */}
         <h2 className="text-center font-bold" style={{ fontSize: 48, lineHeight: 1.2 }}>
           <span className="gradient-headline">From One Webinar to 30+ Assets</span>
@@ -145,7 +145,7 @@ export default function RuixenFeaturedImageSection() {
         </div>
 
         {/* Main Frame: thin blue border with blue beam around it */}
-        <div className="mt-8">
+        <div className="mt-8 overflow-hidden">
           <div
             className="relative overflow-hidden rounded-2xl border border-blue-500/20 bg-black"
             data-guard="ruixen-frame"

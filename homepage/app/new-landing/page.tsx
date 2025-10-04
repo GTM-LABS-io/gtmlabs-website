@@ -32,12 +32,13 @@ import {
   ListChecks,
   Sliders
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { APP_NAME, CONTACT_EMAIL } from '@/lib/brand'
+import { logOverflowCandidates } from '@/lib/debug-layout'
 
 const transitionVariants = {
   item: {
@@ -77,6 +78,46 @@ export default function NewLandingPage() {
   ]
 
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  useEffect(() => {
+    const logAllSections = () => {
+      const sections = document.querySelectorAll('section')
+      console.groupCollapsed(`[Layout] Section scan @ ${new Date().toISOString()}`)
+      console.log('document', {
+        scrollWidth: document.documentElement.scrollWidth,
+        clientWidth: document.documentElement.clientWidth,
+        bodyScrollWidth: document.body.scrollWidth,
+      })
+      sections.forEach((node, index) => {
+        const rect = node.getBoundingClientRect()
+        console.log(`section[${index}]#${node.id || 'no-id'}`, {
+          rect: {
+            width: rect.width,
+            height: rect.height,
+            left: rect.left,
+            right: rect.right,
+          },
+          scrollWidth: node.scrollWidth,
+          offsetWidth: node instanceof HTMLElement ? node.offsetWidth : null,
+          className: node instanceof HTMLElement ? node.className : undefined,
+        })
+      })
+      console.groupEnd()
+      logOverflowCandidates()
+    }
+
+    logAllSections()
+    window.addEventListener('resize', logAllSections)
+
+    return () => {
+      window.removeEventListener('resize', logAllSections)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      ;(window as any).__gtmLogOverflow = logOverflowCandidates
+    }
+  }, [])
   const faqs = [
     {
       question: "How fast is turnaround?",
@@ -156,16 +197,16 @@ export default function NewLandingPage() {
 
                 {/* Benefit Pills (smaller) */}
                 <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 mb-3 sm:mb-5 px-2">
-                  <span className="brand-pill section-pill-text inline-flex items-center gap-1.5 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium">
-                    <MessageCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <span className="brand-pill section-pill-text inline-flex items-center gap-1.5 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium whitespace-normal sm:whitespace-nowrap">
+                    <MessageCircle className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
                     Short-form clips
                   </span>
-                  <span className="brand-pill section-pill-text inline-flex items-center gap-1.5 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium">
-                    <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <span className="brand-pill section-pill-text inline-flex items-center gap-1.5 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium whitespace-normal sm:whitespace-nowrap">
+                    <FileText className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
                     Blog posts & newsletters
                   </span>
-                  <span className="brand-pill section-pill-text inline-flex items-center gap-1.5 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium">
-                    <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                  <span className="brand-pill section-pill-text inline-flex items-center gap-1.5 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-medium whitespace-normal sm:whitespace-nowrap">
+                    <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5 flex-shrink-0" />
                     Lead magnets & pages
                   </span>
                 </div>
