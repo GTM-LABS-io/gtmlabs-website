@@ -44,7 +44,7 @@ export default function CustomizationGraph({ className }: { className?: string }
   return (
     <div
       ref={ref}
-      className={cn("relative mx-auto h-64 w-full max-w-xl", className)}
+      className={cn("relative mx-auto h-64 w-full max-w-xl overflow-hidden", className)}
       onMouseMove={(e) => {
         const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
         const px = (e.clientX - rect.left) / rect.width;
@@ -79,7 +79,7 @@ export default function CustomizationGraph({ className }: { className?: string }
       {/* branches */}
       {items.map((it, i) => {
         const angle = (i / items.length) * Math.PI * 2; // 0..2PI
-        const radius = 100; // px from center
+        const radius = 70; // px from center on mobile-safe radius
         const cx = 0.5;
         const cy = 0.5;
         const endX = cx + (Math.cos(angle) * radius) / 400; // 0..1 space

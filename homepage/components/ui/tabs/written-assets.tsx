@@ -53,9 +53,9 @@ export function WrittenBottomBar() {
 
 export default function WrittenAssets({ className }: { className?: string }) {
   return (
-    <div className={cn("mx-auto max-w-[1200px]", className)}>
+    <div className={cn("mx-auto w-full max-w-full sm:max-w-[1200px]", className)}>
       {/* Direct content - no inner frame */}
-      <div className="mx-auto p-8 min-h-[600px]">
+      <div className="mx-auto min-h-[600px] px-4 py-8 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 cards-grid">
           <BlogCard />
           <NewsletterCard />
@@ -72,7 +72,7 @@ export default function WrittenAssets({ className }: { className?: string }) {
 function CardBase({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
-      className="card hover-glow-blue rounded-xl border border-blue-500/20 bg-black p-5 min-h-[160px] overflow-hidden relative"
+      className="card hover-glow-blue relative h-full w-full rounded-xl border border-blue-500/20 bg-black p-5"
       whileHover={{ y: -4, boxShadow: "0 20px 40px rgba(59,130,246,0.10)" }}
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >

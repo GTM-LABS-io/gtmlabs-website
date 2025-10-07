@@ -30,9 +30,12 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
-    shortcut: ['/favicon.svg'],
-    apple: ['/favicon.svg'],
+    icon: [
+      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/gtm-labs-logo.png', type: 'image/png', sizes: '256x256' },
+    ],
+    shortcut: ['/favicon.png'],
+    apple: ['/gtm-labs-logo.png'],
   },
   twitter: {
     card: 'summary_large_image',

@@ -74,6 +74,7 @@ const FeatureTab = (
 export default function RuixenFeaturedImageSection() {
   // 0 is the index of the tab.
   const [selectedTab, setSelectedTab] = useState(0)
+  const [isDesktop, setIsDesktop] = useState(false)
   // Guardrail: do not remove the double white frame + blue beam unless the key matches.
   // Set NEXT_PUBLIC_FRAME_DELETE_KEY="RUIXEN_BEAM_FRAME_OK" to explicitly allow edits.
   const FRAME_DELETE_KEY = "RUIXEN_BEAM_FRAME_OK"
@@ -83,6 +84,17 @@ export default function RuixenFeaturedImageSection() {
   const handleSelecttab = (index: number) => {
     setSelectedTab(index)
   }
+
+  useEffect(() => {
+    const update = () => {
+      if (typeof window !== 'undefined') {
+        setIsDesktop(window.matchMedia('(min-width: 768px)').matches)
+      }
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
 
   // Dev-only assertion: ensure the frame elements are present when locked
   useEffect(() => {
@@ -131,8 +143,8 @@ export default function RuixenFeaturedImageSection() {
         </p>
 
         {/* Tab Navigation Bar */}
-        <div className="relative mt-12 flex justify-center">
-          <div className="inline-flex items-center gap-2 rounded-xl p-1 bg-transparent" style={{ padding: 4, height: 56 }} role="tablist" aria-label="Output tabs">
+        <div className="relative mt-12 flex w-full justify-center overflow-x-auto px-1">
+          <div className="inline-flex min-w-max items-center gap-2 rounded-xl bg-transparent p-1" style={{ padding: 4, height: 56 }} role="tablist" aria-label="Output tabs">
             {tabs.map((tab, tabIndex) => (
               <FeatureTab
                 {...tab}
@@ -152,13 +164,15 @@ export default function RuixenFeaturedImageSection() {
             data-locked={(canRemoveFrame ? "false" : "true")}
           >
             {/* beam orbiting the frame */}
-            <BorderBeam
-              duration={8}
-              size={360}
-              colorFrom={slackTokens.colors.blue[600]}
-              colorTo={slackTokens.colors.blue[500]}
-              borderWidth={1}
-            />
+            {isDesktop && (
+              <BorderBeam
+                duration={8}
+                size={360}
+                colorFrom={slackTokens.colors.blue[600]}
+                colorTo={slackTokens.colors.blue[500]}
+                borderWidth={1}
+              />
+            )}
             <div className="relative p-2">
               <AnimatePresence mode="wait">
                 {selectedTab === 0 && (

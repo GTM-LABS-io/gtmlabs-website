@@ -199,7 +199,7 @@ const CosmicLogo = ({ className }: { className?: string }) => {
   return (
     <div ref={logoRef} className={cn('flex shrink-0 items-center space-x-2', className)}>
       <Image
-        src="/gtm-labs-logo.svg"
+        src="/gtm-labs-logo.png"
         alt={`${APP_NAME} logo`}
         width={32}
         height={32}

@@ -425,17 +425,15 @@ export default function NewLandingPage() {
                   <div className="flex flex-col md:flex-row justify-between items-center">
                     <Link href="/" className="flex items-center gap-3 mb-4 md:mb-0">
                       <Image
-                        src="/gtm-labs-logo.svg"
+                        src="/gtm-labs-logo.png"
                         alt={`${APP_NAME} logo`}
                         width={32}
                         height={32}
-                        className="h-8 w-8"
                       />
                       <span className="text-xl font-bold text-white">{APP_NAME}</span>
                     </Link>
                     <div className="flex gap-6 text-sm text-slate-400">
                       <Link href="/terms" className="transition-colors hover:text-blue-400">Terms</Link>
-                      <Link href="/privacy" className="transition-colors hover:text-blue-400">Privacy</Link>
                       <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors hover:text-blue-400">Contact</a>
                     </div>
                   </div>
