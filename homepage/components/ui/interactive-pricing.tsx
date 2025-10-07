@@ -210,19 +210,7 @@ export function InteractivePricing() {
   const [auditDetailsOpen, setAuditDetailsOpen] = useState(false); // Controls audit details accordion
   const [addOnsOpen, setAddOnsOpen] = useState(false); // Controls add-ons expansion
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]); // Selected add-on IDs
-  const [slaModalOpen, setSlaModalOpen] = useState(false); // Controls SLA modal
   
-  // ESC key support for modal
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && slaModalOpen) {
-        setSlaModalOpen(false);
-      }
-    };
-    
-    window.addEventListener('keydown', handleEscape);
-    return () => window.removeEventListener('keydown', handleEscape);
-  }, [slaModalOpen]);
   
   // Responsive base size to enforce Zcal two-column layout without horizontal scrolling
   const BASE_CAL_WIDTH = 960; // px, >= 800 keeps two-column (avatar + calendar) on desktop
@@ -657,14 +645,14 @@ export function InteractivePricing() {
                     </li>
                   </ul>
                   
-                  {/* SLA Link */}
+                  {/* SLA Summary */}
                   <div className="mt-4 pt-4 border-t border-white/10">
-                    <button
-                      onClick={() => setSlaModalOpen(true)}
-                      className="text-xs text-blue-400 hover:text-blue-300 underline"
-                    >
-                      Service Level Agreement
-                    </button>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      48-hour first draft. 72-hour revision cycles, Mon–Fri. Fair-use: up to 120 minutes of source video per month.{' '}
+                      <a href="/legal/sla" className="text-blue-400 hover:text-blue-300 underline">
+                        View SLA
+                      </a>
+                    </p>
                   </div>
 
                   {/* Call to Action */}
@@ -856,96 +844,6 @@ export function InteractivePricing() {
         </div>
       </div>
       
-      {/* SLA Modal */}
-      <AnimatePresence>
-        {slaModalOpen && (
-          <>
-            {/* Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSlaModalOpen(false)}
-              className="fixed inset-0 bg-black/80 z-50"
-            />
-            
-            {/* Modal */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="bg-zinc-900 border border-blue-500/20 rounded-xl max-w-2xl w-full p-6 shadow-2xl">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-white">Service Level Agreement</h3>
-                  <button
-                    onClick={() => setSlaModalOpen(false)}
-                    className="text-slate-400 hover:text-white transition-colors"
-                  >
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-                
-                <div className="space-y-4 text-sm text-slate-300 max-h-[70vh] overflow-y-auto pr-2">
-                  <div>
-                    <h4 className="font-medium text-white mb-2">Response Times</h4>
-                    <ul className="space-y-2 text-slate-400">
-                      <li><span className="font-medium text-slate-300">First draft:</span> within 48 hours of receiving the source link and brief.</li>
-                      <li><span className="font-medium text-slate-300">Revisions:</span> within 72 hours per cycle, Monday–Friday, 9am–6pm PT.</li>
-                      <li><span className="font-medium text-slate-300">Urgent questions:</span> 24-hour reply during business hours.</li>
-                    </ul>
-                    <p className="text-xs text-slate-500 mt-2">
-                      <span className="italic">Response</span> = human acknowledgement with next step and owner; it is not the final delivery. <span className="italic">Resolution</span> = completed asset or agreed next draft.
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-white mb-2">Fair Use / Scope</h4>
-                    <ul className="space-y-2 text-slate-400">
-                      <li><span className="font-medium text-slate-300">Free audits:</span> up to 1 source video (≤ 60 minutes) per audit.</li>
-                      <li><span className="font-medium text-slate-300">Paid plans:</span> up to 2 webinars per month (combined ≤ 120 minutes) unless your agreement states otherwise. (Longer footage can be split across months or covered via add-on.)</li>
-                    </ul>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-white mb-2">Service Credits</h4>
-                    <p className="text-slate-400">
-                      If we miss a stated turnaround for reasons within our control, we issue a service credit on your next invoice, proportional to the delay period. Service credits are the sole remedy for SLA misses.
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-white mb-2">When Clocks Run</h4>
-                    <p className="text-slate-400">
-                      SLA clocks run Monday–Friday, 9am–6pm PT. Holidays pause the clock. Submissions after hours start next business day.
-                    </p>
-                  </div>
-                  
-                  <div>
-                    <h4 className="font-medium text-white mb-2">Channels</h4>
-                    <p className="text-slate-400">
-                      Tracked channels for "response": portal comments, the request thread, or <a href="mailto:jovanny@gtmlabs.io" className="text-blue-400 hover:text-blue-300 underline">jovanny@gtmlabs.io</a>. Replies on other channels don't start or stop clocks (we'll route them into the portal).
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="mt-6 flex justify-end">
-                  <Button
-                    onClick={() => setSlaModalOpen(false)}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
-                  >
-                    Got it
-                  </Button>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
