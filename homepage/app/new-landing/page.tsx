@@ -337,7 +337,7 @@ export default function NewLandingPage() {
               <TwoColumnFeature
                 eyebrow="Customization"
                 title="Strategically Adapted for Your Audience"
-                description="We don't just repurpose—we strategically adapt content for different audiences and goals. Each piece is optimized for where it will be shared and who will see it."
+                description="We don't just repurpose content. We strategically adapt it for different audiences and goals. Each piece is optimized for where it will be shared and who will see it."
                 imageFrame="plain"
                 image={<CustomizationGraph className="mx-auto" />}
                 reverse

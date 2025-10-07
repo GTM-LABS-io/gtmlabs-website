@@ -57,11 +57,11 @@ export default function SocialPlatforms({ className }: { className?: string }) {
       {/* Direct content - no inner frame */}
       <div className="mx-auto p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 cards-grid">
-          <PlatformCard icon={<Linkedin className="w-5 h-5" />} title="LinkedIn Carousel" subtitle="Swipe-ready carousel" variant="carousel" />
-          <PlatformCard icon={<Twitter className="w-5 h-5" />} title="Twitter/X Thread" subtitle="10 tweets" variant="thread" />
-          <PlatformCard icon={<Instagram className="w-5 h-5" />} title="Instagram Stories" subtitle="Vertical stories" variant="stories" />
-          <PlatformCard icon={<Facebook className="w-5 h-5" />} title="Facebook Posts" subtitle="Page + group" variant="fb" />
-          <PlatformCard icon={<Youtube className="w-5 h-5" />} title="YouTube Descriptions" subtitle="SEO and links" variant="yt" />
+          <PlatformCard icon={<Linkedin className="w-5 h-5" />} title="LinkedIn Carousel" subtitle="Swipe-ready carousel posts" variant="carousel" />
+          <PlatformCard icon={<Twitter className="w-5 h-5" />} title="Twitter/X Posts" subtitle="Thread-style content" variant="thread" />
+          <PlatformCard icon={<Instagram className="w-5 h-5" />} title="Instagram Content" subtitle="Stories + feed posts" variant="stories" />
+          <PlatformCard icon={<Facebook className="w-5 h-5" />} title="Facebook Content" subtitle="Posts + stories" variant="fb" />
+          <PlatformCard icon={<Youtube className="w-5 h-5" />} title="YouTube Shorts" subtitle="Short clips with captions" variant="yt" />
           <PlatformCard icon={<ImageIcon className="w-5 h-5" />} title="Pinterest Pins" subtitle="Clickable visuals" variant="pin" />
         </div>
       </div>

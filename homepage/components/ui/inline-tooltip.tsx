@@ -14,7 +14,7 @@ export function InlineTooltip({
   className?: string;
 }) {
   return (
-    <TooltipProvider>
+    <TooltipProvider delayDuration={100}>
       <Tooltip>
         <TooltipTrigger asChild>
           <span className={cn("underline decoration-dotted underline-offset-4 cursor-help", className)}>

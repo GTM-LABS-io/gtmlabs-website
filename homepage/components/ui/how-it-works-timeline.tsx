@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ShimmerBorder } from "@/components/ui/shimmer-border";
+import { InlineTooltip } from "@/components/ui/inline-tooltip";
 
 export type HowItWorksEntry = {
   icon: React.ComponentType<{ className?: string }>;
@@ -62,6 +63,36 @@ export const MOTION_GUARDS = Object.freeze({
     metaCenterRatio: 0.35,  // meta proximity center
   }),
 });
+
+/**
+ * Helper function to render list items with tooltips for specific terms
+ */
+function renderItemWithTooltips(item: string): React.ReactNode {
+  // Define tooltip mappings
+  const tooltips: Record<string, string> = {
+    "blog post": "Length is completely flexible based on your content needs—typically 1,200-1,800 words, but we'll adapt to what makes sense.",
+    "lead magnet": "You get one lead magnet per webinar. When people comment on your LinkedIn posts, our automation DMs them a link to a landing page where they can download the resource.",
+    "30+ assets": "Per webinar you get: 1 SEO-optimized blog post, 20 social media posts, 1 newsletter edition, 10-15 short-form video clips, and 1 lead magnet with landing page.",
+    "client portal": "Your dedicated workspace where you upload webinar links, invite team members, track task progress with live timers, leave feedback using annotation tools (click, circle, comment directly on deliverables), and manage your subscription (pause/unpause anytime). Integrated with Slack for real-time updates.",
+  };
+
+  // Check if item contains any tooltip terms
+  for (const [term, tooltipText] of Object.entries(tooltips)) {
+    const regex = new RegExp(`\\b${term}\\b`, 'i');
+    if (regex.test(item)) {
+      const parts = item.split(regex);
+      return (
+        <>
+          {parts[0]}
+          <InlineTooltip text={term} tooltip={tooltipText} />
+          {parts[1]}
+        </>
+      );
+    }
+  }
+
+  return item;
+}
 
 /**
  * Scroll-activated timeline.
@@ -166,7 +197,7 @@ export default function HowItWorksTimeline({ title, description, entries, classN
                 </div>
                 <div className="mt-4 grid grid-cols-2 gap-2">
                   <div className="rounded-md bg-blue-500/20 p-2 text-blue-100/90">
-                    <div className="text-xs font-semibold">30+ clips</div>
+                    <div className="text-xs font-semibold">10-15 clips</div>
                     <div className="text-[10px]">Auto-generated</div>
                   </div>
                   <div className="rounded-md bg-white/5 p-2">
@@ -227,10 +258,10 @@ export default function HowItWorksTimeline({ title, description, entries, classN
             <div className="relative z-10 flex flex-1 flex-col gap-4 text-[11px] text-slate-300/85">
               <div className="grid flex-1 grid-cols-2 gap-3">
                 {[
-                  { title: 'Blog post', detail: '1,200-1,800 words', accent: 'bg-purple-500/25' },
-                  { title: 'LinkedIn pack', detail: '20 ready-to-post updates', accent: 'bg-blue-500/25' },
-                  { title: 'Newsletter', detail: 'Email edition drafted', accent: 'bg-amber-500/25' },
-                  { title: 'Short clips', detail: '15 vertical video edits', accent: 'bg-emerald-500/25' },
+                  { title: 'Blog post', detail: 'SEO-optimized article', accent: 'bg-purple-500/25' },
+                  { title: 'Social posts', detail: '20 ready-to-publish posts', accent: 'bg-blue-500/25' },
+                  { title: 'Newsletter', detail: 'Audience edition', accent: 'bg-amber-500/25' },
+                  { title: 'Video clips', detail: '10-15 short-form edits', accent: 'bg-emerald-500/25' },
                 ].map((card) => (
                   <div key={card.title} className="rounded-xl border border-white/10 bg-[#11131C] p-3">
                     <div className="text-xs font-semibold text-white/85">{card.title}</div>
@@ -241,10 +272,15 @@ export default function HowItWorksTimeline({ title, description, entries, classN
               </div>
               <div className="flex items-center justify-between rounded-lg border border-white/10 bg-[#10131C] px-3 py-2">
                 <div>
-                  <div className="text-xs font-semibold text-white/85">Publishing calendar</div>
-                  <div className="text-[10px] text-slate-400/80">Drag-and-drop into your CMS</div>
+                  <div className="text-xs font-semibold text-white/85">
+                    <InlineTooltip 
+                      text="Client Portal" 
+                      tooltip="Your dedicated workspace where you upload webinar links, invite team members, track task progress with live timers, leave feedback using annotation tools (click, circle, comment directly on deliverables), and manage your subscription (pause/unpause anytime). Integrated with Slack for real-time updates."
+                    />
+                  </div>
+                  <div className="text-[10px] text-slate-400/80">Review, edit, and schedule</div>
                 </div>
-                <div className="rounded bg-blue-500/25 px-3 py-1 text-[10px] font-medium text-blue-100">Copy-ready</div>
+                <div className="rounded bg-blue-500/25 px-3 py-1 text-[10px] font-medium text-blue-100">Ready</div>
               </div>
             </div>
           </div>
@@ -253,36 +289,49 @@ export default function HowItWorksTimeline({ title, description, entries, classN
         return (
           <div className="relative flex h-64 w-full flex-col overflow-hidden rounded-xl border border-[#23242C] bg-[#0B0D14] p-4">
             <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-emerald-500/20 via-transparent to-transparent" />
-            <div className="relative z-10 flex flex-1 flex-col text-[11px] text-slate-300/85">
-              <div className="mb-4 flex items-center gap-3">
+            <div className="relative z-10 flex h-full flex-col text-[11px] text-slate-300/85">
+              <div className="mb-3 flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/30 text-xs font-semibold text-emerald-100">ROI</div>
                 <div>
-                  <div className="text-xs font-semibold text-white/85">Growth dashboard</div>
-                  <div className="text-[10px] text-slate-400/75">Compounding reach from every drop</div>
+                  <div className="text-xs font-semibold text-white/85">Content Flywheel</div>
+                  <div className="text-[10px] text-slate-400/75">Each webinar amplifies the next</div>
                 </div>
               </div>
-              <div className="flex flex-1 items-end gap-2 text-[10px] text-slate-400/80">
+              {/* Animated growth bars with labels above */}
+              <div className="flex flex-1 flex-col justify-center gap-3">
                 {[
-                  { label: 'Webinar', height: 45 },
-                  { label: 'Email', height: 62 },
-                  { label: 'Social', height: 78 },
-                  { label: 'Leads', height: 92 },
-                ].map((bar) => (
-                  <div key={bar.label} className="flex flex-1 flex-col items-center justify-end gap-2">
-                    <div className="w-full rounded-t bg-emerald-500/30" style={{ height: `${bar.height}%` }} />
-                    <div>{bar.label}</div>
+                  { label: 'Webinar Content', progress: 45, color: 'bg-emerald-500/40' },
+                  { label: 'Email List Growth', progress: 62, color: 'bg-blue-500/40' },
+                  { label: 'Social Reach', progress: 78, color: 'bg-purple-500/40' },
+                  { label: 'Lead Generation', progress: 92, color: 'bg-amber-500/40' },
+                ].map((item, i) => (
+                  <div key={item.label} className="space-y-1">
+                    <div className="flex items-center justify-between text-[10px]">
+                      <span className="text-white/80">{item.label}</span>
+                      <span className="text-slate-400/70">Compounding</span>
+                    </div>
+                    <div className="h-2 w-full rounded-full bg-white/5 overflow-hidden">
+                      <motion.div 
+                        className={`h-full rounded-full ${item.color}`}
+                        initial={{ width: 0 }}
+                        whileInView={{ width: `${item.progress}%` }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 1.2, delay: 0.2 + i * 0.15, ease: "easeOut" }}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-4 grid grid-cols-3 gap-3 text-[10px] text-slate-400/80">
+              {/* Value proposition cards */}
+              <div className="mt-3 grid grid-cols-3 gap-2 text-[10px]">
                 {[
-                  { title: '+2x attendance', detail: 'Next webinar lift' },
-                  { title: '500+ subs', detail: 'Monthly list growth' },
-                  { title: '10K+ impressions', detail: 'Social reach per webinar' },
+                  { title: 'Always On', detail: 'Content works 24/7' },
+                  { title: 'List Growth', detail: 'Build your audience' },
+                  { title: 'Max ROI', detail: 'Every webinar pays' },
                 ].map((stat) => (
-                  <div key={stat.title} className="rounded-lg border border-white/10 bg-[#11131C] p-3">
+                  <div key={stat.title} className="rounded-lg border border-white/10 bg-[#11131C] p-2">
                     <div className="text-xs font-semibold text-white/85">{stat.title}</div>
-                    <div className="mt-1 text-[10px]">{stat.detail}</div>
+                    <div className="mt-0.5 text-[10px] text-slate-400/80">{stat.detail}</div>
                   </div>
                 ))}
               </div>
@@ -627,7 +676,7 @@ export default function HowItWorksTimeline({ title, description, entries, classN
                               {entry.items.map((item, i) => (
                                 <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
                                   <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-blue-400/80" />
-                                  <span className="leading-relaxed">{item}</span>
+                                  <span className="leading-relaxed">{renderItemWithTooltips(item)}</span>
                                 </li>
                               ))}
                             </ul>
