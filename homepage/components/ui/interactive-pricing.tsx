@@ -41,14 +41,16 @@ const FOUNDING_TOOLTIP_COPY = {
   blogContent: '1 long-form blog post per webinar (1,200-1,800 words), optimized for SEO and your brand voice.',
   leadMagnet: '1 professionally designed lead magnet per webinar (checklist, guide, or resource) with matching landing page. This is what you offer in your social post CTAs.',
   newsletter: '1 email newsletter per webinar designed to promote your next live webinar and nurture your growing email list.',
-  turnaround: 'First drafts delivered within 72 hours of receiving your webinar. Unlimited revisions when initiated within 7 days of delivery. Once you start reviewing, we will iterate with you as long as needed to get it perfect.',
+  turnaround: 'First drafts delivered within 48 hours of receiving your webinar. Unlimited revisions when initiated within 7 days of delivery. Once you start reviewing, we will iterate with you as long as needed to get it perfect.',
   brandVoice: 'We analyze your existing content to match your unique brand voice, tone, and style across all deliverables.',
   strategyCall: 'Monthly 30-minute strategy session to review performance, discuss upcoming webinars, and optimize your content approach.',
+  schedulingPublishing: 'We handle scheduling so reporting just works. You approve everything before it goes live.',
+  analytics: 'Per-platform & per-post metrics require connected accounts. We connect once and schedule posts from your workspace.',
+  advancedAnalytics: 'We tag every post with UTMs and track file_downloads in GA4 so you can see which channels drive subscribers.',
   foundingPrice: 'Lock in $999/month forever as a founding partner. Regular price is $2,999/month. Only 2 spots available.',
 };
 
 // Removed ContactFormData interface since Zcal handles contact collection
-
 // Animated Flywheel Showcase Component
 function AnimatedFlywheelShowcase() {
   return (
@@ -405,11 +407,8 @@ export function InteractivePricing() {
                 <span className="my-3 block text-3xl font-bold text-blue-400">
                   $0
                 </span>
-                <p className="text-slate-400 text-sm">
-                  We'll show you what your next 30 days of repurposed content could look like.
-                </p>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  Paste a webinar or long-form link. We'll spin up the content and book a 15-minute review.
+                  Paste a YouTube URL. We'll turn it into a mini content library and show you the numbers.
                 </p>
               </div>
 
@@ -432,7 +431,7 @@ export function InteractivePricing() {
                     className="bg-zinc-950 border-blue-500/30 text-white placeholder:text-slate-500 focus:border-blue-400"
                   />
                   <p className="text-xs text-slate-500 mt-1">
-                    Paste a webinar URL, then pick a time to review your free audit.
+                    Paste a YouTube link. We'll auto-pull the transcript.
                   </p>
                   <Button 
                     onClick={handleGetContentClick}
@@ -485,11 +484,10 @@ export function InteractivePricing() {
                     className="text-slate-400 space-y-3 text-sm pt-2"
                   >
                     {[
-                      '6–8 social posts (drafts)',
-                      '3 short clips (subtitled, square/vertical)',
-                      '1 blog outline + intro (not full draft)',
-                      '1 lead-magnet outline + cover mock (no full PDF)',
-                      '1-page findings + repurpose map',
+                      '10 short clips',
+                      '6–8 social posts',
+                      '1 short blog (~600 words)',
+                      '1 lead magnet',
                     ].map((item, index) => (
                       <li key={index} className="flex items-center gap-2">
                         <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
@@ -501,14 +499,19 @@ export function InteractivePricing() {
               </AnimatePresence>
               
               {auditDetailsOpen && (
-                <motion.p
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-xs text-slate-500 pt-2 leading-relaxed"
+                  className="space-y-2 pt-2"
                 >
-                  Paid plans include full drafts, design, captions, scheduling, and reporting.
-                </motion.p>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    <span className="font-medium">Note:</span> We deliver the lead magnet + copy. Hosting/landing page is an add-on.
+                  </p>
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Paid plans include scheduling, publishing, and per-post metrics.
+                  </p>
+                </motion.div>
               )}
             </div>
           </motion.div>
@@ -638,35 +641,30 @@ export function InteractivePricing() {
                         tooltip={FOUNDING_TOOLTIP_COPY.strategyCall}
                       />
                     </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="Scheduling and publishing included"
+                        tooltip={FOUNDING_TOOLTIP_COPY.schedulingPublishing}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="Per-post and per-platform metrics in your portal"
+                        tooltip={FOUNDING_TOOLTIP_COPY.analytics}
+                      />
+                    </li>
                   </ul>
                   
-                  {/* Analytics Footnote */}
+                  {/* SLA Link */}
                   <div className="mt-4 pt-4 border-t border-white/10">
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      📊 <span className="font-medium">Analytics included:</span> Per-post metrics including reach, impressions, clicks, and engagement rate.
-                    </p>
-                  </div>
-                  
-                  {/* SLA Footnote */}
-                  <div className="mt-3 pt-3 border-t border-white/10">
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      72-hour turnaround on standard assets.{' '}
-                      <button
-                        onClick={() => setSlaModalOpen(true)}
-                        className="text-blue-400 hover:text-blue-300 underline"
-                      >
-                        SLA details¹
-                      </button>
-                    </p>
-                    <p className="text-xs text-slate-400 mt-2">
-                      ¹SLA details: 72-hour turnaround on standard assets.{' '}
-                      <button
-                        onClick={() => setSlaModalOpen(true)}
-                        className="text-blue-400 hover:text-blue-300 underline"
-                      >
-                        Learn more
-                      </button>
-                    </p>
+                    <button
+                      onClick={() => setSlaModalOpen(true)}
+                      className="text-xs text-blue-400 hover:text-blue-300 underline"
+                    >
+                      Service Level Agreement
+                    </button>
                   </div>
 
                   {/* Call to Action */}
@@ -681,6 +679,10 @@ export function InteractivePricing() {
                     >
                       Get Started
                     </Button>
+                    
+                    <p className="text-xs text-slate-400 text-center leading-relaxed">
+                      We handle scheduling so reporting just works. You approve everything before it goes live.
+                    </p>
                     
                     {/* Add-ons Expansion */}
                     <div className="space-y-2">
@@ -730,7 +732,15 @@ export function InteractivePricing() {
                                   />
                                   <div className="flex-1">
                                     <div className="flex items-center justify-between">
-                                      <span className="text-sm font-medium text-white">{addon.name}</span>
+                                      {addon.id === 'advanced-reporting' ? (
+                                        <InlineTooltip
+                                          text={addon.name}
+                                          tooltip={FOUNDING_TOOLTIP_COPY.advancedAnalytics}
+                                          className="text-sm font-medium text-white"
+                                        />
+                                      ) : (
+                                        <span className="text-sm font-medium text-white">{addon.name}</span>
+                                      )}
                                       <span className="text-sm font-semibold text-blue-400">+${addon.price}</span>
                                     </div>
                                     <p className="text-xs text-slate-400 mt-1">{addon.description}</p>
@@ -757,6 +767,11 @@ export function InteractivePricing() {
                           </motion.div>
                         )}
                       </AnimatePresence>
+                      
+                      {/* Fair Use Note */}
+                      <p className="text-xs text-slate-500 leading-relaxed mt-3">
+                        <span className="font-medium">Fair use:</span> "Up to 2 webinars/month" and "30+ assets" reflect typical scope for &lt;120 minutes of total source content per month. Heavier volumes or extra videos use the "Extra source hours" add-on. <span className="font-medium">Advanced analytics add-on:</span> Includes UTMs, GA4 download tracking, and a monthly funnel report with social → landing page → download → subscriber KPIs.
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -875,27 +890,45 @@ export function InteractivePricing() {
                   </button>
                 </div>
                 
-                <div className="space-y-4 text-sm text-slate-300">
+                <div className="space-y-4 text-sm text-slate-300 max-h-[70vh] overflow-y-auto pr-2">
                   <div>
                     <h4 className="font-medium text-white mb-2">Response Times</h4>
-                    <ul className="space-y-2 list-disc list-inside">
-                      <li>48-hour first draft on core assets</li>
-                      <li>72-hour revision cycles, Monday-Friday</li>
-                      <li>24-hour response time for urgent questions</li>
+                    <ul className="space-y-2 text-slate-400">
+                      <li><span className="font-medium text-slate-300">First draft:</span> within 48 hours of receiving the source link and brief.</li>
+                      <li><span className="font-medium text-slate-300">Revisions:</span> within 72 hours per cycle, Monday–Friday, 9am–6pm PT.</li>
+                      <li><span className="font-medium text-slate-300">Urgent questions:</span> 24-hour reply during business hours.</li>
                     </ul>
+                    <p className="text-xs text-slate-500 mt-2">
+                      <span className="italic">Response</span> = human acknowledgement with next step and owner; it is not the final delivery. <span className="italic">Resolution</span> = completed asset or agreed next draft.
+                    </p>
                   </div>
                   
                   <div>
-                    <h4 className="font-medium text-white mb-2">Fair Use Policy</h4>
-                    <p className="text-slate-400">
-                      Free audits include up to one source video per audit. Paid plans cover two webinars per month unless otherwise noted in your agreement.
-                    </p>
+                    <h4 className="font-medium text-white mb-2">Fair Use / Scope</h4>
+                    <ul className="space-y-2 text-slate-400">
+                      <li><span className="font-medium text-slate-300">Free audits:</span> up to 1 source video (≤ 60 minutes) per audit.</li>
+                      <li><span className="font-medium text-slate-300">Paid plans:</span> up to 2 webinars per month (combined ≤ 120 minutes) unless your agreement states otherwise. (Longer footage can be split across months or covered via add-on.)</li>
+                    </ul>
                   </div>
                   
                   <div>
                     <h4 className="font-medium text-white mb-2">Service Credits</h4>
                     <p className="text-slate-400">
-                      If we miss a stated turnaround for reasons within our control, we issue a service credit on your next invoice equal to the delay period.
+                      If we miss a stated turnaround for reasons within our control, we issue a service credit on your next invoice, proportional to the delay period. Service credits are the sole remedy for SLA misses.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-white mb-2">When Clocks Run</h4>
+                    <p className="text-slate-400">
+                      SLA clocks run Monday–Friday, 9am–6pm PT. Holidays pause the clock. Submissions after hours start next business day.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-white mb-2">Channels</h4>
+                    <p className="text-slate-400">
+                      Tracked channels for "response": portal comments, the request thread, or <a href="mailto:jovanny@gtmlabs.io" className="text-blue-400 hover:text-blue-300 underline">jovanny@gtmlabs.io</a>. Replies on other channels don't start or stop clocks (we'll route them into the portal).
                     </p>
                   </div>
                 </div>
