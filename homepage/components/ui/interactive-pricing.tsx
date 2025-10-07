@@ -4,12 +4,34 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { CheckCircleIcon, ArrowLeft, Link as LinkIcon, FileText, Share2, Palette, Sparkles, Video, Users, Mail, TrendingUp } from 'lucide-react';
+import { CheckCircleIcon, ArrowLeft, Link as LinkIcon, FileText, Share2, Palette, Sparkles, Video, Users, Mail, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import { InlineTooltip } from '@/components/ui/inline-tooltip';
 import { ThinBlueBorderCard } from '@/components/ui/thin-blue-border-card';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type WorkflowStep = 'initial' | 'calendar';
+
+type AddOn = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+};
+
+const ADD_ONS: AddOn[] = [
+  {
+    id: 'landing-page',
+    name: 'Landing Page Build',
+    description: 'Hosted page + form integration + UTM set-up',
+    price: 497,
+  },
+  {
+    id: 'advanced-reporting',
+    name: 'Advanced Reporting',
+    description: 'Adds UTM tracking, landing conversions, and leads-over-time dashboards',
+    price: 297,
+  },
+];
 
 // Tooltip copy for Founding Partners features
 const FOUNDING_TOOLTIP_COPY = {
@@ -183,6 +205,22 @@ export function InteractivePricing() {
   const [calendarScale, setCalendarScale] = useState(0.75); // Dynamic scale for calendar depth effect
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [baseCalHeight, setBaseCalHeight] = useState(600); // Unscaled calendar height used for iframe
+  const [auditDetailsOpen, setAuditDetailsOpen] = useState(false); // Controls audit details accordion
+  const [addOnsOpen, setAddOnsOpen] = useState(false); // Controls add-ons expansion
+  const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]); // Selected add-on IDs
+  const [slaModalOpen, setSlaModalOpen] = useState(false); // Controls SLA modal
+  
+  // ESC key support for modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && slaModalOpen) {
+        setSlaModalOpen(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [slaModalOpen]);
   
   // Responsive base size to enforce Zcal two-column layout without horizontal scrolling
   const BASE_CAL_WIDTH = 960; // px, >= 800 keeps two-column (avatar + calendar) on desktop
@@ -362,13 +400,16 @@ export function InteractivePricing() {
             <div className="flex flex-col gap-6">
               <div className="space-y-4">
                 <h2 className="inline rounded-sm bg-blue-500/10 p-1 text-xl font-semibold text-white">
-                  Free Trial
+                  Free Sample Audit
                 </h2>
                 <span className="my-3 block text-3xl font-bold text-blue-400">
                   $0
                 </span>
                 <p className="text-slate-400 text-sm">
-                  Get a sample of our work to see if we're a good fit
+                  We'll show you what your next 30 days of repurposed content could look like.
+                </p>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  Paste a webinar or long-form link. We'll spin up the content and book a 15-minute review.
                 </p>
               </div>
 
@@ -390,13 +431,16 @@ export function InteractivePricing() {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setContentUrl(e.target.value)}
                     className="bg-zinc-950 border-blue-500/30 text-white placeholder:text-slate-500 focus:border-blue-400"
                   />
+                  <p className="text-xs text-slate-500 mt-1">
+                    Paste a webinar URL, then pick a time to review your free audit.
+                  </p>
                   <Button 
                     onClick={handleGetContentClick}
                     disabled={!contentUrl.trim()}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg animate-soft-glow"
                   >
                     <LinkIcon className="w-4 h-4 mr-2" />
-                    Get Content
+                    Get Free Audit
                   </Button>
                 </motion.div>
               )}
@@ -417,19 +461,56 @@ export function InteractivePricing() {
 
             <div className="bg-blue-500/5 h-px w-full" />
 
-            <ul className="text-slate-400 space-y-3 text-sm">
-              {[
-                'One piece of long-form content processed',
-                'Sample blog post & social content',
-                '15-minute consultation call',
-                'No commitment required'
-              ].map((item, index) => (
-                <li key={index} className="flex items-center gap-2">
-                  <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                  <span className={!isExpanded ? 'text-xs' : ''}>{item}</span>
-                </li>
-              ))}
-            </ul>
+            {/* Accordion for Audit Details */}
+            <div className="space-y-2">
+              <button
+                onClick={() => setAuditDetailsOpen(!auditDetailsOpen)}
+                className="flex items-center justify-between w-full text-left text-sm font-medium text-white hover:text-blue-300 transition-colors"
+              >
+                <span>What you'll get in the free audit</span>
+                {auditDetailsOpen ? (
+                  <ChevronUp className="w-4 h-4 text-blue-400" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-blue-400" />
+                )}
+              </button>
+              
+              <AnimatePresence>
+                {auditDetailsOpen && (
+                  <motion.ul
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-slate-400 space-y-3 text-sm pt-2"
+                  >
+                    {[
+                      '6–8 social posts (drafts)',
+                      '3 short clips (subtitled, square/vertical)',
+                      '1 blog outline + intro (not full draft)',
+                      '1 lead-magnet outline + cover mock (no full PDF)',
+                      '1-page findings + repurpose map',
+                    ].map((item, index) => (
+                      <li key={index} className="flex items-center gap-2">
+                        <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                        <span className={!isExpanded ? 'text-xs' : ''}>{item}</span>
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+              
+              {auditDetailsOpen && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="text-xs text-slate-500 pt-2 leading-relaxed"
+                >
+                  Paid plans include full drafts, design, captions, scheduling, and reporting.
+                </motion.p>
+              )}
+            </div>
           </motion.div>
 
           {/* Right Column - Expands when left collapses */}
@@ -456,7 +537,7 @@ export function InteractivePricing() {
                     <div className="absolute -top-2 -right-2">
                       <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-3 py-1 text-xs font-semibold text-amber-300">
                         <Sparkles className="w-3 h-3" />
-                        Limited: 2 Spots
+                        Pilot pricing · 2 spots
                       </span>
                     </div>
                     <h2 className="text-xl font-semibold text-white mb-1">Founding Partners</h2>
@@ -468,12 +549,11 @@ export function InteractivePricing() {
                         $2,999
                       </span>
                     </div>
-                    <p className="text-slate-400 text-sm mt-3">
-                      <InlineTooltip
-                        text="Lock in exclusive founding pricing"
-                        tooltip={FOUNDING_TOOLTIP_COPY.foundingPrice}
-                        className="text-amber-300"
-                      /> and help shape our service
+                    <p className="text-amber-300 text-sm mt-2 font-medium">
+                      $999/mo for 6 months (founding partners)
+                    </p>
+                    <p className="text-slate-400 text-sm mt-2">
+                      Lock in this rate forever and help shape our service
                     </p>
                   </div>
                   
@@ -559,9 +639,38 @@ export function InteractivePricing() {
                       />
                     </li>
                   </ul>
+                  
+                  {/* Analytics Footnote */}
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      📊 <span className="font-medium">Analytics included:</span> Per-post metrics including reach, impressions, clicks, and engagement rate.
+                    </p>
+                  </div>
+                  
+                  {/* SLA Footnote */}
+                  <div className="mt-3 pt-3 border-t border-white/10">
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      72-hour turnaround on standard assets.{' '}
+                      <button
+                        onClick={() => setSlaModalOpen(true)}
+                        className="text-blue-400 hover:text-blue-300 underline"
+                      >
+                        SLA details¹
+                      </button>
+                    </p>
+                    <p className="text-xs text-slate-400 mt-2">
+                      ¹SLA details: 72-hour turnaround on standard assets.{' '}
+                      <button
+                        onClick={() => setSlaModalOpen(true)}
+                        className="text-blue-400 hover:text-blue-300 underline"
+                      >
+                        Learn more
+                      </button>
+                    </p>
+                  </div>
 
                   {/* Call to Action */}
-                  <div className="mt-8">
+                  <div className="mt-8 space-y-4">
                     <Button
                       className="w-full bg-blue-600 text-white hover:bg-blue-700"
                       onClick={() => {
@@ -572,6 +681,83 @@ export function InteractivePricing() {
                     >
                       Get Started
                     </Button>
+                    
+                    {/* Add-ons Expansion */}
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => setAddOnsOpen(!addOnsOpen)}
+                        className="flex items-center justify-center w-full gap-2 text-sm text-blue-300 hover:text-blue-200 transition-colors"
+                      >
+                        <span>Need more? Add-ons</span>
+                        {addOnsOpen ? (
+                          <ChevronUp className="w-4 h-4" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4" />
+                        )}
+                      </button>
+                      
+                      <AnimatePresence>
+                        {addOnsOpen && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="space-y-3 pt-2"
+                          >
+                            {ADD_ONS.map((addon) => {
+                              const isSelected = selectedAddOns.includes(addon.id);
+                              return (
+                                <label
+                                  key={addon.id}
+                                  className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
+                                    isSelected
+                                      ? 'border-blue-500/50 bg-blue-500/10'
+                                      : 'border-white/10 hover:border-blue-500/30'
+                                  }`}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={isSelected}
+                                    onChange={(e) => {
+                                      if (e.target.checked) {
+                                        setSelectedAddOns([...selectedAddOns, addon.id]);
+                                      } else {
+                                        setSelectedAddOns(selectedAddOns.filter((id) => id !== addon.id));
+                                      }
+                                    }}
+                                    className="mt-1 w-4 h-4 rounded border-blue-500/30 bg-zinc-950 text-blue-600 focus:ring-blue-500"
+                                  />
+                                  <div className="flex-1">
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-sm font-medium text-white">{addon.name}</span>
+                                      <span className="text-sm font-semibold text-blue-400">+${addon.price}</span>
+                                    </div>
+                                    <p className="text-xs text-slate-400 mt-1">{addon.description}</p>
+                                  </div>
+                                </label>
+                              );
+                            })}
+                            
+                            {selectedAddOns.length > 0 && (
+                              <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="flex items-center justify-between p-3 rounded-lg bg-blue-500/5 border border-blue-500/20"
+                              >
+                                <span className="text-sm font-medium text-white">Total with add-ons:</span>
+                                <span className="text-lg font-bold text-blue-400">
+                                  ${999 + selectedAddOns.reduce((sum, id) => {
+                                    const addon = ADD_ONS.find((a) => a.id === id);
+                                    return sum + (addon?.price || 0);
+                                  }, 0)}/mo
+                                </span>
+                              </motion.div>
+                            )}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -654,6 +840,79 @@ export function InteractivePricing() {
           </motion.div>
         </div>
       </div>
+      
+      {/* SLA Modal */}
+      <AnimatePresence>
+        {slaModalOpen && (
+          <>
+            {/* Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSlaModalOpen(false)}
+              className="fixed inset-0 bg-black/80 z-50"
+            />
+            
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="bg-zinc-900 border border-blue-500/20 rounded-xl max-w-2xl w-full p-6 shadow-2xl">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-semibold text-white">Service Level Agreement</h3>
+                  <button
+                    onClick={() => setSlaModalOpen(false)}
+                    className="text-slate-400 hover:text-white transition-colors"
+                  >
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                
+                <div className="space-y-4 text-sm text-slate-300">
+                  <div>
+                    <h4 className="font-medium text-white mb-2">Response Times</h4>
+                    <ul className="space-y-2 list-disc list-inside">
+                      <li>48-hour first draft on core assets</li>
+                      <li>72-hour revision cycles, Monday-Friday</li>
+                      <li>24-hour response time for urgent questions</li>
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-white mb-2">Fair Use Policy</h4>
+                    <p className="text-slate-400">
+                      Free audits include up to one source video per audit. Paid plans cover two webinars per month unless otherwise noted in your agreement.
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="font-medium text-white mb-2">Service Credits</h4>
+                    <p className="text-slate-400">
+                      If we miss a stated turnaround for reasons within our control, we issue a service credit on your next invoice equal to the delay period.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="mt-6 flex justify-end">
+                  <Button
+                    onClick={() => setSlaModalOpen(false)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                  >
+                    Got it
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
