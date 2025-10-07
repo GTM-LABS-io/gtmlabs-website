@@ -30,7 +30,7 @@ export function SocialBottomBar() {
           <Share2 className="w-6 h-6" style={{ color: hex(blue500, 0.9) }} />
         </div>
         <div>
-          <div className="text-white text-lg font-semibold">30+ social posts ready to schedule.</div>
+          <div className="text-white text-lg font-semibold">20 social posts ready to schedule</div>
           <div className="text-sm" style={{ color: "#8B8D96" }}>
             Platform-optimized content that drives engagement and grows your following
           </div>
@@ -58,7 +58,7 @@ export default function SocialPlatforms({ className }: { className?: string }) {
       <div className="mx-auto p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 cards-grid">
           <PlatformCard icon={<Linkedin className="w-5 h-5" />} title="LinkedIn Carousel" subtitle="Swipe-ready carousel" variant="carousel" />
-          <PlatformCard icon={<Twitter className="w-5 h-5" />} title="Twitter/X Thread" subtitle="10-tweet thread" variant="thread" />
+          <PlatformCard icon={<Twitter className="w-5 h-5" />} title="Twitter/X Thread" subtitle="10 tweets" variant="thread" />
           <PlatformCard icon={<Instagram className="w-5 h-5" />} title="Instagram Stories" subtitle="Vertical stories" variant="stories" />
           <PlatformCard icon={<Facebook className="w-5 h-5" />} title="Facebook Posts" subtitle="Page + group" variant="fb" />
           <PlatformCard icon={<Youtube className="w-5 h-5" />} title="YouTube Descriptions" subtitle="SEO and links" variant="yt" />

@@ -30,9 +30,9 @@ export function VisualBottomBar() {
           <Palette className="w-6 h-6" style={{ color: hex(blue500, 0.9) }} />
         </div>
         <div>
-          <div className="text-white text-lg font-semibold">20+ visual assets for maximum impact.</div>
+          <div className="text-white text-lg font-semibold">15 video clips and visual assets</div>
           <div className="text-sm" style={{ color: "#8B8D96" }}>
-            Ready-to-publish clips and graphics that amplify reach across every channel
+            Ready-to-publish short-form clips optimized for maximum reach across every channel
           </div>
         </div>
       </div>

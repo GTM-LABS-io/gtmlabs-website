@@ -294,8 +294,8 @@ export default function NewLandingPage() {
               </TwoColumnFeature>
               <TwoColumnFeature
                 eyebrow="Branding"
-                title="Keep Every Asset On-Brand"
-                description="Your webinar repurposing does not just save time; it looks like you created it yourself. Every blog, post, and clip matches your brand voice and design."
+                title="Visually Consistent Across Every Channel"
+                description="Every piece we create looks and sounds like it came from your team. We match your visual identity, brand voice, and design standards so nothing feels outsourced."
                 reverse
                 imageFrame="plain"
                 image={<DisplayCards />}
@@ -304,13 +304,13 @@ export default function NewLandingPage() {
                 <div className="space-y-3">
                   <MiniFeatureCard
                     icon={<Palette className="w-5 h-5 text-blue-300" />}
-                    title="Custom Brand Guidelines"
-                    description="We adapt your colors, fonts, and tone so each content piece feels native to your company."
+                    title="Visual Identity Match"
+                    description="Your colors, fonts, logo placement, and design style applied to every asset."
                   />
                   <MiniFeatureCard
                     icon={<Layers className="w-5 h-5 text-blue-300" />}
-                    title="Multiple Formats, One Brand"
-                    description="From LinkedIn posts to PDF lead magnets, your brand stays consistent across every channel."
+                    title="Voice & Tone Alignment"
+                    description="We analyze your existing content to replicate your writing style, terminology, and brand personality."
                   />
                 </div>
               </TwoColumnFeature>
@@ -336,8 +336,8 @@ export default function NewLandingPage() {
               </TwoColumnFeature>
               <TwoColumnFeature
                 eyebrow="Customization"
-                title="Personalized Repurposing"
-                description="Not all webinars are the same, your content should not be either. We tailor assets to match your audience, industry, and brand tone."
+                title="Strategically Adapted for Your Audience"
+                description="We don't just repurpose—we strategically adapt content for different audiences and goals. Each piece is optimized for where it will be shared and who will see it."
                 imageFrame="plain"
                 image={<CustomizationGraph className="mx-auto" />}
                 reverse
@@ -345,13 +345,13 @@ export default function NewLandingPage() {
                 <div className="space-y-3">
                   <MiniFeatureCard
                     icon={<Sliders className="w-5 h-5 text-blue-300" />}
-                    title="Persona-Based Content"
-                    description="Repurposed outputs written and styled for executives, prospects, or community audiences."
+                    title="Audience-Targeted Messaging"
+                    description="Different angles for executives, technical buyers, or end users based on your buyer personas."
                   />
                   <MiniFeatureCard
                     icon={<Sparkles className="w-5 h-5 text-blue-300" />}
-                    title="Channel-Specific Formats"
-                    description="Clips optimized for LinkedIn vs TikTok, blogs written for SEO vs thought leadership."
+                    title="Platform-Native Optimization"
+                    description="LinkedIn posts optimized for professional engagement. TikTok clips formatted for viral reach. Blogs structured for SEO."
                 />
                 </div>
               </TwoColumnFeature>

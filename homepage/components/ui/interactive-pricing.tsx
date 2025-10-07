@@ -4,135 +4,173 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { CheckCircleIcon, ArrowLeft, Link as LinkIcon, FileText, Share2, Palette } from 'lucide-react';
+import { CheckCircleIcon, ArrowLeft, Link as LinkIcon, FileText, Share2, Palette, Sparkles, Video, Users, Mail, TrendingUp } from 'lucide-react';
+import { InlineTooltip } from '@/components/ui/inline-tooltip';
 import { ThinBlueBorderCard } from '@/components/ui/thin-blue-border-card';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type WorkflowStep = 'initial' | 'calendar';
 
+// Tooltip copy for Founding Partners features
+const FOUNDING_TOOLTIP_COPY = {
+  webinarProcessing: 'We process up to 2 webinars per month, creating 30+ unique content assets from each recording including video clips, social posts, blogs, lead magnets, and newsletters.',
+  videoClips: '15 short-form video clips extracted from your webinar, optimized for social media platforms with captions and hooks.',
+  socialPosts: '20 professionally designed LinkedIn/social posts with images, copy, and CTAs that prompt comments like "Comment TEMPLATE for the guide." Includes automation setup to DM commenters with your lead magnet landing page.',
+  blogContent: '1 long-form blog post per webinar (1,200-1,800 words), optimized for SEO and your brand voice.',
+  leadMagnet: '1 professionally designed lead magnet per webinar (checklist, guide, or resource) with matching landing page. This is what you offer in your social post CTAs.',
+  newsletter: '1 email newsletter per webinar designed to promote your next live webinar and nurture your growing email list.',
+  turnaround: 'First drafts delivered within 72 hours of receiving your webinar. Unlimited revisions when initiated within 7 days of delivery. Once you start reviewing, we will iterate with you as long as needed to get it perfect.',
+  brandVoice: 'We analyze your existing content to match your unique brand voice, tone, and style across all deliverables.',
+  strategyCall: 'Monthly 30-minute strategy session to review performance, discuss upcoming webinars, and optimize your content approach.',
+  foundingPrice: 'Lock in $999/month forever as a founding partner. Regular price is $2,999/month. Only 2 spots available.',
+};
+
 // Removed ContactFormData interface since Zcal handles contact collection
 
-// Animated Assets Showcase Component
-function AnimatedAssetsShowcase() {
-  const assets = [
-    { icon: FileText, label: 'Blogs', count: '15+', color: 'text-green-400', delay: 0 },
-    { icon: Share2, label: 'Social', count: '20+', color: 'text-blue-400', delay: 0.1 },
-    { icon: Palette, label: 'Lead Magnets', count: '15+', color: 'text-purple-400', delay: 0.2 },
-  ];
-
+// Animated Flywheel Showcase Component
+function AnimatedFlywheelShowcase() {
   return (
-    <ThinBlueBorderCard className="p-6 relative overflow-hidden">
-      {/* Animated background elements */}
+    <ThinBlueBorderCard className="p-6 relative overflow-hidden h-[280px] flex items-center justify-center">
+      {/* Background glow */}
       <motion.div
-        className="absolute top-0 right-0 w-20 h-20 bg-blue-500/5 rounded-full"
+        className="absolute inset-0 bg-gradient-radial from-blue-500/5 via-transparent to-transparent"
         animate={{
-          scale: [1, 1.2, 1],
-          rotate: [0, 180, 360],
+          opacity: [0.2, 0.4, 0.2],
         }}
         transition={{
-          duration: 8,
+          duration: 4,
           repeat: Infinity,
-          ease: "linear"
-        }}
-      />
-      <motion.div
-        className="absolute bottom-0 left-0 w-16 h-16 bg-purple-500/5 rounded-full"
-        animate={{
-          scale: [1, 1.1, 1],
-          rotate: [360, 180, 0],
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity,
-          ease: "linear"
+          ease: "easeInOut"
         }}
       />
 
-      <div className="relative z-10 space-y-4">
+      <div className="relative w-full h-full flex items-center justify-center">
+        {/* Center: Webinar */}
         <motion.div
-          className="text-center space-y-2"
-          initial={{ opacity: 0, y: 20 }}
+          className="absolute z-20 w-16 h-16 rounded-full bg-blue-500/20 border border-blue-400/40 flex items-center justify-center shadow-lg backdrop-blur-sm"
+          animate={{
+            scale: [1, 1.05, 1],
+            borderColor: ['rgba(96, 165, 250, 0.4)', 'rgba(96, 165, 250, 0.6)', 'rgba(96, 165, 250, 0.4)'],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          <Video className="w-7 h-7 text-blue-300" />
+        </motion.div>
+        <div className="absolute z-20 top-1/2 left-1/2 -translate-x-1/2 translate-y-12 text-xs font-semibold text-slate-400 whitespace-nowrap">Webinar</div>
+
+        {/* Orbiting Elements */}
+        {[
+          { icon: FileText, label: 'Content', angle: 0, color: 'bg-blue-500/15 border-blue-400/30', iconColor: 'text-blue-300' },
+          { icon: Users, label: 'Leads', angle: 90, color: 'bg-slate-500/15 border-slate-400/30', iconColor: 'text-slate-300' },
+          { icon: Mail, label: 'Email List', angle: 180, color: 'bg-blue-400/15 border-blue-300/30', iconColor: 'text-blue-200' },
+          { icon: TrendingUp, label: 'Signups', angle: 270, color: 'bg-slate-400/15 border-slate-300/30', iconColor: 'text-slate-200' },
+        ].map((item, index) => {
+          const Icon = item.icon;
+          const radius = 70; // radius of orbit in pixels
+          
+          return (
+            <motion.div
+              key={item.label}
+              className="absolute z-10"
+              style={{
+                width: '1px',
+                height: '1px',
+              }}
+              animate={{
+                rotate: [item.angle, item.angle + 360],
+              }}
+              transition={{
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 0
+              }}
+            >
+              <motion.div
+                className="flex flex-col items-center gap-1"
+                style={{
+                  position: 'absolute',
+                  left: `${radius}px`,
+                  top: '0px',
+                  transformOrigin: 'center',
+                }}
+                animate={{
+                  rotate: [-item.angle, -item.angle - 360],
+                }}
+                transition={{
+                  duration: 15,
+                  repeat: Infinity,
+                  ease: "linear",
+                  delay: 0
+                }}
+              >
+                <motion.div
+                  className={`w-11 h-11 rounded-full ${item.color} border flex items-center justify-center shadow-md backdrop-blur-sm`}
+                  whileHover={{ scale: 1.1 }}
+                  animate={{
+                    y: [-2, 2, -2],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: index * 0.3
+                  }}
+                >
+                  <Icon className={`w-5 h-5 ${item.iconColor}`} />
+                </motion.div>
+                <span className="text-[10px] font-medium text-slate-400 whitespace-nowrap">
+                  {item.label}
+                </span>
+              </motion.div>
+            </motion.div>
+          );
+        })}
+
+        {/* Orbital rings */}
+        <motion.div
+          className="absolute w-[140px] h-[140px] rounded-full border border-blue-400/15"
+          animate={{
+            scale: [1, 1.01, 1],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute w-[160px] h-[160px] rounded-full border border-blue-400/10"
+          style={{
+            borderStyle: 'dashed',
+          }}
+        />
+
+        {/* Growth indicator */}
+        <motion.div
+          className="absolute -bottom-2 right-4 bg-blue-500/10 border border-blue-400/20 rounded-lg px-3 py-1.5 flex items-center gap-2 backdrop-blur-sm"
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ delay: 0.5 }}
         >
           <motion.div
-            className="text-3xl font-bold text-blue-400"
             animate={{
-              scale: [1, 1.05, 1],
+              y: [-2, 0, -2],
             }}
             transition={{
-              duration: 2,
+              duration: 1.5,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           >
-            30+
+            <TrendingUp className="w-4 h-4 text-blue-300" />
           </motion.div>
-          <div className="text-sm text-slate-400 font-medium">Assets per webinar</div>
-          <div className="text-xs text-slate-500">Blog posts, social content, lead magnets & more</div>
+          <div className="text-[10px] text-slate-300 font-medium">List Growth</div>
         </motion.div>
-
-        {/* Animated asset types */}
-        <div className="grid grid-cols-3 gap-3">
-          {assets.map((asset, index) => (
-            <motion.div
-              key={asset.label}
-              className="text-center space-y-2"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.5, 
-                delay: 0.3 + asset.delay,
-                ease: "easeOut"
-              }}
-            >
-              <motion.div
-                className="mx-auto w-8 h-8 rounded-lg bg-zinc-900/50 flex items-center justify-center"
-                whileHover={{ scale: 1.1 }}
-                animate={{
-                  boxShadow: [
-                    "0 0 0px rgba(59, 130, 246, 0)",
-                    "0 0 20px rgba(59, 130, 246, 0.1)",
-                    "0 0 0px rgba(59, 130, 246, 0)"
-                  ]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  delay: asset.delay * 2
-                }}
-              >
-                <asset.icon className={`w-4 h-4 ${asset.color}`} />
-              </motion.div>
-              <div className="space-y-1">
-                <div className={`text-xs font-medium ${asset.color}`}>{asset.count}</div>
-                <div className="text-xs text-slate-500">{asset.label}</div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Floating particles */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-blue-400/30 rounded-full"
-            style={{
-              left: `${20 + i * 30}%`,
-              top: `${30 + i * 20}%`
-            }}
-            animate={{
-              y: [-10, 10, -10],
-              opacity: [0.3, 0.8, 0.3],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              delay: i * 0.5,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
       </div>
     </ThinBlueBorderCard>
   );
@@ -252,10 +290,10 @@ export function InteractivePricing() {
             transition={{ duration: 0.3 }}
           >
             <h2 className="section-headline gradient-headline mb-4">
-              Start free. Upgrade when you need more.
+              Done-for-you webinar repurposing that actually drives signups
             </h2>
             <p className="section-description max-w-2xl mx-auto">
-              Create channels, send messages, attach files, and share deep links. Add more capacity and control when you're ready.
+              Stop wrestling with AI tools and content calendars. We transform your webinars into 30+ publish-ready assets. Strategically sequenced to grow your list and fill your next event.
             </p>
           </motion.div>
         )}
@@ -411,15 +449,31 @@ export function InteractivePricing() {
                 layout
                 transition={{ duration: 0.3 }}
               >
-                {/* Pro Pricing */}
+                {/* Founding Partners Pricing */}
                 <div className="flex flex-col justify-between space-y-6">
-                  <div>
-                    <h2 className="text-xl font-semibold text-white">Pro Monthly Package</h2>
-                    <span className="my-3 block text-3xl font-bold text-blue-400">
-                      $2,999
-                    </span>
-                    <p className="text-slate-400 text-sm">
-                      Full-service content repurposing for scaling businesses
+                  <div className="relative">
+                    {/* Founding Partners Badge */}
+                    <div className="absolute -top-2 -right-2">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-3 py-1 text-xs font-semibold text-amber-300">
+                        <Sparkles className="w-3 h-3" />
+                        Limited: 2 Spots
+                      </span>
+                    </div>
+                    <h2 className="text-xl font-semibold text-white mb-1">Founding Partners</h2>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-3xl font-bold text-blue-400">
+                        $999
+                      </span>
+                      <span className="text-lg text-slate-500 line-through">
+                        $2,999
+                      </span>
+                    </div>
+                    <p className="text-slate-400 text-sm mt-3">
+                      <InlineTooltip
+                        text="Lock in exclusive founding pricing"
+                        tooltip={FOUNDING_TOOLTIP_COPY.foundingPrice}
+                        className="text-amber-300"
+                      /> and help shape our service
                     </p>
                   </div>
                   
@@ -432,7 +486,7 @@ export function InteractivePricing() {
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <AnimatedAssetsShowcase />
+                      <AnimatedFlywheelShowcase />
                     </motion.div>
                   </AnimatePresence>
                 </div>
@@ -441,23 +495,69 @@ export function InteractivePricing() {
                 <div className="relative w-full">
                   <div className="text-sm font-medium text-white mb-4">Everything in Free plus:</div>
                   <ul className="text-slate-400 space-y-3 text-sm">
-                    {[
-                      'Unlimited webinar processing',
-                      '2-3 blog posts per webinar',
-                      '15+ social media posts',
-                      '5+ lead magnets & guides',
-                      'Email sequence templates',
-                      'Custom brand voice training',
-                      'Priority 72-hour delivery',
-                      'Dedicated account manager',
-                      'Monthly strategy calls',
-                      'Performance analytics & reporting'
-                    ].map((item, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                        {item}
-                      </li>
-                    ))}
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="Up to 2 webinars per month"
+                        tooltip={FOUNDING_TOOLTIP_COPY.webinarProcessing}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="15 short-form video clips"
+                        tooltip={FOUNDING_TOOLTIP_COPY.videoClips}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="20 LinkedIn & social posts"
+                        tooltip={FOUNDING_TOOLTIP_COPY.socialPosts}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="1 blog post per webinar"
+                        tooltip={FOUNDING_TOOLTIP_COPY.blogContent}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="Lead magnet & landing page"
+                        tooltip={FOUNDING_TOOLTIP_COPY.leadMagnet}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="Email newsletter"
+                        tooltip={FOUNDING_TOOLTIP_COPY.newsletter}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="72-hour turnaround"
+                        tooltip={FOUNDING_TOOLTIP_COPY.turnaround}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="Custom brand voice"
+                        tooltip={FOUNDING_TOOLTIP_COPY.brandVoice}
+                      />
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                      <InlineTooltip
+                        text="Monthly strategy call"
+                        tooltip={FOUNDING_TOOLTIP_COPY.strategyCall}
+                      />
+                    </li>
                   </ul>
 
                   {/* Call to Action */}

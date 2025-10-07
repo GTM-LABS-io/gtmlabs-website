@@ -227,10 +227,10 @@ export default function HowItWorksTimeline({ title, description, entries, classN
             <div className="relative z-10 flex flex-1 flex-col gap-4 text-[11px] text-slate-300/85">
               <div className="grid flex-1 grid-cols-2 gap-3">
                 {[
-                  { title: 'SEO blog x2', detail: '2000+ words each', accent: 'bg-purple-500/25' },
-                  { title: 'LinkedIn pack', detail: '20+ ready-to-post updates', accent: 'bg-blue-500/25' },
-                  { title: 'Newsletter', detail: 'Monthly edition drafted', accent: 'bg-amber-500/25' },
-                  { title: 'Short clips', detail: '10+ vertical edits', accent: 'bg-emerald-500/25' },
+                  { title: 'Blog post', detail: '1,200-1,800 words', accent: 'bg-purple-500/25' },
+                  { title: 'LinkedIn pack', detail: '20 ready-to-post updates', accent: 'bg-blue-500/25' },
+                  { title: 'Newsletter', detail: 'Email edition drafted', accent: 'bg-amber-500/25' },
+                  { title: 'Short clips', detail: '15 vertical video edits', accent: 'bg-emerald-500/25' },
                 ].map((card) => (
                   <div key={card.title} className="rounded-xl border border-white/10 bg-[#11131C] p-3">
                     <div className="text-xs font-semibold text-white/85">{card.title}</div>
@@ -264,11 +264,9 @@ export default function HowItWorksTimeline({ title, description, entries, classN
               <div className="flex flex-1 items-end gap-2 text-[10px] text-slate-400/80">
                 {[
                   { label: 'Webinar', height: 45 },
-                  { label: 'Email', height: 55 },
-                  { label: 'Social', height: 68 },
-                  { label: 'Leads', height: 82 },
-                  { label: 'Sales', height: 90 },
-                  { label: 'Retention', height: 94 },
+                  { label: 'Email', height: 62 },
+                  { label: 'Social', height: 78 },
+                  { label: 'Leads', height: 92 },
                 ].map((bar) => (
                   <div key={bar.label} className="flex flex-1 flex-col items-center justify-end gap-2">
                     <div className="w-full rounded-t bg-emerald-500/30" style={{ height: `${bar.height}%` }} />
@@ -280,7 +278,7 @@ export default function HowItWorksTimeline({ title, description, entries, classN
                 {[
                   { title: '+2x attendance', detail: 'Next webinar lift' },
                   { title: '500+ subs', detail: 'Monthly list growth' },
-                  { title: '3-5x SQLs', detail: 'Pipeline velocity' },
+                  { title: '10K+ impressions', detail: 'Social reach per webinar' },
                 ].map((stat) => (
                   <div key={stat.title} className="rounded-lg border border-white/10 bg-[#11131C] p-3">
                     <div className="text-xs font-semibold text-white/85">{stat.title}</div>

@@ -30,9 +30,9 @@ export function WrittenBottomBar() {
           <FileText className="w-6 h-6" style={{ color: hex(blue500, 0.9) }} />
         </div>
         <div>
-          <div className="text-white text-lg font-semibold">15+ Written Assets Per Webinar</div>
+          <div className="text-white text-lg font-semibold">10+ Written Assets Per Webinar</div>
           <div className="text-sm" style={{ color: "#8B8D96" }}>
-            SEO-optimized blog posts, engaging newsletters, and lead magnets that convert
+            Long-form blog posts, email newsletters, and lead magnets designed to convert
           </div>
         </div>
       </div>
