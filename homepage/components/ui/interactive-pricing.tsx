@@ -524,11 +524,11 @@ export function InteractivePricing() {
                 <div className="flex flex-col space-y-6">
                   {/* Header with Badge at top */}
                   <div className="relative">
-                    {/* Founding Partners Badge */}
-                    <div className="absolute -top-2 -right-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-3 py-1 text-xs font-semibold text-amber-300">
-                        <Sparkles className="w-3 h-3" />
-                        Pilot pricing · 2 spots
+                    {/* Founding Partners Badge - Compact corner badge */}
+                    <div className="absolute -top-1 -right-1">
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-300 leading-tight">
+                        <Sparkles className="w-2 h-2" />
+                        Pilot · 2 spots
                       </span>
                     </div>
                     <h2 className="text-xl font-semibold text-white mb-1">Founding Partners</h2>
