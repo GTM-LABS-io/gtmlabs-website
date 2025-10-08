@@ -521,16 +521,32 @@ export function InteractivePricing() {
                 layout
                 transition={{ duration: 0.3 }}
               >
-                {/* Left Column: Pricing + Features + CTA */}
+                {/* Left Column: Animated Showcase + Pricing Header */}
                 <div className="flex flex-col space-y-6">
+                  {/* Animated Assets Showcase - Wrapped in Card */}
+                  <ThinBlueBorderCard className="p-6 relative overflow-hidden h-[280px] flex items-center justify-center">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key="assets-showcase"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="w-full h-full"
+                      >
+                        <AnimatedFlywheelShowcase />
+                      </motion.div>
+                    </AnimatePresence>
+                  </ThinBlueBorderCard>
+
                   {/* Header with Badge Tooltip */}
                   <div className="relative">
-                    {/* Founding Partners Badge - Tooltip trigger positioned near "Partners" */}
+                    {/* Founding Partners Badge - Tooltip with hover hint */}
                     <div className="absolute -top-1 right-[60px]">
                       <TooltipProvider delayDuration={100}>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-300 leading-tight cursor-help">
+                            <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-300 leading-tight cursor-help hover:border-amber-500/50 transition-all">
                               <Sparkles className="w-2 h-2" />
                               Pilot · 2 spots
                             </span>
@@ -554,7 +570,10 @@ export function InteractivePricing() {
                       </span>
                     </div>
                   </div>
+                </div>
 
+                {/* Right Column: Features + CTA */}
+                <div className="flex flex-col">
                   {/* Feature List */}
                   <div className="mb-6">
                     <h3 className="text-sm font-medium text-white mb-4">What you get:</h3>
@@ -599,41 +618,22 @@ export function InteractivePricing() {
                       Get Started
                     </Button>
                     
-                    <p className="text-xs text-slate-400 text-center leading-relaxed">
-                      <button
-                        onClick={() => setDetailsModalOpen(true)}
-                        className="text-blue-400 hover:text-blue-300 underline"
-                      >
-                        View details
-                      </button>
-                    </p>
-                  </div>
-                </div>
-
-                {/* Right Column: Animated Showcase + Microcopy */}
-                <div className="flex flex-col space-y-6">
-                  {/* Animated Assets Showcase */}
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key="assets-showcase"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <AnimatedFlywheelShowcase />
-                    </motion.div>
-                  </AnimatePresence>
-
-                  {/* Microcopy */}
-                  <div className="space-y-3">
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      We handle scheduling so reporting just works. You approve everything before it goes live.
-                    </p>
-                    
-                    <p className="text-xs text-slate-500">
-                      Add-ons available at checkout and in your portal.
-                    </p>
+                    {/* Divider */}
+                    <div className="border-t border-blue-500/20 pt-4">
+                      <p className="text-xs text-slate-400 text-center leading-relaxed">
+                        We handle scheduling so reporting just works. You approve everything before it goes live.{' '}
+                        <button
+                          onClick={() => setDetailsModalOpen(true)}
+                          className="text-blue-400 hover:text-blue-300 underline"
+                        >
+                          View details
+                        </button>
+                      </p>
+                      
+                      <p className="text-xs text-slate-500 text-center mt-3">
+                        Add-ons available at checkout and in your portal.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </motion.div>
