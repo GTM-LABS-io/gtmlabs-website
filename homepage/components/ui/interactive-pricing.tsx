@@ -58,9 +58,9 @@ function AnimatedFlywheelShowcase() {
     <div className="relative w-full h-full flex flex-col">
       {/* Card Header with List Growth Pill */}
       <div className="mb-4 relative">
-        {/* List Growth Pill - Top left corner */}
+        {/* List Growth Pill - Top right corner near "Flywheel" */}
         <motion.div
-          className="absolute -top-1 -left-1 bg-blue-500/10 border border-blue-400/20 rounded-lg px-2 py-0.5 flex items-center gap-1 backdrop-blur-sm"
+          className="absolute -top-1 right-[52px] bg-blue-500/10 border border-blue-400/20 rounded-lg px-2 py-0.5 flex items-center gap-1 backdrop-blur-sm"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -441,7 +441,7 @@ export function InteractivePricing() {
                   </Button>
                   
                   {/* Blue Divider under CTA */}
-                  <div className="border-t border-blue-500/20 pt-0" />
+                  <div className="border-t border-blue-500/20 mt-4" />
                 </motion.div>
               )}
 
@@ -459,10 +459,8 @@ export function InteractivePricing() {
               )}
             </div>
 
-            <div className="bg-blue-500/5 h-px w-full" />
-
-            {/* Accordion for Audit Details */}
-            <div className="space-y-2">
+            {/* Accordion for Audit Details - Moved closer to button */}
+            <div className="space-y-2 mt-4">
               <button
                 onClick={() => setAuditDetailsOpen(!auditDetailsOpen)}
                 className="flex items-center justify-between w-full text-left text-sm font-medium text-white hover:text-blue-300 transition-colors"
