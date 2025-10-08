@@ -1,0 +1,78 @@
+User-agent: *
+Allow: /
+Disallow: /login/
+Disallow: /legal/sla/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: GPTBot-User
+Allow: /
+
+User-agent: GPTBot-Chat
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot-Slack
+Allow: /
+
+User-agent: ClaudeAPI
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: GoogleOther-Image
+Allow: /
+
+User-agent: GoogleOther-Video
+Allow: /
+
+User-agent: GoogleOther-News
+Allow: /
+
+User-agent: GoogleOther-Discover
+Allow: /
+
+User-agent: GoogleOther-Research
+Allow: /
+
+User-agent: GoogleOther-Podcast
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: PerplexityUser
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: AskJeeves/Teoma
+Allow: /
+
+Sitemap: https://gtmlabs.io/sitemap.xml

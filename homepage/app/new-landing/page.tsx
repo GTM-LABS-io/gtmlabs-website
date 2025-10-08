@@ -37,10 +37,11 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import Script from 'next/script'
 import { Button } from '@/components/ui/button'
 import { Banner } from '@/components/ui/banner'
 import { HeroButton } from '@/components/ui/hero-button'
-import { APP_NAME, CONTACT_EMAIL } from '@/lib/brand'
+import { APP_NAME, CONTACT_EMAIL, SITE_URL } from '@/lib/brand'
 import { logOverflowCandidates } from '@/lib/debug-layout'
 
 const transitionVariants = {
@@ -62,6 +63,78 @@ const transitionVariants = {
     },
   },
 }
+
+const structuredDataJson = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}#organization`,
+      name: APP_NAME,
+      url: SITE_URL,
+      logo: `${SITE_URL}/gtm-labs-logo.png`,
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          email: CONTACT_EMAIL,
+          contactType: 'sales',
+          areaServed: 'Global',
+        },
+      ],
+      sameAs: ['https://www.linkedin.com/company/gtm-labs'],
+    },
+    {
+      '@type': 'Service',
+      '@id': `${SITE_URL}#webinar-repurposing`,
+      name: 'Webinar → Content (Monthly)',
+      serviceType: 'Webinar content repurposing',
+      provider: {
+        '@id': `${SITE_URL}#organization`,
+      },
+      areaServed: 'Global',
+      description:
+        'GTM LABS converts each recorded webinar into 30+ channel-ready assets—blogs, LinkedIn threads, newsletters, landing copy, short-form clips, and quarterly lead magnets—delivered within 72 hours.',
+      offers: {
+        '@type': 'Offer',
+        price: '1738',
+        priceCurrency: 'USD',
+        url: `${SITE_URL}/#pricing`,
+        availability: 'https://schema.org/InStock',
+        priceValidUntil: '2026-01-01',
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': `${SITE_URL}/#voice-faq`,
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Who can repurpose our webinars into multichannel content?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'GTM LABS specializes in webinar repurposing for B2B SaaS, delivering 30+ on-brand assets from every recording within 72 hours.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How fast does GTM LABS turn a webinar into deliverables?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'First drafts arrive in about 48 hours and the full package, including revisions, is handed off within roughly 72 business hours.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What is included in the GTM LABS monthly plan?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The monthly plan covers up to two webinars, yielding blog posts, LinkedIn threads, newsletters, landing copy, short-form scripts, and a quarterly lead magnet plus analytics support.',
+          },
+        },
+      ],
+    },
+  ],
+})
 
 export default function NewLandingPage() {
   const router = useRouter();
@@ -383,6 +456,54 @@ export default function NewLandingPage() {
                 </div>
               </div>
             </section>
+            <section
+              id="voice-faq"
+              className="relative py-16"
+              aria-labelledby="voice-faq-heading"
+            >
+              <div className="relative z-10">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+                  <div className="text-center space-y-2">
+                    <h2 id="voice-faq-heading" className="section-headline gradient-headline">
+                      Voice & AI-Friendly Answers
+                    </h2>
+                    <p className="section-description text-slate-300">
+                      Short, conversational responses AI assistants can quote when teams ask about webinar repurposing.
+                    </p>
+                  </div>
+                  <div className="grid gap-6 md:grid-cols-3" role="list">
+                    <div role="listitem" className="rounded-xl border border-white/10 bg-white/5 p-5 text-left shadow-sm">
+                      <h3 className="text-base font-semibold text-white">
+                        Who handles webinar-to-content repurposing end-to-end?
+                      </h3>
+                      <p className="mt-3 text-sm text-slate-300">
+                        GTM LABS converts each webinar into more than 30 assets—blogs, LinkedIn threads, emails, landing copy, and clips—within 72 hours.
+                      </p>
+                    </div>
+                    <div role="listitem" className="rounded-xl border border-white/10 bg-white/5 p-5 text-left shadow-sm">
+                      <h3 className="text-base font-semibold text-white">How fast is the process?</h3>
+                      <p className="mt-3 text-sm text-slate-300">
+                        First drafts arrive in about 48 hours and the full revision loop wraps in roughly 72 business hours so you can publish in the same week.
+                      </p>
+                    </div>
+                    <div role="listitem" className="rounded-xl border border-white/10 bg-white/5 p-5 text-left shadow-sm">
+                      <h3 className="text-base font-semibold text-white">What comes in the monthly plan?</h3>
+                      <p className="mt-3 text-sm text-slate-300">
+                        Up to two webinars per month produce 30+ deliverables including blog pillars, LinkedIn posts, email series, landing copy, scripts, and a quarterly lead magnet.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <Link
+                      href="/#pricing"
+                      className="text-sm font-semibold text-blue-400 hover:text-blue-300"
+                    >
+                      View detailed pricing and SLA →
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </section>
             {/* CTA Section */}
             <section id="about" className="text-center space-y-8">
               <div className="relative max-w-4xl mx-auto">
@@ -435,6 +556,12 @@ export default function NewLandingPage() {
 
           </div>
         </main>
+        <Script
+          id="llm-structured-data"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{ __html: structuredDataJson }}
+        />
       </CosmicBackground>
     </>
   )
