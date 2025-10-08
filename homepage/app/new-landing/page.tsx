@@ -133,6 +133,109 @@ const structuredDataJson = JSON.stringify({
         },
       ],
     },
+    {
+      '@type': 'FAQPage',
+      '@id': `${SITE_URL}/#pricing-faq`,
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Who is this for?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'B2B SaaS teams already running webinars. If you publish monthly and stay active on social, you will see the fastest lift.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What do I actually get?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'A content library from one webinar: short clips, social posts, blog post, email content, plus optional lead magnet and newsletter issue. Counts match the pricing card and we tune the mix to your goal.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What is your process?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Share a recording link. We transcribe and analyze, draft 30 plus assets, route for review, schedule once accounts connect, and report results inside the analytics panel.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What is the turnaround?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'First draft in about 48 hours. Typical revision loop finishes within 72 business hours. The detailed SLA sits behind the pricing link.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Do you offer unlimited revisions?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes within plan scope. We aim for publish-ready approval. If scope changes, we confirm pricing before expanding.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How do you report results?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Your portal shows per-platform and per-post metrics. Download links are tagged with UTMs and file_download events so you see which content drives subscribers.',
+          },
+        },
+      ],
+    },
+    {
+      '@type': 'HowTo',
+      '@id': `${SITE_URL}#webinar-to-content-howto`,
+      name: 'Repurpose a webinar into 30+ assets with GTM LABS',
+      description:
+        'Follow GTM LABS four-step workflow to transform a webinar recording into a full content library within 72 hours.',
+      totalTime: 'PT72H',
+      estimatedCost: {
+        '@type': 'MonetaryAmount',
+        currency: 'USD',
+        value: '1738',
+      },
+      tool: [
+        {
+          '@type': 'HowToTool',
+          name: 'GTM LABS client portal',
+        },
+        {
+          '@type': 'HowToTool',
+          name: 'Brand style guide and voice notes',
+        },
+      ],
+      step: [
+        {
+          '@type': 'HowToStep',
+          position: 1,
+          name: 'Drop Your Link',
+          text: 'Share your webinar recording URL or upload the video file inside the client portal—no extensive brief required.',
+        },
+        {
+          '@type': 'HowToStep',
+          position: 2,
+          name: 'Sit Back & Relax',
+          text: 'AI extracts the best moments, we draft 30 plus assets, and human editors align everything to your brand voice.',
+        },
+        {
+          '@type': 'HowToStep',
+          position: 3,
+          name: 'Review & Approve',
+          text: 'Review your blog posts, social clips, newsletters, landing copy, and lead magnet in the portal and request edits as needed.',
+        },
+        {
+          '@type': 'HowToStep',
+          position: 4,
+          name: 'Watch Growth Happen',
+          text: 'Launch content, track analytics, and keep the repurposing flywheel running to grow reach and subscribers.',
+        },
+      ],
+    },
   ],
 })
 
