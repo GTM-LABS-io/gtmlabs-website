@@ -220,6 +220,7 @@ export function InteractivePricing() {
   const [baseCalHeight, setBaseCalHeight] = useState(600); // Unscaled calendar height used for iframe
   const [auditDetailsOpen, setAuditDetailsOpen] = useState(false); // Controls audit details accordion
   const [detailsModalOpen, setDetailsModalOpen] = useState(false); // Controls details modal for SLA/scope
+  const [addonsModalOpen, setAddonsModalOpen] = useState(false); // Controls add-ons modal
   
   
   // Responsive base size to enforce Zcal two-column layout without horizontal scrolling
@@ -622,6 +623,13 @@ export function InteractivePricing() {
                         <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0 mt-0.5" />
                         <span>Per-platform + per-post metrics in your portal</span>
                       </li>
+                      <li className="flex items-start gap-2">
+                        <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                        <InlineTooltip
+                          text="Client portal + 3 team seats"
+                          tooltip="Dedicated portal for reviewing assets, giving feedback, and tracking progress. Invite up to 3 teammates to collaborate on revisions. Need more seats? Add them as an add-on."
+                        />
+                      </li>
                     </ul>
                   </div>
 
@@ -651,10 +659,12 @@ export function InteractivePricing() {
                       </p>
                       
                       <p className="text-xs text-slate-500 text-center mt-3">
-                        <InlineTooltip
-                          text="Add-ons"
-                          tooltip="Extra source hours (process more/longer videos) • Advanced analytics pack (UTMs, GA4 tracking, monthly funnel reports) • Landing page build (hosted or handed off) • Design polish pack (custom thumbnails, carousel templates, brand kit). Available at checkout and anytime in your portal."
-                        />{' '}
+                        <button
+                          onClick={() => setAddonsModalOpen(true)}
+                          className="text-blue-400 hover:text-blue-300 underline"
+                        >
+                          Add-ons
+                        </button>{' '}
                         available at checkout and in your portal.
                       </p>
                     </div>
@@ -662,6 +672,133 @@ export function InteractivePricing() {
                 </div>
               </motion.div>
             )}
+
+            {/* Add-ons Modal */}
+            <AnimatePresence>
+              {addonsModalOpen && (
+                <>
+                  {/* Overlay */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setAddonsModalOpen(false)}
+                    className="fixed inset-0 bg-black/80 z-50"
+                  />
+                  
+                  {/* Modal */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="bg-zinc-900 border border-blue-500/20 rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[80vh] overflow-y-auto">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xl font-semibold text-white">Available Add-ons</h3>
+                        <button
+                          onClick={() => setAddonsModalOpen(false)}
+                          className="text-slate-400 hover:text-white transition-colors"
+                        >
+                          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                      
+                      <div className="space-y-5 text-sm text-slate-300">
+                        <p className="text-slate-400 text-xs">
+                          All add-ons can be selected at checkout or added anytime from your client portal.
+                        </p>
+
+                        {/* Extra Source Hours */}
+                        <div>
+                          <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+                            <Video className="w-4 h-4 text-blue-400" />
+                            Extra Source Hours
+                          </h4>
+                          <p className="text-slate-300 mb-2">Process more videos or longer sessions beyond the included 120 minutes per month.</p>
+                          <ul className="list-disc list-inside space-y-1 text-xs text-slate-400 ml-4">
+                            <li>Perfect for high-volume content creators</li>
+                            <li>Same quality and turnaround time</li>
+                            <li>Billed per additional hour of source video</li>
+                          </ul>
+                        </div>
+
+                        {/* Advanced Analytics Pack */}
+                        <div>
+                          <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+                            <TrendingUp className="w-4 h-4 text-blue-400" />
+                            Advanced Analytics Pack
+                          </h4>
+                          <p className="text-slate-300 mb-2">Deep funnel tracking from social posts to subscribers.</p>
+                          <ul className="list-disc list-inside space-y-1 text-xs text-slate-400 ml-4">
+                            <li>UTM parameters on all posts</li>
+                            <li>GA4 event tracking for downloads and sign-ups</li>
+                            <li>Monthly funnel report: social → landing page → downloads → subscribers</li>
+                            <li>See which platforms and posts drive real growth</li>
+                          </ul>
+                        </div>
+
+                        {/* Landing Page Build */}
+                        <div>
+                          <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+                            <Palette className="w-4 h-4 text-blue-400" />
+                            Landing Page Build
+                          </h4>
+                          <p className="text-slate-300 mb-2">Custom landing page for your lead magnets or webinar registrations.</p>
+                          <ul className="list-disc list-inside space-y-1 text-xs text-slate-400 ml-4">
+                            <li>Designed to match your brand</li>
+                            <li>Form integration (email capture)</li>
+                            <li>Hosted on our infrastructure or handed off to you</li>
+                            <li>Mobile-optimized and fast-loading</li>
+                          </ul>
+                        </div>
+
+                        {/* Design Polish Pack */}
+                        <div>
+                          <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+                            <Sparkles className="w-4 h-4 text-blue-400" />
+                            Design Polish Pack
+                          </h4>
+                          <p className="text-slate-300 mb-2">Elevate your visual brand with custom design assets.</p>
+                          <ul className="list-disc list-inside space-y-1 text-xs text-slate-400 ml-4">
+                            <li>Custom thumbnails for videos and posts</li>
+                            <li>Carousel post templates for LinkedIn</li>
+                            <li>Brand kit refinements (colors, fonts, style guide)</li>
+                            <li>Consistent, professional look across all platforms</li>
+                          </ul>
+                        </div>
+
+                        {/* Extra Team Seats */}
+                        <div>
+                          <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+                            <Users className="w-4 h-4 text-blue-400" />
+                            Extra Team Seats
+                          </h4>
+                          <p className="text-slate-300 mb-2">Add more teammates to your client portal beyond the included 3 seats.</p>
+                          <ul className="list-disc list-inside space-y-1 text-xs text-slate-400 ml-4">
+                            <li>Each seat gets full portal access</li>
+                            <li>Review assets, give feedback, track progress</li>
+                            <li>Perfect for larger teams with multiple stakeholders</li>
+                          </ul>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-6 flex justify-end">
+                        <Button
+                          onClick={() => setAddonsModalOpen(false)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                        >
+                          Got it
+                        </Button>
+                      </div>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
 
             {/* Details Modal (SLA & Scope) */}
             <AnimatePresence>
