@@ -524,8 +524,8 @@ export function InteractivePricing() {
                 <div className="flex flex-col space-y-6">
                   {/* Header with Badge at top */}
                   <div className="relative">
-                    {/* Founding Partners Badge - Compact corner badge */}
-                    <div className="absolute -top-1 -right-1">
+                    {/* Founding Partners Badge - Compact corner badge positioned above "Partners" */}
+                    <div className="absolute -top-1 right-0">
                       <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-300 leading-tight">
                         <Sparkles className="w-2 h-2" />
                         Pilot · 2 spots
@@ -541,10 +541,10 @@ export function InteractivePricing() {
                       </span>
                     </div>
                     <p className="text-amber-300 text-sm mt-2 font-medium">
-                      $795/mo for 6 months → then $1,738/mo
+                      $795/mo for 6 months → then $995/mo forever
                     </p>
                     <p className="text-slate-400 text-sm mt-2">
-                      Secure pilot pricing. Limited to 2 companies.
+                      Lock in founding partner pricing. Only 2 spots.
                     </p>
                   </div>
                   
@@ -669,6 +669,18 @@ export function InteractivePricing() {
                             <p><span className="text-white font-medium">Urgent questions:</span> 24-hour response during business hours</p>
                             <p className="text-xs text-slate-400 mt-3">
                               Business hours: Mon–Fri, 9am–6pm PT (excluding U.S. federal holidays)
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Pricing Structure */}
+                        <div>
+                          <h4 className="font-semibold text-white mb-3">Founding Partner Pricing</h4>
+                          <div className="space-y-2">
+                            <p><span className="text-white font-medium">First 2 companies:</span> $795/mo for 6 months, then $995/mo forever</p>
+                            <p><span className="text-white font-medium">Companies 3+:</span> Standard pricing at $1,738/mo</p>
+                            <p className="text-xs text-slate-400 mt-3">
+                              Founding partners lock in $995/mo for life. This rate is exclusive to the first 2 companies and will not be offered again.
                             </p>
                           </div>
                         </div>
