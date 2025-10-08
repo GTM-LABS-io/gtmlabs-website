@@ -441,7 +441,7 @@ export function InteractivePricing() {
                   </Button>
                   
                   {/* Blue Divider under CTA */}
-                  <div className="border-t border-blue-500/20 mt-4" />
+                  <div className="border-t border-blue-500/20 mt-3" />
                 </motion.div>
               )}
 
@@ -459,8 +459,8 @@ export function InteractivePricing() {
               )}
             </div>
 
-            {/* Accordion for Audit Details - Moved closer to button */}
-            <div className="space-y-2 mt-4">
+            {/* Accordion for Audit Details - Tighter spacing */}
+            <div className="space-y-2 mt-2">
               <button
                 onClick={() => setAuditDetailsOpen(!auditDetailsOpen)}
                 className="flex items-center justify-between w-full text-left text-sm font-medium text-white hover:text-blue-300 transition-colors"
@@ -594,11 +594,17 @@ export function InteractivePricing() {
                     <ul className="text-slate-300 space-y-2.5 text-sm">
                       <li className="flex items-start gap-2">
                         <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                        <span>Up to 2 webinars/month (≤120 min total source video)</span>
+                        <InlineTooltip
+                          text="Up to 2 webinars/month"
+                          tooltip="Plan covers up to 120 minutes of total source video per month. Typical scope: 2 webinars of ~60 minutes each, or 1 longer session. Need more? Add extra source hours at checkout."
+                        />
                       </li>
                       <li className="flex items-start gap-2">
                         <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0 mt-0.5" />
-                        <span>30+ assets: clips, posts, blog, lead magnet, newsletter</span>
+                        <InlineTooltip
+                          text="30+ assets per month"
+                          tooltip="From 2 webinars: 10–15 short-form clips (vertical, square, landscape), ~20 social posts with images, 2 blog posts (~600 words each), 2 lead magnets (PDF), 2 newsletters. All publish-ready."
+                        />
                       </li>
                       <li className="flex items-start gap-2">
                         <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0 mt-0.5" />
