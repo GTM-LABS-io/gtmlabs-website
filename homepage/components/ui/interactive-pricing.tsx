@@ -756,21 +756,6 @@ export function InteractivePricing() {
                           </ul>
                         </div>
 
-                        {/* Design Polish Pack */}
-                        <div>
-                          <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
-                            <Sparkles className="w-4 h-4 text-blue-400" />
-                            Design Polish Pack
-                          </h4>
-                          <p className="text-slate-300 mb-2">Elevate your visual brand with custom design assets.</p>
-                          <ul className="list-disc list-inside space-y-1 text-xs text-slate-400 ml-4">
-                            <li>Custom thumbnails for videos and posts</li>
-                            <li>Carousel post templates for LinkedIn</li>
-                            <li>Brand kit refinements (colors, fonts, style guide)</li>
-                            <li>Consistent, professional look across all platforms</li>
-                          </ul>
-                        </div>
-
                         {/* Extra Team Seats */}
                         <div>
                           <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
