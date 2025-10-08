@@ -55,7 +55,16 @@ const FOUNDING_TOOLTIP_COPY = {
 // Animated Flywheel Showcase Component
 function AnimatedFlywheelShowcase() {
   return (
-    <ThinBlueBorderCard className="p-6 relative overflow-hidden h-[280px] flex items-center justify-center">
+    <div className="relative w-full h-full flex flex-col">
+      {/* Card Header */}
+      <div className="mb-4">
+        <h3 className="text-base font-semibold text-white mb-1">Asset Flywheel</h3>
+        <p className="text-xs text-slate-400">One webinar becomes your entire content engine</p>
+        <div className="border-t border-blue-500/20 mt-3" />
+      </div>
+      
+      {/* Orbit Animation Container */}
+      <div className="flex-1 relative flex items-center justify-center">
       {/* Background glow */}
       <motion.div
         className="absolute inset-0 bg-gradient-radial from-blue-500/5 via-transparent to-transparent"
@@ -95,7 +104,7 @@ function AnimatedFlywheelShowcase() {
           { icon: TrendingUp, label: 'Signups', angle: 270, color: 'bg-slate-400/15 border-slate-300/30', iconColor: 'text-slate-200' },
         ].map((item, index) => {
           const Icon = item.icon;
-          const radius = 70; // radius of orbit in pixels
+          const radius = 55; // radius of orbit in pixels (reduced to prevent cutoff)
           
           return (
             <motion.div
@@ -134,7 +143,7 @@ function AnimatedFlywheelShowcase() {
                 }}
               >
                 <motion.div
-                  className={`w-11 h-11 rounded-full ${item.color} border flex items-center justify-center shadow-md backdrop-blur-sm`}
+                  className={`w-9 h-9 rounded-full ${item.color} border flex items-center justify-center shadow-md backdrop-blur-sm`}
                   whileHover={{ scale: 1.1 }}
                   animate={{
                     y: [-2, 2, -2],
@@ -146,7 +155,7 @@ function AnimatedFlywheelShowcase() {
                     delay: index * 0.3
                   }}
                 >
-                  <Icon className={`w-5 h-5 ${item.iconColor}`} />
+                  <Icon className={`w-4 h-4 ${item.iconColor}`} />
                 </motion.div>
                 <span className="text-[10px] font-medium text-slate-400 whitespace-nowrap">
                   {item.label}
@@ -158,7 +167,7 @@ function AnimatedFlywheelShowcase() {
 
         {/* Orbital rings */}
         <motion.div
-          className="absolute w-[140px] h-[140px] rounded-full border border-blue-400/15"
+          className="absolute w-[110px] h-[110px] rounded-full border border-blue-400/15"
           animate={{
             scale: [1, 1.01, 1],
           }}
@@ -169,7 +178,7 @@ function AnimatedFlywheelShowcase() {
           }}
         />
         <motion.div
-          className="absolute w-[160px] h-[160px] rounded-full border border-blue-400/10"
+          className="absolute w-[130px] h-[130px] rounded-full border border-blue-400/10"
           style={{
             borderStyle: 'dashed',
           }}
@@ -177,7 +186,7 @@ function AnimatedFlywheelShowcase() {
 
         {/* Growth indicator */}
         <motion.div
-          className="absolute -bottom-2 right-4 bg-blue-500/10 border border-blue-400/20 rounded-lg px-3 py-1.5 flex items-center gap-2 backdrop-blur-sm"
+          className="absolute -bottom-2 right-4 bg-blue-500/10 border border-blue-400/20 rounded-lg px-2.5 py-1 flex items-center gap-1.5 backdrop-blur-sm"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
@@ -192,12 +201,13 @@ function AnimatedFlywheelShowcase() {
               ease: "easeInOut"
             }}
           >
-            <TrendingUp className="w-4 h-4 text-blue-300" />
+            <TrendingUp className="w-3.5 h-3.5 text-blue-300" />
           </motion.div>
-          <div className="text-[10px] text-slate-300 font-medium">List Growth</div>
+          <div className="text-[9px] text-slate-300 font-medium">List Growth</div>
         </motion.div>
       </div>
-    </ThinBlueBorderCard>
+      </div>
+    </div>
   );
 }
 
@@ -429,6 +439,9 @@ export function InteractivePricing() {
                     <LinkIcon className="w-4 h-4 mr-2" />
                     Get Free Audit
                   </Button>
+                  
+                  {/* Blue Divider under CTA */}
+                  <div className="border-t border-blue-500/20 pt-0" />
                 </motion.div>
               )}
 
@@ -525,24 +538,12 @@ export function InteractivePricing() {
                 <div className="flex flex-col space-y-6">
                   {/* Header with Badge Tooltip */}
                   <div className="relative">
-                    {/* Founding Partners Badge - Tooltip with hover hint */}
+                    {/* Founding Partners Badge - No tooltip, just badge */}
                     <div className="absolute -top-1 right-[60px]">
-                      <TooltipProvider delayDuration={100}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-300 leading-tight cursor-help hover:border-amber-500/50 transition-all">
-                              <Sparkles className="w-2 h-2" />
-                              Pilot · 2 spots
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent sideOffset={6} className="max-w-xs text-left leading-snug">
-                            <div className="space-y-1">
-                              <p className="text-amber-300 font-medium">$795/mo for 6 months → then $995/mo forever</p>
-                              <p className="text-slate-300 text-xs">Lock in founding partner pricing. Only 2 spots.</p>
-                            </div>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-300 leading-tight">
+                        <Sparkles className="w-2 h-2" />
+                        Pilot · 2 spots
+                      </span>
                     </div>
                     <h2 className="text-xl font-semibold text-white mb-1">Founding Partners</h2>
                     <div className="flex items-baseline gap-2">
@@ -550,13 +551,28 @@ export function InteractivePricing() {
                         $795
                       </span>
                       <span className="text-sm text-slate-400">
-                        /mo for 6 months
+                        /mo for{' '}
+                        <TooltipProvider delayDuration={100}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="underline decoration-dotted underline-offset-2 cursor-help hover:text-slate-300 transition-colors">
+                                6 months
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent sideOffset={6} className="max-w-xs text-left leading-snug">
+                              <div className="space-y-1">
+                                <p className="text-amber-300 font-medium">$795/mo for 6 months → then $995/mo forever</p>
+                                <p className="text-slate-300 text-xs">Lock in founding partner pricing. Only 2 spots.</p>
+                              </div>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </span>
                     </div>
                   </div>
 
                   {/* Animated Assets Showcase - Wrapped in Card */}
-                  <ThinBlueBorderCard className="p-6 relative overflow-hidden h-[280px] flex items-center justify-center">
+                  <ThinBlueBorderCard className="p-5 relative overflow-hidden h-[280px]">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key="assets-showcase"
