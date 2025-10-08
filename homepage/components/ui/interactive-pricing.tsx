@@ -521,24 +521,8 @@ export function InteractivePricing() {
                 layout
                 transition={{ duration: 0.3 }}
               >
-                {/* Left Column: Animated Showcase + Pricing Header */}
+                {/* Left Column: Pricing Header + Animated Showcase */}
                 <div className="flex flex-col space-y-6">
-                  {/* Animated Assets Showcase - Wrapped in Card */}
-                  <ThinBlueBorderCard className="p-6 relative overflow-hidden h-[280px] flex items-center justify-center">
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key="assets-showcase"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        transition={{ duration: 0.3 }}
-                        className="w-full h-full"
-                      >
-                        <AnimatedFlywheelShowcase />
-                      </motion.div>
-                    </AnimatePresence>
-                  </ThinBlueBorderCard>
-
                   {/* Header with Badge Tooltip */}
                   <div className="relative">
                     {/* Founding Partners Badge - Tooltip with hover hint */}
@@ -570,6 +554,22 @@ export function InteractivePricing() {
                       </span>
                     </div>
                   </div>
+
+                  {/* Animated Assets Showcase - Wrapped in Card */}
+                  <ThinBlueBorderCard className="p-6 relative overflow-hidden h-[280px] flex items-center justify-center">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key="assets-showcase"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.3 }}
+                        className="w-full h-full"
+                      >
+                        <AnimatedFlywheelShowcase />
+                      </motion.div>
+                    </AnimatePresence>
+                  </ThinBlueBorderCard>
                 </div>
 
                 {/* Right Column: Features + CTA */}
