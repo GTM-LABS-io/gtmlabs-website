@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CheckCircleIcon, ArrowLeft, Link as LinkIcon, FileText, Share2, Palette, Sparkles, Video, Users, Mail, TrendingUp, ChevronDown, ChevronUp } from 'lucide-react';
 import { InlineTooltip } from '@/components/ui/inline-tooltip';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ThinBlueBorderCard } from '@/components/ui/thin-blue-border-card';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -520,16 +521,28 @@ export function InteractivePricing() {
                 layout
                 transition={{ duration: 0.3 }}
               >
-                {/* Founding Partners Pricing - Restructured */}
+                {/* Left Column: Pricing + Features + CTA */}
                 <div className="flex flex-col space-y-6">
-                  {/* Header with Badge at top */}
+                  {/* Header with Badge Tooltip */}
                   <div className="relative">
-                    {/* Founding Partners Badge - Compact corner badge positioned above "Partners" */}
-                    <div className="absolute -top-1 right-0">
-                      <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-300 leading-tight">
-                        <Sparkles className="w-2 h-2" />
-                        Pilot · 2 spots
-                      </span>
+                    {/* Founding Partners Badge - Tooltip trigger positioned near "Partners" */}
+                    <div className="absolute -top-1 right-[60px]">
+                      <TooltipProvider delayDuration={100}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span className="inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 px-1.5 py-0.5 text-[9px] font-semibold text-amber-300 leading-tight cursor-help">
+                              <Sparkles className="w-2 h-2" />
+                              Pilot · 2 spots
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent sideOffset={6} className="max-w-xs text-left leading-snug">
+                            <div className="space-y-1">
+                              <p className="text-amber-300 font-medium">$795/mo for 6 months → then $995/mo forever</p>
+                              <p className="text-slate-300 text-xs">Lock in founding partner pricing. Only 2 spots.</p>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                     <h2 className="text-xl font-semibold text-white mb-1">Founding Partners</h2>
                     <div className="flex items-baseline gap-2">
@@ -540,30 +553,9 @@ export function InteractivePricing() {
                         /mo for 6 months
                       </span>
                     </div>
-                    <p className="text-amber-300 text-sm mt-2 font-medium">
-                      $795/mo for 6 months → then $995/mo forever
-                    </p>
-                    <p className="text-slate-400 text-sm mt-2">
-                      Lock in founding partner pricing. Only 2 spots.
-                    </p>
                   </div>
-                  
-                  {/* Animated Assets Showcase - moved up */}
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key="assets-showcase"
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <AnimatedFlywheelShowcase />
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
 
-                {/* Compact Feature List */}
-                <div className="relative w-full">
+                  {/* Feature List */}
                   <div className="mb-6">
                     <h3 className="text-sm font-medium text-white mb-4">What you get:</h3>
                     <ul className="text-slate-300 space-y-2.5 text-sm">
@@ -594,8 +586,8 @@ export function InteractivePricing() {
                     </ul>
                   </div>
 
-                  {/* CTA Section */}
-                  <div className="mt-8 space-y-4">
+                  {/* CTA Button */}
+                  <div className="space-y-4">
                     <Button
                       className="w-full bg-blue-600 text-white hover:bg-blue-700"
                       onClick={() => {
@@ -608,7 +600,6 @@ export function InteractivePricing() {
                     </Button>
                     
                     <p className="text-xs text-slate-400 text-center leading-relaxed">
-                      We handle scheduling so reporting just works. You approve everything before it goes live.{' '}
                       <button
                         onClick={() => setDetailsModalOpen(true)}
                         className="text-blue-400 hover:text-blue-300 underline"
@@ -616,8 +607,31 @@ export function InteractivePricing() {
                         View details
                       </button>
                     </p>
+                  </div>
+                </div>
+
+                {/* Right Column: Animated Showcase + Microcopy */}
+                <div className="flex flex-col space-y-6">
+                  {/* Animated Assets Showcase */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key="assets-showcase"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <AnimatedFlywheelShowcase />
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {/* Microcopy */}
+                  <div className="space-y-3">
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      We handle scheduling so reporting just works. You approve everything before it goes live.
+                    </p>
                     
-                    <p className="text-xs text-slate-500 text-center">
+                    <p className="text-xs text-slate-500">
                       Add-ons available at checkout and in your portal.
                     </p>
                   </div>
