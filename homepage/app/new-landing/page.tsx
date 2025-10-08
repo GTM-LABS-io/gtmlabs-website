@@ -156,32 +156,6 @@ export default function NewLandingPage() {
     <>
       <CosmicHeader menuItems={navItems} showScrolledCta={false} />
       
-      {/* Founding Partner Banner */}
-      <div className="sticky top-16 z-40 px-4 pt-4">
-        <div className="container mx-auto max-w-6xl">
-          <Banner
-            show={showBanner}
-            onHide={() => setShowBanner(false)}
-            variant="branded"
-            size="default"
-            title="Founding Partner Program"
-            description="Start at $795/mo for 6 months, then lock in $995/mo forever. Only 2 spots left."
-            showShade={true}
-            closable={true}
-            icon={<Sparkles className="w-5 h-5 text-blue-400" />}
-            action={
-              <Button
-                onClick={scrollToPricing}
-                className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 h-auto"
-                size="sm"
-              >
-                Claim Your Spot →
-              </Button>
-            }
-          />
-        </div>
-      </div>
-      
       <CosmicBackground variant="hero" className="min-h-screen" brand="black">
         <main>
           <div className="container mx-auto px-4 pt-20 lg:pt-24 space-y-16 md:space-y-20">
@@ -202,11 +176,27 @@ export default function NewLandingPage() {
                 }}
                 className="space-y-8"
               >
-                {/* Brand Pill above headline */}
+                {/* Founding Partner Banner - Moved to where pill was */}
                 <div className="flex justify-center">
-                  <CosmicPill tone="brand" size="md" className="section-pill-text">
-                    Repurpose
-                  </CosmicPill>
+                  <Banner
+                    show={showBanner}
+                    onHide={() => setShowBanner(false)}
+                    variant="branded"
+                    size="default"
+                    title="Founding Partner Program"
+                    description="Start at $795/mo for 6 months, then lock in $995/mo forever. Only 2 spots left."
+                    showShade={true}
+                    closable={true}
+                    icon={<Sparkles className="w-5 h-5 text-blue-400" />}
+                    action={
+                      <button
+                        onClick={scrollToPricing}
+                        className="liquid-metal-btn px-4 py-2 text-sm font-medium text-white rounded-lg"
+                      >
+                        Claim Your Spot →
+                      </button>
+                    }
+                  />
                 </div>
 
                 {/* Animated Headline */}
