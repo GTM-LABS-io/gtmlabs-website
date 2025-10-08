@@ -37,6 +37,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { Banner } from '@/components/ui/banner'
 import { APP_NAME, CONTACT_EMAIL } from '@/lib/brand'
 import { logOverflowCandidates } from '@/lib/debug-layout'
 
@@ -78,6 +79,7 @@ export default function NewLandingPage() {
   ]
 
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [showBanner, setShowBanner] = useState(true)
   useEffect(() => {
     const logAllSections = () => {
       const sections = document.querySelectorAll('section')
@@ -144,9 +146,41 @@ export default function NewLandingPage() {
       answer: "Yes—we coordinate with your reviewers, add required disclaimers, and keep everything private until legal and compliance sign off."
     }
   ]
+  const scrollToPricing = () => {
+    if (typeof document !== 'undefined') {
+      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <>
       <CosmicHeader menuItems={navItems} showScrolledCta={false} />
+      
+      {/* Founding Partner Banner */}
+      <div className="sticky top-16 z-40 px-4 pt-4">
+        <div className="container mx-auto max-w-6xl">
+          <Banner
+            show={showBanner}
+            onHide={() => setShowBanner(false)}
+            variant="branded"
+            size="default"
+            title="Founding Partner Program"
+            description="Start at $795/mo for 6 months, then lock in $995/mo forever. Only 2 spots left."
+            showShade={true}
+            closable={true}
+            icon={<Sparkles className="w-5 h-5 text-blue-400" />}
+            action={
+              <Button
+                onClick={scrollToPricing}
+                className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 h-auto"
+                size="sm"
+              >
+                Claim Your Spot →
+              </Button>
+            }
+          />
+        </div>
+      </div>
       
       <CosmicBackground variant="hero" className="min-h-screen" brand="black">
         <main>
