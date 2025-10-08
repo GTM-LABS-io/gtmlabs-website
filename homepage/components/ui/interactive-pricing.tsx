@@ -208,6 +208,8 @@ export function InteractivePricing() {
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [baseCalHeight, setBaseCalHeight] = useState(600); // Unscaled calendar height used for iframe
   const [auditDetailsOpen, setAuditDetailsOpen] = useState(false); // Controls audit details accordion
+  const [openDrawer, setOpenDrawer] = useState<string | null>(null); // Controls which drawer is open (only one at a time)
+  const [fullDeliverablesModalOpen, setFullDeliverablesModalOpen] = useState(false); // Controls full deliverables modal
   
   
   // Responsive base size to enforce Zcal two-column layout without horizontal scrolling
@@ -561,109 +563,312 @@ export function InteractivePricing() {
                   </AnimatePresence>
                 </div>
 
-                {/* Features */}
-                <div className="relative w-full">
-                  <div className="text-sm font-medium text-white mb-4">Everything in Free plus:</div>
-                  <ul className="text-slate-400 space-y-3 text-sm">
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="Up to 2 webinars per month"
-                        tooltip={FOUNDING_TOOLTIP_COPY.webinarProcessing}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="15 short-form video clips"
-                        tooltip={FOUNDING_TOOLTIP_COPY.videoClips}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="20 LinkedIn & social posts"
-                        tooltip={FOUNDING_TOOLTIP_COPY.socialPosts}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="1 blog post per webinar"
-                        tooltip={FOUNDING_TOOLTIP_COPY.blogContent}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="Lead magnet & landing page"
-                        tooltip={FOUNDING_TOOLTIP_COPY.leadMagnet}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="Email newsletter"
-                        tooltip={FOUNDING_TOOLTIP_COPY.newsletter}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="72-hour turnaround"
-                        tooltip={FOUNDING_TOOLTIP_COPY.turnaround}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="Custom brand voice"
-                        tooltip={FOUNDING_TOOLTIP_COPY.brandVoice}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="Monthly strategy call"
-                        tooltip={FOUNDING_TOOLTIP_COPY.strategyCall}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="Scheduling and publishing included"
-                        tooltip={FOUNDING_TOOLTIP_COPY.schedulingPublishing}
-                      />
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
-                      <InlineTooltip
-                        text="Per-post and per-platform metrics in your portal"
-                        tooltip={FOUNDING_TOOLTIP_COPY.analytics}
-                      />
-                    </li>
-                  </ul>
+                {/* Card with bounded height and internal scroll */}
+                <div className="relative w-full max-h-[680px] flex flex-col">
+                  {/* Scrollable content area */}
+                  <div className="flex-1 overflow-y-auto pr-2">
+                    {/* Quick Wins - 5 key highlights */}
+                    <div className="mb-6">
+                      <h3 className="text-sm font-medium text-white mb-4">Quick wins:</h3>
+                      <ul className="text-slate-300 space-y-2.5 text-sm">
+                        <li className="flex items-center gap-2">
+                          <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                          <span>Up to 2 webinars/month</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                          <span>30+ publish-ready assets</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                          <span>72-hour turnaround</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                          <span>Custom brand voice</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <CheckCircleIcon className="h-4 w-4 text-blue-400 flex-shrink-0" />
+                          <span>Scheduling + baseline analytics</span>
+                        </li>
+                      </ul>
+                    </div>
 
-                  {/* Call to Action */}
-                  <div className="mt-8 space-y-4">
-                    <Button
-                      className="w-full bg-blue-600 text-white hover:bg-blue-700"
-                      onClick={() => {
-                        if (typeof window !== 'undefined') {
-                          window.location.href = 'https://account.gtmlabs.io/services/9UcVMV8grrQGxuVBgGk4Rcjc/checkouts';
-                        }
-                      }}
-                    >
-                      Get Started
-                    </Button>
-                    
-                    <p className="text-xs text-slate-400 text-center leading-relaxed">
-                      We handle scheduling so reporting just works. You approve everything before it goes live.
-                    </p>
+                    {/* Drawers - Progressive Disclosure */}
+                    <div className="space-y-2">
+                      {/* Deliverables Drawer */}
+                      <div className="border border-white/10 rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => setOpenDrawer(openDrawer === 'deliverables' ? null : 'deliverables')}
+                          className="w-full flex items-center justify-between p-3 text-left hover:bg-white/5 transition-colors"
+                        >
+                          <span className="text-sm font-medium text-white">Deliverables</span>
+                          {openDrawer === 'deliverables' ? (
+                            <ChevronUp className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          )}
+                        </button>
+                        <AnimatePresence>
+                          {openDrawer === 'deliverables' && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="p-3 pt-0 text-sm text-slate-300 space-y-2">
+                                <p>From one webinar, we produce: <span className="text-white">10–15 clips, ~20 social posts, 1 short blog (~600 words), 1 lead magnet (PDF)</span>.</p>
+                                <button
+                                  onClick={() => setFullDeliverablesModalOpen(true)}
+                                  className="text-blue-400 hover:text-blue-300 underline text-xs"
+                                >
+                                  View full list →
+                                </button>
+                                <p className="text-xs text-slate-400">Need more? Open Add-ons for extra source hours or design polish.</p>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+
+                      {/* Workflow Drawer */}
+                      <div className="border border-white/10 rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => setOpenDrawer(openDrawer === 'workflow' ? null : 'workflow')}
+                          className="w-full flex items-center justify-between p-3 text-left hover:bg-white/5 transition-colors"
+                        >
+                          <span className="text-sm font-medium text-white">Workflow</span>
+                          {openDrawer === 'workflow' ? (
+                            <ChevronUp className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          )}
+                        </button>
+                        <AnimatePresence>
+                          {openDrawer === 'workflow' && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="p-3 pt-0 text-sm text-slate-300 space-y-2">
+                                <p><span className="text-white">Approve in portal</span> → we schedule to connected accounts → you get weekly roll-ups.</p>
+                                <p className="text-xs text-slate-400"><span className="font-medium">Connections we support:</span> LinkedIn, YouTube, X, TikTok</p>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+
+                      {/* Support & SLA Drawer */}
+                      <div className="border border-white/10 rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => setOpenDrawer(openDrawer === 'support' ? null : 'support')}
+                          className="w-full flex items-center justify-between p-3 text-left hover:bg-white/5 transition-colors"
+                        >
+                          <span className="text-sm font-medium text-white">Support & SLA</span>
+                          {openDrawer === 'support' ? (
+                            <ChevronUp className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          )}
+                        </button>
+                        <AnimatePresence>
+                          {openDrawer === 'support' && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="p-3 pt-0 text-sm text-slate-300 space-y-2">
+                                <ul className="space-y-1.5 text-xs">
+                                  <li><span className="text-white">48-hour</span> first draft on core assets</li>
+                                  <li><span className="text-white">72-hour</span> revision cycles (Mon–Fri)</li>
+                                  <li><span className="text-white">24-hour</span> response time on urgent questions</li>
+                                </ul>
+                                <p className="text-xs text-slate-400">
+                                  <span className="font-medium">Fair use:</span> plan covers up to 120 minutes of source video/month. Heavier volumes use Extra source hours.
+                                </p>
+                                <a href="/legal/sla" className="text-blue-400 hover:text-blue-300 underline text-xs">
+                                  View full SLA →
+                                </a>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+
+                      {/* Add-ons Drawer */}
+                      <div className="border border-white/10 rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => setOpenDrawer(openDrawer === 'addons' ? null : 'addons')}
+                          className="w-full flex items-center justify-between p-3 text-left hover:bg-white/5 transition-colors"
+                        >
+                          <span className="text-sm font-medium text-white">Add-ons</span>
+                          {openDrawer === 'addons' ? (
+                            <ChevronUp className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 text-blue-400 flex-shrink-0" />
+                          )}
+                        </button>
+                        <AnimatePresence>
+                          {openDrawer === 'addons' && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="p-3 pt-0 text-xs text-slate-300 space-y-2">
+                                <div>
+                                  <p className="text-white font-medium">Extra source hours</p>
+                                  <p className="text-slate-400">Repurpose more videos or longer sessions.</p>
+                                </div>
+                                <div>
+                                  <p className="text-white font-medium">Advanced analytics pack</p>
+                                  <p className="text-slate-400">UTMs + GA4 event tracking + monthly funnel report (social → landing page → downloads → subscribers).</p>
+                                </div>
+                                <div>
+                                  <p className="text-white font-medium">Landing page build</p>
+                                  <p className="text-slate-400">We host or hand off.</p>
+                                </div>
+                                <div>
+                                  <p className="text-white font-medium">Design polish pack</p>
+                                  <p className="text-slate-400">Custom thumbnails, carousel templates, and brand kit refinements.</p>
+                                </div>
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sticky CTA Footer */}
+                  <div className="sticky bottom-0 bg-zinc-900 border-t border-white/10 pt-4 mt-6">
+                    <div className="space-y-3">
+                      <Button
+                        className="w-full bg-blue-600 text-white hover:bg-blue-700"
+                        onClick={() => {
+                          if (typeof window !== 'undefined') {
+                            window.location.href = 'https://account.gtmlabs.io/services/9UcVMV8grrQGxuVBgGk4Rcjc/checkouts';
+                          }
+                        }}
+                      >
+                        Get Started
+                      </Button>
+                      
+                      <p className="text-xs text-slate-400 text-center leading-relaxed">
+                        No long-term contract. Cancel anytime.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </motion.div>
             )}
+
+            {/* Full Deliverables Modal */}
+            <AnimatePresence>
+              {fullDeliverablesModalOpen && (
+                <>
+                  {/* Overlay */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    onClick={() => setFullDeliverablesModalOpen(false)}
+                    className="fixed inset-0 bg-black/80 z-50"
+                  />
+                  
+                  {/* Modal */}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="bg-zinc-900 border border-blue-500/20 rounded-xl max-w-2xl w-full p-6 shadow-2xl max-h-[80vh] overflow-y-auto">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xl font-semibold text-white">Full Deliverables List</h3>
+                        <button
+                          onClick={() => setFullDeliverablesModalOpen(false)}
+                          className="text-slate-400 hover:text-white transition-colors"
+                        >
+                          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                      
+                      <div className="space-y-4 text-sm text-slate-300">
+                        <p className="text-white font-medium">From each webinar, you receive:</p>
+                        
+                        <div>
+                          <h4 className="font-medium text-white mb-2">Video Assets</h4>
+                          <ul className="space-y-1 list-disc list-inside text-slate-400">
+                            <li>10–15 short-form clips (9:16 vertical, 1:1 square, 16:9 landscape)</li>
+                            <li>Auto-captioned with hooks and CTAs</li>
+                            <li>Optimized for YouTube Shorts, Reels, TikTok</li>
+                          </ul>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-white mb-2">Social Content</h4>
+                          <ul className="space-y-1 list-disc list-inside text-slate-400">
+                            <li>~20 LinkedIn & social posts with designed images</li>
+                            <li>Comment-to-DM automation setup ("Comment TEMPLATE for the guide")</li>
+                            <li>Platform-specific copy and CTAs</li>
+                          </ul>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-white mb-2">Long-Form Content</h4>
+                          <ul className="space-y-1 list-disc list-inside text-slate-400">
+                            <li>1 blog post (~600 words, SEO-optimized)</li>
+                            <li>1 lead magnet (PDF: checklist, guide, or template)</li>
+                            <li>Cover design for lead magnet</li>
+                          </ul>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-white mb-2">Email & Newsletters</h4>
+                          <ul className="space-y-1 list-disc list-inside text-slate-400">
+                            <li>1 email newsletter promoting your next webinar</li>
+                            <li>Nurture sequence snippets</li>
+                          </ul>
+                        </div>
+                        
+                        <div>
+                          <h4 className="font-medium text-white mb-2">Strategy & Planning</h4>
+                          <ul className="space-y-1 list-disc list-inside text-slate-400">
+                            <li>Monthly 30-minute strategy call</li>
+                            <li>Performance review of previous month's content</li>
+                            <li>Content calendar planning</li>
+                          </ul>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-6 flex justify-end">
+                        <Button
+                          onClick={() => setFullDeliverablesModalOpen(false)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                        >
+                          Got it
+                        </Button>
+                      </div>
+                    </div>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
 
             {/* Calendar State - Dynamic Responsive Calendar */}
             {currentStep === 'calendar' && (
