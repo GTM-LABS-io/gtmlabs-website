@@ -13,7 +13,7 @@ import { TiltedScroll } from '@/components/ui/tilted-scroll'
 import DisplayCards from '@/components/ui/display-cards'
 import AnalyticsCards from '@/components/ui/analytics-cards'
 import CustomizationGraph from '@/components/ui/customization-graph'
- 
+
 import { ShimmerBorder } from '@/components/ui/shimmer-border'
 import { AnimatedGroup } from '@/components/ui/animated-group'
 import { ContainerTextFlip } from '@/components/container-text-flip'
@@ -21,6 +21,7 @@ import RuixenFeaturedImageSection from '@/components/ui/ruixen-featured-image-se
 import ProblemParallaxCards from '@/components/ui/problem-parallax-cards'
 import HowItWorksSection from '@/components/ui/how-it-works-section'
 import { InteractivePricingSection } from '@/components/ui/interactive-pricing-section'
+import { PricingFAQ } from '@/components/ui/pricing-faq'
 import {
   MessageCircle,
   FileText,
@@ -38,6 +39,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Banner } from '@/components/ui/banner'
+import { HeroButton } from '@/components/ui/hero-button'
 import { APP_NAME, CONTACT_EMAIL } from '@/lib/brand'
 import { logOverflowCandidates } from '@/lib/debug-layout'
 
@@ -78,7 +80,6 @@ export default function NewLandingPage() {
     }
   ]
 
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [showBanner, setShowBanner] = useState(true)
   useEffect(() => {
     const logAllSections = () => {
@@ -120,32 +121,6 @@ export default function NewLandingPage() {
       ;(window as any).__gtmLogOverflow = logOverflowCandidates
     }
   }, [])
-  const faqs = [
-    {
-      question: "How fast is turnaround?",
-      answer: "You get the first batch of copy, captions, and assets within 72 hours of sharing your webinar recording."
-    },
-    {
-      question: "What webinar formats do you accept?",
-      answer: "MP4 uploads, Zoom or Google Meet cloud recordings, YouTube links, and even audio-only files all work—we handle transcription and cleanup."
-    },
-    {
-      question: "Can you match our brand voice?",
-      answer: "We build a voice profile from your existing content and product messaging so every deliverable reads like it came from your team."
-    },
-    {
-      question: "What do I actually receive?",
-      answer: "Each sprint includes LinkedIn post packs, blog-ready articles, email newsletter copy, lead magnet assets with landing page copy, and short-form video scripts."
-    },
-    {
-      question: "What if I need revisions?",
-      answer: "Every package includes two rounds of revisions with same-day turnaround on tweaks, so your launch calendar never slips."
-    },
-    {
-      question: "Do you work with compliance-heavy industries?",
-      answer: "Yes—we coordinate with your reviewers, add required disclaimers, and keep everything private until legal and compliance sign off."
-    }
-  ]
   const scrollToPricing = () => {
     if (typeof document !== 'undefined') {
       document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })
@@ -189,12 +164,13 @@ export default function NewLandingPage() {
                     closable={true}
                     icon={<Sparkles className="w-5 h-5 text-blue-400" />}
                     action={
-                      <button
+                      <HeroButton
+                        size="sm"
+                        className="px-6 py-1.5 text-[11px] font-medium tracking-wide"
                         onClick={scrollToPricing}
-                        className="liquid-metal-btn px-4 py-2 text-sm font-medium text-white rounded-lg"
                       >
-                        Claim Your Spot →
-                      </button>
+                        Learn More →
+                      </HeroButton>
                     }
                   />
                 </div>
@@ -388,33 +364,22 @@ export default function NewLandingPage() {
               </div>
             </section>
 
-            {/* FAQ Section (cosmic-blended) */}
-            <section id="faq" className="relative py-20" style={{paddingTop: '80px', paddingBottom: '80px'}}>
+            {/* FAQ Section (comment-thread style) */}
+            <section id="faq" className="relative py-20" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
               <div className="relative z-10">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                  <div className="text-center mb-16">
-                    <h2 className="section-headline gradient-headline mb-4" style={{letterSpacing: '-0.015em', transform: 'translateX(-1px)'}}>
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+                  <div className="text-center space-y-4">
+                    <h2
+                      className="section-headline gradient-headline"
+                      style={{ letterSpacing: '-0.015em', transform: 'translateX(-1px)' }}
+                    >
                       Frequently Asked Questions
                     </h2>
+                    <p className="section-description text-slate-300">
+                      Quick answers about scope, process, analytics, pricing, and everything in between.
+                    </p>
                   </div>
-                  <div className="grid gap-4" style={{gap: '16px'}}>
-                    {faqs.map((faq, index) => (
-                      <div key={index} className="border border-slate-600/20 rounded-2xl bg-slate-800/10 backdrop-blur-lg hover-feature-surface transition-all duration-300 transform-gpu hover:scale-[1.01] hover:-translate-y-1 shadow-lg">
-                        <button
-                          onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                          className="w-full px-6 py-4 text-left flex justify-between items-center transition-colors duration-300"
-                        >
-                          <span className="font-medium text-white">{faq.question}</span>
-                          <span className={`text-slate-400 transition-transform ${openFaq === index ? 'rotate-180' : ''}`}>⌄</span>
-                        </button>
-                        {openFaq === index && (
-                          <div className="px-6 pb-4 text-slate-300 border-t border-slate-700/30">
-                            {faq.answer}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                  <PricingFAQ />
                 </div>
               </div>
             </section>

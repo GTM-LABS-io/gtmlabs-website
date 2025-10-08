@@ -7,7 +7,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Button } from './button';
 
 const bannerVariants = cva(
-	'relative overflow-hidden rounded-md border shadow-lg text-sm',
+	'relative overflow-hidden rounded-lg border shadow-lg text-xs',
 	{
 		variants: {
 			variant: {
@@ -23,12 +23,12 @@ const bannerVariants = cva(
 					'bg-slate-50 border-slate-200 text-slate-900 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100',
 				// Custom branded variant for founding partner
 				branded:
-					'bg-gradient-to-r from-blue-600/10 via-blue-500/10 to-blue-600/10 border-blue-500/30 text-white backdrop-blur-sm',
+					'bg-gradient-to-r from-blue-500/12 via-blue-500/8 to-blue-500/12 border-blue-500/25 text-white backdrop-blur-sm',
 			},
 			size: {
-				default: 'py-1.5 px-2.5',
-				sm: 'text-xs py-1 px-2',
-				lg: 'text-lg py-4 px-6',
+				default: 'py-2 px-3 md:px-4',
+				sm: 'py-1.5 px-3 text-[11px]',
+				lg: 'py-3.5 px-6 text-base',
 			},
 		},
 		defaultVariants: {
@@ -43,6 +43,7 @@ type BannerProps = React.ComponentProps<'div'> &
 		// Content
 		title: string;
 		description?: string;
+		eyebrow?: string;
 
 		// Icons and visuals
 		icon?: React.ReactNode;
@@ -63,6 +64,7 @@ export function Banner({
 	size = 'default',
 	title,
 	description,
+	eyebrow,
 	icon,
 	showShade = false,
 	show,
@@ -74,45 +76,49 @@ export function Banner({
 	...props
 }: BannerProps) {
 	React.useEffect(() => {
-		if (autoHide) {
-			const timer = setTimeout(() => {
-				onHide?.();
-			}, autoHide);
-			return () => clearTimeout(timer);
-		}
+		if (!autoHide) return undefined;
+
+		const timer = setTimeout(() => {
+			onHide?.();
+		}, autoHide);
+
+		return () => clearTimeout(timer);
 	}, [autoHide, onHide]);
 
 	if (!show) return null;
 
 	return (
 		<div
-			className={cn(bannerVariants({ variant, size }), className)}
+			className={cn(bannerVariants({ variant, size }), 'w-full max-w-2xl mx-auto', className)}
 			role={variant === 'warning' || variant === 'default' ? 'alert' : 'status'}
 			{...props}
 		>
 			{/* Shimmer effect */}
 			{showShade && (
-				<div className="absolute inset-0 -z-10 -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+				<div className="absolute inset-0 -z-10 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 			)}
 
-			<div className="flex items-center justify-between gap-4">
-				<div className="flex min-w-0 flex-1 items-center gap-3">
-					{icon && <div className="flex-shrink-0">{icon}</div>}
+			<div className="flex w-full flex-wrap items-center gap-2 sm:flex-nowrap">
+				<div className="flex min-w-0 flex-1 items-start gap-1.5 text-left sm:flex-none">
+					{icon && <span className="flex-shrink-0 text-blue-200 [&>svg]:h-4 [&>svg]:w-4">{icon}</span>}
 
-					<div className="min-w-0 flex-1">
-						<div className="flex flex-wrap items-center">
-							<p className="truncate font-semibold">{title}</p>
-						</div>
-						{description && <p className="text-xs opacity-80">{description}</p>}
+					<div className="min-w-0 flex-1 space-y-0.5">
+						{eyebrow && <p className="text-[10px] uppercase tracking-[0.18em] text-blue-200/80">{eyebrow}</p>}
+						<p className="font-semibold text-[13px] tracking-tight">{title}</p>
+						{description && <p className="text-[11px] opacity-80 leading-snug">{description}</p>}
 					</div>
 				</div>
 
-				<div className="flex flex-shrink-0 items-center gap-2">
-					{action && action}
-
+				<div className="flex items-center gap-2 sm:ml-auto">
+					{action && <div className="flex items-center gap-2 pl-1">{action}</div>}
 					{closable && (
-						<Button onClick={onHide} size="icon" variant="ghost">
-							<X />
+						<Button
+							onClick={onHide}
+							size="sm"
+							variant="ghost"
+							className="h-6 w-6 rounded-full border border-white/15 p-0 text-[10px] text-white/70 hover:text-white"
+						>
+							<X className="h-3 w-3" />
 						</Button>
 					)}
 				</div>
