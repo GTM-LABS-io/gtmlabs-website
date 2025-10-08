@@ -56,8 +56,30 @@ const FOUNDING_TOOLTIP_COPY = {
 function AnimatedFlywheelShowcase() {
   return (
     <div className="relative w-full h-full flex flex-col">
-      {/* Card Header */}
-      <div className="mb-4">
+      {/* Card Header with List Growth Pill */}
+      <div className="mb-4 relative">
+        {/* List Growth Pill - Top left corner */}
+        <motion.div
+          className="absolute -top-1 -left-1 bg-blue-500/10 border border-blue-400/20 rounded-lg px-2 py-0.5 flex items-center gap-1 backdrop-blur-sm"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <motion.div
+            animate={{
+              y: [-1, 0, -1],
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <TrendingUp className="w-3 h-3 text-blue-300" />
+          </motion.div>
+          <div className="text-[8px] text-slate-300 font-medium">List Growth</div>
+        </motion.div>
+        
         <h3 className="text-base font-semibold text-white mb-1">Asset Flywheel</h3>
         <p className="text-xs text-slate-400">One webinar becomes your entire content engine</p>
         <div className="border-t border-blue-500/20 mt-3" />
@@ -183,28 +205,6 @@ function AnimatedFlywheelShowcase() {
             borderStyle: 'dashed',
           }}
         />
-
-        {/* Growth indicator */}
-        <motion.div
-          className="absolute -bottom-2 right-4 bg-blue-500/10 border border-blue-400/20 rounded-lg px-2.5 py-1 flex items-center gap-1.5 backdrop-blur-sm"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          <motion.div
-            animate={{
-              y: [-2, 0, -2],
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            <TrendingUp className="w-3.5 h-3.5 text-blue-300" />
-          </motion.div>
-          <div className="text-[9px] text-slate-300 font-medium">List Growth</div>
-        </motion.div>
       </div>
       </div>
     </div>
@@ -572,7 +572,7 @@ export function InteractivePricing() {
                   </div>
 
                   {/* Animated Assets Showcase - Wrapped in Card */}
-                  <ThinBlueBorderCard className="p-5 relative overflow-hidden h-[280px]">
+                  <ThinBlueBorderCard className="p-5 relative overflow-hidden h-[340px]">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key="assets-showcase"
