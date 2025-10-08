@@ -208,8 +208,6 @@ export function InteractivePricing() {
   const [containerDimensions, setContainerDimensions] = useState({ width: 0, height: 0 });
   const [baseCalHeight, setBaseCalHeight] = useState(600); // Unscaled calendar height used for iframe
   const [auditDetailsOpen, setAuditDetailsOpen] = useState(false); // Controls audit details accordion
-  const [addOnsOpen, setAddOnsOpen] = useState(false); // Controls add-ons expansion
-  const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]); // Selected add-on IDs
   
   
   // Responsive base size to enforce Zcal two-column layout without horizontal scrolling
@@ -521,8 +519,9 @@ export function InteractivePricing() {
                 layout
                 transition={{ duration: 0.3 }}
               >
-                {/* Founding Partners Pricing */}
-                <div className="flex flex-col justify-between space-y-6">
+                {/* Founding Partners Pricing - Restructured */}
+                <div className="flex flex-col space-y-6">
+                  {/* Header with Badge at top */}
                   <div className="relative">
                     {/* Founding Partners Badge */}
                     <div className="absolute -top-2 -right-2">
@@ -548,7 +547,7 @@ export function InteractivePricing() {
                     </p>
                   </div>
                   
-                  {/* Animated Assets Showcase */}
+                  {/* Animated Assets Showcase - moved up */}
                   <AnimatePresence mode="wait">
                     <motion.div
                       key="assets-showcase"
@@ -644,16 +643,6 @@ export function InteractivePricing() {
                       />
                     </li>
                   </ul>
-                  
-                  {/* SLA Summary */}
-                  <div className="mt-4 pt-4 border-t border-white/10">
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      48-hour first draft. 72-hour revision cycles, Mon–Fri. Fair-use: up to 120 minutes of source video per month.{' '}
-                      <a href="/legal/sla" className="text-blue-400 hover:text-blue-300 underline">
-                        View SLA
-                      </a>
-                    </p>
-                  </div>
 
                   {/* Call to Action */}
                   <div className="mt-8 space-y-4">
@@ -671,96 +660,6 @@ export function InteractivePricing() {
                     <p className="text-xs text-slate-400 text-center leading-relaxed">
                       We handle scheduling so reporting just works. You approve everything before it goes live.
                     </p>
-                    
-                    {/* Add-ons Expansion */}
-                    <div className="space-y-2">
-                      <button
-                        onClick={() => setAddOnsOpen(!addOnsOpen)}
-                        className="flex items-center justify-center w-full gap-2 text-sm text-blue-300 hover:text-blue-200 transition-colors"
-                      >
-                        <span>Need more? Add-ons</span>
-                        {addOnsOpen ? (
-                          <ChevronUp className="w-4 h-4" />
-                        ) : (
-                          <ChevronDown className="w-4 h-4" />
-                        )}
-                      </button>
-                      
-                      <AnimatePresence>
-                        {addOnsOpen && (
-                          <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="space-y-3 pt-2"
-                          >
-                            {ADD_ONS.map((addon) => {
-                              const isSelected = selectedAddOns.includes(addon.id);
-                              return (
-                                <label
-                                  key={addon.id}
-                                  className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
-                                    isSelected
-                                      ? 'border-blue-500/50 bg-blue-500/10'
-                                      : 'border-white/10 hover:border-blue-500/30'
-                                  }`}
-                                >
-                                  <input
-                                    type="checkbox"
-                                    checked={isSelected}
-                                    onChange={(e) => {
-                                      if (e.target.checked) {
-                                        setSelectedAddOns([...selectedAddOns, addon.id]);
-                                      } else {
-                                        setSelectedAddOns(selectedAddOns.filter((id) => id !== addon.id));
-                                      }
-                                    }}
-                                    className="mt-1 w-4 h-4 rounded border-blue-500/30 bg-zinc-950 text-blue-600 focus:ring-blue-500"
-                                  />
-                                  <div className="flex-1">
-                                    <div className="flex items-center justify-between">
-                                      {addon.id === 'advanced-reporting' ? (
-                                        <InlineTooltip
-                                          text={addon.name}
-                                          tooltip={FOUNDING_TOOLTIP_COPY.advancedAnalytics}
-                                          className="text-sm font-medium text-white"
-                                        />
-                                      ) : (
-                                        <span className="text-sm font-medium text-white">{addon.name}</span>
-                                      )}
-                                      <span className="text-sm font-semibold text-blue-400">+${addon.price}</span>
-                                    </div>
-                                    <p className="text-xs text-slate-400 mt-1">{addon.description}</p>
-                                  </div>
-                                </label>
-                              );
-                            })}
-                            
-                            {selectedAddOns.length > 0 && (
-                              <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="flex items-center justify-between p-3 rounded-lg bg-blue-500/5 border border-blue-500/20"
-                              >
-                                <span className="text-sm font-medium text-white">Total with add-ons:</span>
-                                <span className="text-lg font-bold text-blue-400">
-                                  ${999 + selectedAddOns.reduce((sum, id) => {
-                                    const addon = ADD_ONS.find((a) => a.id === id);
-                                    return sum + (addon?.price || 0);
-                                  }, 0)}/mo
-                                </span>
-                              </motion.div>
-                            )}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                      
-                      {/* Fair Use Note */}
-                      <p className="text-xs text-slate-500 leading-relaxed mt-3">
-                        <span className="font-medium">Fair use:</span> "Up to 2 webinars/month" and "30+ assets" reflect typical scope for &lt;120 minutes of total source content per month. Heavier volumes or extra videos use the "Extra source hours" add-on. <span className="font-medium">Advanced analytics add-on:</span> Includes UTMs, GA4 download tracking, and a monthly funnel report with social → landing page → download → subscriber KPIs.
-                      </p>
-                    </div>
                   </div>
                 </div>
               </motion.div>
