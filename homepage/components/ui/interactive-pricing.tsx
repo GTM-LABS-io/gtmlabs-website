@@ -651,7 +651,11 @@ export function InteractivePricing() {
                       </p>
                       
                       <p className="text-xs text-slate-500 text-center mt-3">
-                        Add-ons available at checkout and in your portal.
+                        <InlineTooltip
+                          text="Add-ons"
+                          tooltip="Extra source hours (process more/longer videos) • Advanced analytics pack (UTMs, GA4 tracking, monthly funnel reports) • Landing page build (hosted or handed off) • Design polish pack (custom thumbnails, carousel templates, brand kit). Available at checkout and anytime in your portal."
+                        />{' '}
+                        available at checkout and in your portal.
                       </p>
                     </div>
                   </div>
