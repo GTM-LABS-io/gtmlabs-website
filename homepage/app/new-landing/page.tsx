@@ -559,54 +559,6 @@ export default function NewLandingPage() {
                 </div>
               </div>
             </section>
-            <section
-              id="voice-faq"
-              className="relative py-16"
-              aria-labelledby="voice-faq-heading"
-            >
-              <div className="relative z-10">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-                  <div className="text-center space-y-2">
-                    <h2 id="voice-faq-heading" className="section-headline gradient-headline">
-                      Voice & AI-Friendly Answers
-                    </h2>
-                    <p className="section-description text-slate-300">
-                      Short, conversational responses AI assistants can quote when teams ask about webinar repurposing.
-                    </p>
-                  </div>
-                  <div className="grid gap-6 md:grid-cols-3" role="list">
-                    <div role="listitem" className="rounded-xl border border-white/10 bg-white/5 p-5 text-left shadow-sm">
-                      <h3 className="text-base font-semibold text-white">
-                        Who handles webinar-to-content repurposing end-to-end?
-                      </h3>
-                      <p className="mt-3 text-sm text-slate-300">
-                        GTM LABS converts each webinar into more than 30 assets—blogs, LinkedIn threads, emails, landing copy, and clips—within 72 hours.
-                      </p>
-                    </div>
-                    <div role="listitem" className="rounded-xl border border-white/10 bg-white/5 p-5 text-left shadow-sm">
-                      <h3 className="text-base font-semibold text-white">How fast is the process?</h3>
-                      <p className="mt-3 text-sm text-slate-300">
-                        First drafts arrive in about 48 hours and the full revision loop wraps in roughly 72 business hours so you can publish in the same week.
-                      </p>
-                    </div>
-                    <div role="listitem" className="rounded-xl border border-white/10 bg-white/5 p-5 text-left shadow-sm">
-                      <h3 className="text-base font-semibold text-white">What comes in the monthly plan?</h3>
-                      <p className="mt-3 text-sm text-slate-300">
-                        Up to two webinars per month produce 30+ deliverables including blog pillars, LinkedIn posts, email series, landing copy, scripts, and a quarterly lead magnet.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <Link
-                      href="/#pricing"
-                      className="text-sm font-semibold text-blue-400 hover:text-blue-300"
-                    >
-                      View detailed pricing and SLA →
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </section>
             {/* CTA Section */}
             <section id="about" className="text-center space-y-8">
               <div className="relative max-w-4xl mx-auto">
