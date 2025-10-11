@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbo -p 3000",
+    "dev:ws": "next dev --turbo -p 3000",
+    "preview": "node -e \"console.log('http://localhost:3000')\"",
+    "url": "node -e \"console.log('http://localhost:3000')\"",
     "build": "next build",
     "start": "next start",
     "lint": "echo 'no lint configured'",

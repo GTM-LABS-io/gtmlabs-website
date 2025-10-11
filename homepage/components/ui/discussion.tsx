@@ -16,7 +16,7 @@ export function DiscussionItem({
   return (
     <AccordionPrimitive.Item
       className={cn(
-        "relative mt-1 pl-3 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-border/80 before:via-border/50 before:to-border/20",
+        "group relative mt-1 pl-3 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-[#2f3038] before:via-[#1f2027] before:to-[#14151b]",
         className,
       )}
       {...props}
@@ -49,13 +49,15 @@ export function DiscussionExpand({
   return (
     <AccordionPrimitive.Trigger
       className={cn(
-        "mt-1 flex w-full items-center justify-between rounded-md border border-white/10 px-3 py-1.5 text-left text-[11px] font-medium tracking-tight text-muted-foreground transition-colors hover:border-white/20 hover:text-white [&[data-state=open]>svg]:rotate-180",
+        "mt-2 inline-flex items-center gap-2 self-start rounded-full border border-transparent",
+        "bg-[#101420] px-3 py-1.5 text-left text-[11px] font-medium tracking-tight text-slate-300",
+        "transition-colors duration-200 hover:bg-[#141a26] [&[data-state=open]>svg]:rotate-180",
         className,
       )}
       {...props}
     >
       Show Replies
-      <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" />
+      <ChevronDown className="h-4 w-4 shrink-0 text-slate-400 transition-transform duration-200" />
     </AccordionPrimitive.Trigger>
   );
 }

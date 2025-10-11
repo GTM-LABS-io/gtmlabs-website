@@ -233,20 +233,29 @@ export default {
   				'50%': {
   					opacity: '0.5'
   				}
-  			}
-  		},
-  		animation: {
-  			'skew-scroll': 'skew-scroll 20s linear infinite',
-  			'shiny-text': 'shiny-text 8s infinite',
-  			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out',
-  			'fade-in': 'fade-in 200ms ease-out',
-  			'slide-in-from-left': 'slide-in-from-left 300ms ease-out',
-  			'slide-in-from-bottom': 'slide-in-from-bottom 200ms ease-out',
-  			bloop: 'bloop 400ms ease-in-out',
-  			'pulse-slow': 'pulse-slow 2s ease-in-out infinite'
-  		},
-  		transitionDuration: {
+			},
+			'spin-slow': {
+				'0%': {
+					transform: 'rotate(0deg)'
+				},
+				'100%': {
+					transform: 'rotate(360deg)'
+				}
+			}
+		},
+		animation: {
+			'skew-scroll': 'skew-scroll 20s linear infinite',
+			'shiny-text': 'shiny-text 8s infinite',
+			'accordion-down': 'accordion-down 0.2s ease-out',
+			'accordion-up': 'accordion-up 0.2s ease-out',
+			'fade-in': 'fade-in 200ms ease-out',
+			'slide-in-from-left': 'slide-in-from-left 300ms ease-out',
+			'slide-in-from-bottom': 'slide-in-from-bottom 200ms ease-out',
+			bloop: 'bloop 400ms ease-in-out',
+			'pulse-slow': 'pulse-slow 2s ease-in-out infinite',
+			'spin-slow': 'spin-slow 3s linear infinite'
+		},
+		transitionDuration: {
 			DEFAULT: '200ms',
 			slow: '300ms',
 			fast: '100ms'

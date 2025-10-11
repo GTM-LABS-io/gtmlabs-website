@@ -43,6 +43,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --border-hairline-color: rgba(37, 99, 235, 0.22);
+    --border-hairline-width: 1px;
   }
 
   .dark {
@@ -70,6 +72,7 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --border-hairline-color: rgba(37, 99, 235, 0.18);
   }
 }
 
@@ -104,9 +107,17 @@
   .compact-border {
     border-color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark .compact-border {
     border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .border-hairline {
+    border: var(--border-hairline-width) solid var(--border-hairline-color);
+  }
+
+  .border-hairline-color {
+    border-color: var(--border-hairline-color);
   }
 }
 

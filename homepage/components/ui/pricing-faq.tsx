@@ -6,6 +6,7 @@ import { useMemo, useState } from 'react';
 import { Discussion, DiscussionBody, DiscussionContent, DiscussionExpand, DiscussionItem, DiscussionReplies, DiscussionTitle } from '@/components/ui/discussion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InlineTooltip } from './inline-tooltip';
+import SearchComponent from '@/components/ui/animated-glowing-search-bar';
 
 type AddOn = {
   id: string;
@@ -244,7 +245,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Steve Jobs',
       handle: '@steve',
       timeAgo: '18 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1521120413309-829a8e30dfd0?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
       message: <p className="text-[15px] leading-snug text-slate-200">Can you build the landing page for the lead magnet?</p>,
     },
     answer: (
@@ -415,7 +416,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Jordan Lee',
       handle: '@jordanlee',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1521120413309-829a8e30dfd0?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
       message: (
         <p className="text-[15px] leading-snug text-slate-200">
           Who handles webinar-to-content repurposing end-to-end?
@@ -547,26 +548,24 @@ export function PricingFAQ() {
 
   return (
     <div className="mx-auto w-full max-w-4xl space-y-6">
-      {/* Search */}
-      <div className="w-full">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search FAQs..."
-          className="w-full rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:border-white/20 focus:outline-none"
-          aria-label="Search FAQs"
-        />
-      </div>
-
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full justify-start overflow-x-auto">
-          {categorized.map(({ category }) => (
-            <TabsTrigger key={category} value={category}>
-              {category}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+          <TabsList className="flex-1 min-w-0 overflow-x-auto bg-transparent">
+            {categorized.map(({ category }) => (
+              <TabsTrigger key={category} value={category}>
+                {category}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <div className="sm:ml-3 sm:w-auto">
+            <SearchComponent
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search FAQs..."
+              className="sm:scale-95"
+            />
+          </div>
+        </div>
 
         {categorized.map(({ category, items }) => (
           <TabsContent key={category} value={category}>
@@ -580,32 +579,34 @@ export function PricingFAQ() {
             >
               {uniqueByQuestion(filterItems(items)).map((thread) => (
                 <DiscussionItem key={thread.id} value={thread.id}>
-                  <DiscussionContent className="flex flex-col gap-3 rounded-xl border border-white/10 bg-white/5 p-3 shadow-sm backdrop-blur-sm transition hover:border-white/20">
-                    <div className="flex items-start gap-3">
-                      <Image
-                        src={thread.questioner.avatar}
-                        alt={`${thread.questioner.name} avatar`}
-                        width={36}
-                        height={36}
-                        className="h-9 w-9 shrink-0 rounded-full object-cover"
-                      />
-                      <div className="flex flex-col gap-2">
-                        <DiscussionTitle className="flex flex-wrap items-center gap-1 text-white">
-                          <span>{thread.questioner.name}</span>
-                          <span className="text-[11px] text-muted-foreground">{thread.questioner.handle}</span>
-                          <span className="text-[11px] text-muted-foreground">•</span>
-                          <span className="text-[11px] text-muted-foreground">{thread.questioner.timeAgo}</span>
-                        </DiscussionTitle>
-                        <DiscussionBody className="text-sm text-slate-200">
-                          {thread.questioner.message}
-                        </DiscussionBody>
+                  <DiscussionContent className="rounded-xl bg-transparent p-0">
+                    <div className="flex w-full flex-col gap-2 rounded-xl border border-hairline bg-black p-3 shadow-none">
+                      <div className="flex items-start gap-3">
+                        <Image
+                          src={thread.questioner.avatar}
+                          alt={`${thread.questioner.name} avatar`}
+                          width={36}
+                          height={36}
+                          className="h-9 w-9 shrink-0 rounded-full object-cover"
+                        />
+                        <div className="flex flex-col gap-2">
+                          <DiscussionTitle className="flex flex-wrap items-center gap-1 text-slate-100">
+                            <span>{thread.questioner.name}</span>
+                            <span className="text-[11px] text-muted-foreground">{thread.questioner.handle}</span>
+                            <span className="text-[11px] text-muted-foreground">•</span>
+                            <span className="text-[11px] text-muted-foreground">{thread.questioner.timeAgo}</span>
+                          </DiscussionTitle>
+                          <DiscussionBody className="text-sm text-slate-200">
+                            {thread.questioner.message}
+                          </DiscussionBody>
+                        </div>
                       </div>
+                      <DiscussionExpand className="border border-transparent text-slate-400" />
                     </div>
-                    <DiscussionExpand className="text-muted-foreground" />
                   </DiscussionContent>
                   <DiscussionReplies>
-                    <DiscussionItem value={`${thread.id}-reply`} className="border-l border-white/10">
-                      <DiscussionContent className="flex flex-col gap-3 rounded-lg border border-white/10 bg-black/40 p-3 shadow-sm">
+                    <DiscussionItem value={`${thread.id}-reply`} className="border-l border-hairline-color">
+                      <DiscussionContent className="flex flex-col gap-3 rounded-lg border border-hairline bg-black p-3 shadow-none">
                         <div className="flex items-start gap-3">
                           <Image
                             src={RESPONDENT.avatar}
