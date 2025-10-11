@@ -505,10 +505,46 @@ function useCategorizedFaqs() {
   }, []);
 }
 
+type IndexedItem = {
+  id: string;
+  category: string;
+  question: string;
+  answer: string;
+  meta: string;
+};
+
+const CUR_TAB_BIAS = 5;
+const SWITCH_THRESHOLD = 15;
+
+function scoreItem(it: IndexedItem, q: string, currentTab: string) {
+  const s = q.trim().toLowerCase();
+  if (!s) return 0;
+  const qLower = it.question.toLowerCase();
+  const aLower = it.answer.toLowerCase();
+  const mLower = it.meta.toLowerCase();
+
+  let score = 0;
+  if (qLower.includes(s)) score += 100;
+  if (aLower.includes(s)) score += 80;
+
+  const words = [...new Set(s.split(/\s+/).filter(Boolean))];
+  for (const w of words) {
+    if (qLower.includes(w)) score += 12;
+    if (aLower.includes(w)) score += 8;
+    if (mLower.includes(w)) score += 4;
+  }
+
+  if (it.category === currentTab) score += CUR_TAB_BIAS;
+  return score;
+}
+
 export function PricingFAQ() {
   const categorized = useCategorizedFaqs();
   const [activeTab, setActiveTab] = useState<string>(categorized[0]?.category ?? CATEGORY_ORDER[0]);
   const [search, setSearch] = useState<string>('');
+  const [openByCategory, setOpenByCategory] = useState<Record<string, string[]>>({});
+  const [suggestions, setSuggestions] = useState<Array<{ id: string; category: string; title: string; score: number }>>([]);
+  const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
   // extract text from React nodes for simple search
   const getNodeText = (node: React.ReactNode): string => {
@@ -521,6 +557,133 @@ export function PricingFAQ() {
       return getNodeText((node as any).props.children);
     }
     return '';
+  };
+
+  // Build searchable index
+  const index = useMemo<IndexedItem[]>(() => {
+    const out: IndexedItem[] = [];
+    for (const { category, items } of categorized) {
+      for (const t of items) {
+        out.push({
+          id: t.id,
+          category,
+          question: getNodeText(t.questioner.message),
+          answer: getNodeText(t.answer),
+          meta: `${t.questioner.name} ${t.questioner.handle} ${t.questioner.timeAgo}`,
+        });
+      }
+    }
+    return out;
+  }, [categorized]);
+
+  // Rank results across all tabs
+  const rankResults = (query: string) => {
+    const ranked = index
+      .map((it) => ({ it, score: scoreItem(it, query, activeTab) }))
+      .filter((x) => x.score > 0)
+      .sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        const ai = CATEGORY_ORDER.indexOf(a.it.category);
+        const bi = CATEGORY_ORDER.indexOf(b.it.category);
+        if (ai !== bi) return ai - bi;
+        return 0;
+      });
+    return ranked;
+  };
+
+  // Update suggestions as user types
+  useMemo(() => {
+    if (!search.trim()) {
+      setSuggestions([]);
+      setHighlightedIndex(-1);
+      return;
+    }
+    const ranked = rankResults(search);
+    const top = ranked.slice(0, 5).map((x) => ({
+      id: x.it.id,
+      category: x.it.category,
+      title: x.it.question,
+      score: x.score,
+    }));
+    setSuggestions(top);
+    setHighlightedIndex(-1);
+  }, [search, activeTab, index]);
+
+  // Jump to best match on Enter
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!search.trim()) return;
+
+    const ranked = rankResults(search);
+    if (ranked.length === 0) return;
+
+    const top = ranked[0];
+    const topInCurrent = ranked.find((x) => x.it.category === activeTab);
+
+    let target = top;
+    if (top.it.category !== activeTab && topInCurrent) {
+      if (top.score - topInCurrent.score < SWITCH_THRESHOLD) {
+        target = topInCurrent;
+      }
+    }
+
+    // Switch tab if needed
+    if (target.it.category !== activeTab) {
+      setActiveTab(target.it.category);
+    }
+
+    // Open the question
+    setOpenByCategory((prev) => ({ ...prev, [target.it.category]: [target.it.id] }));
+
+    // Scroll and highlight
+    setTimeout(() => {
+      const el = document.querySelector(`[data-thread-id="${target.it.id}"]`) as HTMLElement | null;
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('deep-link-target');
+        setTimeout(() => el.classList.remove('deep-link-target'), 1600);
+      }
+    }, 100);
+
+    // Clear suggestions
+    setSuggestions([]);
+    setHighlightedIndex(-1);
+  };
+
+  // Jump to a specific suggestion
+  const jumpToSuggestion = (sug: { id: string; category: string }) => {
+    if (sug.category !== activeTab) {
+      setActiveTab(sug.category);
+    }
+    setOpenByCategory((prev) => ({ ...prev, [sug.category]: [sug.id] }));
+    setTimeout(() => {
+      const el = document.querySelector(`[data-thread-id="${sug.id}"]`) as HTMLElement | null;
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.classList.add('deep-link-target');
+        setTimeout(() => el.classList.remove('deep-link-target'), 1600);
+      }
+    }, 100);
+    setSuggestions([]);
+    setHighlightedIndex(-1);
+  };
+
+  // Keyboard navigation for suggestions
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (suggestions.length === 0) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev + 1) % suggestions.length);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => (prev - 1 + suggestions.length) % suggestions.length);
+    } else if (e.key === 'Enter' && highlightedIndex >= 0) {
+      e.preventDefault();
+      jumpToSuggestion(suggestions[highlightedIndex]);
+    } else if (e.key === 'Escape') {
+      setSuggestions([]);
+      setHighlightedIndex(-1);
+    }
   };
 
   const filterItems = (items: FAQThread[]) => {
@@ -557,13 +720,35 @@ export function PricingFAQ() {
               </TabsTrigger>
             ))}
           </TabsList>
-          <div className="sm:ml-3 sm:w-auto">
-            <SearchComponent
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search FAQs..."
-              className="sm:scale-95"
-            />
+          <div className="relative sm:ml-3 sm:w-auto">
+            <form onSubmit={handleSearchSubmit}>
+              <SearchComponent
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="Search FAQs..."
+                className="sm:scale-95"
+              />
+            </form>
+            {suggestions.length > 0 && (
+              <div className="absolute left-0 right-0 top-full z-50 mt-2 max-h-80 overflow-y-auto rounded-lg border border-hairline bg-[#0B0D14] shadow-lg">
+                {suggestions.map((sug, idx) => (
+                  <button
+                    key={sug.id}
+                    type="button"
+                    onClick={() => jumpToSuggestion(sug)}
+                    className={`flex w-full items-start gap-3 border-b border-hairline-color px-4 py-3 text-left transition-colors last:border-b-0 ${
+                      idx === highlightedIndex ? 'bg-[#141a26]' : 'hover:bg-[#101420]'
+                    }`}
+                  >
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-slate-200">{sug.title}</div>
+                      <div className="mt-1 text-xs text-slate-400">{sug.category}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -573,12 +758,13 @@ export function PricingFAQ() {
               <div className="text-sm text-slate-400">No results found.</div>
             ) : null}
             <Discussion
-              defaultValue={[uniqueByQuestion(filterItems(items))[0]?.id ?? '']}
+              value={openByCategory[category] ?? []}
+              onValueChange={(vals) => setOpenByCategory((prev) => ({ ...prev, [category]: vals }))}
               type="multiple"
               className="flex w-full flex-col gap-3 sm:gap-4"
             >
               {uniqueByQuestion(filterItems(items)).map((thread) => (
-                <DiscussionItem key={thread.id} value={thread.id}>
+                <DiscussionItem key={thread.id} value={thread.id} data-thread-id={thread.id}>
                   <DiscussionContent className="rounded-xl bg-transparent p-0">
                     <div className="flex w-full flex-col gap-2 rounded-xl border border-hairline bg-black p-3 shadow-none">
                       <div className="flex items-start gap-3">

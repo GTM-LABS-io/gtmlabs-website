@@ -3,13 +3,15 @@ import React from 'react';
 type SearchComponentProps = {
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   className?: string;
 };
 
 const SearchComponent = ({ 
   value, 
-  onChange, 
+  onChange,
+  onKeyDown,
   placeholder = "Search...",
   className = ""
 }: SearchComponentProps) => {
@@ -57,6 +59,7 @@ const SearchComponent = ({
             name="text" 
             value={value}
             onChange={onChange}
+            onKeyDown={onKeyDown}
             className="bg-[#020617] border border-white/10 w-[248px] h-10 rounded-lg text-white px-[48px] text-sm focus:outline-none placeholder-slate-400 focus:border-white/30 transition"
           />
           <div className="absolute h-[30px] w-[30px] overflow-hidden top-[5px] right-[6px] rounded-lg
