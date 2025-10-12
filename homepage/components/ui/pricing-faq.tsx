@@ -78,7 +78,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Satya Nadella',
       handle: '@satyanadella',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/satya-nadella.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">How will we work together?</p>,
     },
     answer: (
@@ -94,7 +94,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Susan Wojcicki',
       handle: '@susanwojcicki',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/susan-wojcicki.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">How much time will this take me?</p>,
     },
     answer: (
@@ -110,7 +110,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Reid Hoffman',
       handle: '@reidhoffman',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/reid-hoffman.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">What happens after checkout?</p>,
     },
     answer: (
@@ -131,7 +131,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Whitney Wolfe Herd',
       handle: '@WhitWolfeHerd',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/whitney-wolfe-herd.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">What do I actually get?</p>,
     },
     answer: (
@@ -204,7 +204,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Anne Wojcicki',
       handle: '@annewoj23',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/anne-wojcicki.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">What if you miss a deadline?</p>,
     },
     answer: (
@@ -252,7 +252,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Neil deGrasse Tyson',
       handle: '@neiltyson',
       timeAgo: '9 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1481214110143-ed630356e1bb?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/neil-degrasse-tyson.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">How do you report results?</p>,
     },
     answer: (
@@ -349,7 +349,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Neil deGrasse Tyson',
       handle: '@neiltyson',
       timeAgo: '9 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1481214110143-ed630356e1bb?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/neil-degrasse-tyson.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">What about usage rights for the source video?</p>,
     },
     answer: (
