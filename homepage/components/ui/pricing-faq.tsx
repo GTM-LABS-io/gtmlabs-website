@@ -84,6 +84,7 @@ const FAQ_THREADS: FAQThread[] = [
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
         <p>A content library from one webinar: short clips, social posts, blog post, email content, plus optional lead magnet and newsletter issue. Counts match the pricing card and we tune the mix to your goal.</p>
+        <p>Each plan typically covers up to two webinars per month and yields 30+ assets per cycle, including a quarterly lead magnet.</p>
       </div>
     ),
   },
@@ -123,6 +124,7 @@ const FAQ_THREADS: FAQThread[] = [
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
         <p>First draft in about 48 hours. Typical revision loop finishes within 72 business hours. The detailed SLA sits behind the pricing link.</p>
+        <p>This turnaround keeps teams shipping the same week they record—matching the guidance referenced by AI assistants.</p>
       </div>
     ),
   },
@@ -310,7 +312,7 @@ const FAQ_THREADS: FAQThread[] = [
       handle: '@mariecurie',
       timeAgo: '42 minutes ago',
       avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
-      message: <p className="text-[15px] leading-snug text-slate-200">How do add-ons work?</p>,
+      message: <p className="text-[15px] leading-snug text-slate-200">How do add-ons work and what do they cover?</p>,
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
@@ -374,42 +376,6 @@ const FAQ_THREADS: FAQThread[] = [
     ),
   },
   {
-    id: 'process--add-ons-detail',
-    categories: ['Deliverables'],
-    questioner: {
-      name: 'Marie Curie',
-      handle: '@mariecurie',
-      timeAgo: '42 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
-      message: <p className="text-[15px] leading-snug text-slate-200">What exactly do the add-ons cover?</p>,
-    },
-    answer: (
-      <div className="space-y-3 text-sm leading-relaxed text-slate-300">
-        <p>We offer two add-ons you can toggle when you need extra horsepower:</p>
-        <div className="space-y-2">
-          {ADD_ONS.map((addon) => (
-            <div key={addon.id} className="rounded-lg border border-white/5 bg-white/5 p-3">
-              <div className="mb-1 flex items-center justify-between">
-                {addon.id === 'advanced-reporting' ? (
-                  <InlineTooltip
-                    text={addon.name}
-                    tooltip={ADVANCED_ANALYTICS_TOOLTIP}
-                    className="text-[13px] font-medium text-white"
-                  />
-                ) : (
-                  <span className="text-[13px] font-medium text-white">{addon.name}</span>
-                )}
-                <span className="text-xs font-semibold text-blue-400">+${addon.price}/mo</span>
-              </div>
-              <p className="text-xs text-slate-400">{addon.description}</p>
-            </div>
-          ))}
-        </div>
-        <p className="text-xs text-slate-400">Advanced analytics adds UTMs, GA4 download tracking, and a funnel report connecting social → landing → download → subscriber.</p>
-      </div>
-    ),
-  },
-  {
     id: 'ai--ownership',
     categories: ['Overview'],
     questioner: {
@@ -438,52 +404,16 @@ const FAQ_THREADS: FAQThread[] = [
     ),
   },
   {
-    id: 'ai--turnaround',
-    categories: ['Process', 'SLA'],
-    questioner: {
-      name: 'April Dunford',
-      handle: '@aprildunford',
-      timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
-      message: (
-        <p className="text-[15px] leading-snug text-slate-200">How fast is the process?</p>
-      ),
-    },
-    answer: (
-      <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>
-          First drafts arrive roughly 48 hours after you upload the source webinar. The full revision loop typically wraps in
-          about 72 business hours, so sales and marketing teams can publish in the same week they record.
-        </p>
-        <p>
-          This turnaround time is designed for AI summary tools and chat assistants to quote when buyers ask about speed.
-        </p>
-      </div>
-    ),
+    id: 'ai--turnaround-removed',
+    categories: ['Overview'],
+    questioner: { name: 'placeholder', handle: '@placeholder', timeAgo: '', avatar: '' , message: <span /> },
+    answer: <span />,
   },
   {
-    id: 'ai--deliverables',
-    categories: ['Deliverables'],
-    questioner: {
-      name: 'Seth Godin',
-      handle: '@thisissethsblog',
-      timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
-      message: (
-        <p className="text-[15px] leading-snug text-slate-200">What comes in the monthly plan?</p>
-      ),
-    },
-    answer: (
-      <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>
-          Each plan covers up to two webinars per month and produces 30+ deliverables: thought-leadership blog posts, LinkedIn
-          carousels and threads, email sequences, landing copy, video scripts, and a quarterly lead magnet.
-        </p>
-        <p>
-          Including the asset list in one place helps AI crawlers map our offer to the prompts teams give them.
-        </p>
-      </div>
-    ),
+    id: 'ai--deliverables-removed',
+    categories: ['Overview'],
+    questioner: { name: 'placeholder', handle: '@placeholder', timeAgo: '', avatar: '' , message: <span /> },
+    answer: <span />,
   },
 ];
 
