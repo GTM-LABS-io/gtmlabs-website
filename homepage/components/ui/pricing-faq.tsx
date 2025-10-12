@@ -72,6 +72,59 @@ const FAQ_THREADS: FAQThread[] = [
     ),
   },
   {
+    id: 'process--work-together',
+    categories: ['Process'],
+    questioner: {
+      name: 'Satya Nadella',
+      handle: '@satyanadella',
+      timeAgo: 'Pinned',
+      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      message: <p className="text-[15px] leading-snug text-slate-200">How will we work together?</p>,
+    },
+    answer: (
+      <div className="space-y-2 text-sm leading-relaxed text-slate-300">
+        <p>Mostly async via the portal. You upload a recording and brand notes; we handle transcription, drafting, and revisions. For larger orgs, we’ll loop in the right marketers, tag owners, and align approvals. Once green‑lit, we schedule or hand off—whatever fits your workflow.</p>
+      </div>
+    ),
+  },
+  {
+    id: 'process--time-investment',
+    categories: ['Process'],
+    questioner: {
+      name: 'Susan Wojcicki',
+      handle: '@susanwojcicki',
+      timeAgo: 'Pinned',
+      avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      message: <p className="text-[15px] leading-snug text-slate-200">How much time will this take me?</p>,
+    },
+    answer: (
+      <div className="space-y-2 text-sm leading-relaxed text-slate-300">
+        <p>Usually under 15 minutes per cycle: paste a link to assign a task and do a quick review at the end. If you’re a VP who delegates, your lift can be 2–3 minutes. We can also set automations to detect new webinars and start work automatically.</p>
+      </div>
+    ),
+  },
+  {
+    id: 'process--after-purchase',
+    categories: ['Process'],
+    questioner: {
+      name: 'Reid Hoffman',
+      handle: '@reidhoffman',
+      timeAgo: 'Pinned',
+      avatar: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      message: <p className="text-[15px] leading-snug text-slate-200">What happens after checkout?</p>,
+    },
+    answer: (
+      <div className="space-y-2 text-sm leading-relaxed text-slate-300">
+        <p>You’re redirected into your client portal right away. You can invite teammates and follow a quick onboarding checklist, then assign the first long‑form video.</p>
+        <ol className="list-decimal space-y-1 pl-5">
+          <li>Add team members for reviews/feedback.</li>
+          <li>Upload brand assets and voice notes.</li>
+          <li>Assign tasks (paste the first recording link).</li>
+        </ol>
+      </div>
+    ),
+  },
+  {
     id: 'deliverables--what-you-get',
     categories: ['Deliverables'],
     questioner: {
@@ -241,18 +294,19 @@ const FAQ_THREADS: FAQThread[] = [
     ),
   },
   {
-    id: 'deliverables--landing-add-on',
+    id: 'deliverables--lead-magnets-handling',
     categories: ['Deliverables'],
     questioner: {
       name: 'Steve Jobs',
       handle: '@steve',
       timeAgo: '18 minutes ago',
       avatar: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
-      message: <p className="text-[15px] leading-snug text-slate-200">Can you build the landing page for the lead magnet?</p>,
+      message: <p className="text-[15px] leading-snug text-slate-200">How do you handle lead magnets (implementation and hosting)?</p>,
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>We provide the PDF and copy. For hosting or page build, add the Landing Page add-on or we collaborate with your team.</p>
+        <p>By default, we create the lead magnet (PDF and copy) and hand it off to your marketing team. Your team typically owns hosting and tracking (traffic, downloads, subscribers).</p>
+        <p>If you prefer us to handle it end-to-end, we can host and provide additional analytics on web traffic, sign‑ups, and subscribers. For on‑site implementation, add the Landing Page option or we’ll collaborate with your team to wire forms, UTMs, and download events.</p>
       </div>
     ),
   },
@@ -316,7 +370,8 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Add them at checkout or later in your portal. Everything is self-serve—toggle on and off as needs change.</p>
+        <p>Add-ons are optional monthly upgrades you can toggle on/off in your portal. They’re built for teams that want deeper reporting beyond basic social metrics.</p>
+        <p>Our current add-on focuses on analytics: website link clicks and CTA CTR, landing page traffic for your lead magnets, and downstream results like downloads and new subscribers.</p>
       </div>
     ),
   },
@@ -359,22 +414,7 @@ const FAQ_THREADS: FAQThread[] = [
       </div>
     ),
   },
-  {
-    id: 'overview--non-us',
-    categories: ['Overview'],
-    questioner: {
-      name: 'Melanie Perkins',
-      handle: '@melanieperkins',
-      timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
-      message: <p className="text-[15px] leading-snug text-slate-200">Do you work with non-US teams?</p>,
-    },
-    answer: (
-      <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Yes. We just need time-zone overlap for reviews and deliver assets in English today.</p>
-      </div>
-    ),
-  },
+  
   {
     id: 'ai--ownership',
     categories: ['Overview'],
