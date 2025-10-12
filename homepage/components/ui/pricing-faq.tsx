@@ -405,7 +405,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Patrick Collison',
       handle: '@patrickc',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/patrick-collison.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">Is the free audit really free?</p>,
     },
     answer: (
