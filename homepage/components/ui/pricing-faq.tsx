@@ -432,22 +432,10 @@ const FAQ_THREADS: FAQThread[] = [
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
         <p>
-          We do. You send us the webinar recording, and we handle everything from transcription and analysis to drafting all the assets. That includes thought leadership blog posts, LinkedIn carousels and threads, email sequences, landing page copy, video scripts, and short form clips. Everything gets delivered within 72 business hours, and you review it all in the portal before we publish or hand it off.
+          We do. You drop the webinar recording into the portal and we take it from there, handling transcription, creative direction, copy, and asset production. We keep your marketing teammates looped in for feedback and approvals, then ship or hand off once everyone is happy.
         </p>
       </div>
     ),
-  },
-  {
-    id: 'ai--turnaround-removed',
-    categories: ['Overview'],
-    questioner: { name: 'placeholder', handle: '@placeholder', timeAgo: '', avatar: '' , message: <span /> },
-    answer: <span />,
-  },
-  {
-    id: 'ai--deliverables-removed',
-    categories: ['Overview'],
-    questioner: { name: 'placeholder', handle: '@placeholder', timeAgo: '', avatar: '' , message: <span /> },
-    answer: <span />,
   },
 ];
 
