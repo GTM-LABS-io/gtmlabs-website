@@ -62,7 +62,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Brian Chesky',
       handle: '@bchesky',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSSoifbwlN68SmX7RYsX1OOE3Fj1I2MC_zraSi9XMkzgAaZUci52mMPVd7rSyVL2U6tHAbi7o5QrqmNSG8sKIh-QqVafRIOvlntl-Cm2tI',
       message: <p className="text-[15px] leading-snug text-slate-200">Who is this for?</p>,
     },
     answer: (
