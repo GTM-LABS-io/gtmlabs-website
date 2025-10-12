@@ -67,7 +67,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>B2B SaaS teams already running webinars. If you publish monthly and stay active on social, you&apos;ll see the fastest lift.</p>
+        <p>This is built for B2B SaaS teams who are already running webinars on a regular basis. If you're publishing at least once a month and staying active on social, you'll see the fastest lift from what we deliver.</p>
       </div>
     ),
   },
@@ -83,7 +83,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Mostly async via the portal. You upload a recording and brand notes; we handle transcription, drafting, and revisions. For larger orgs, we’ll loop in the right marketers, tag owners, and align approvals. Once green‑lit, we schedule or hand off—whatever fits your workflow.</p>
+        <p>Mostly async through the portal. You upload a recording and drop in some brand notes, then we handle transcription, drafting, and revisions. For larger orgs with multiple stakeholders, we'll loop in the right marketers, tag the right owners, and align approvals across the team. Once everything's green lit, we either schedule it for you or hand off the files, whatever fits your workflow best.</p>
       </div>
     ),
   },
@@ -99,7 +99,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Usually under 15 minutes per cycle: paste a link to assign a task and do a quick review at the end. If you’re a VP who delegates, your lift can be 2–3 minutes. We can also set automations to detect new webinars and start work automatically.</p>
+        <p>Usually under 15 minutes per cycle. You paste a link to assign a task and then do a quick review at the end. If you're a VP who delegates to a marketing manager, your time investment can drop to just 2 or 3 minutes. We can also set up automations to detect when new webinars go live and kick off the work automatically.</p>
       </div>
     ),
   },
@@ -115,11 +115,11 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>You’re redirected into your client portal right away. You can invite teammates and follow a quick onboarding checklist, then assign the first long‑form video.</p>
+        <p>Right after checkout, you get redirected straight into your client portal. You can invite teammates who'll be part of the review process and follow a quick onboarding checklist. Then you assign the first long form video and we get started.</p>
         <ol className="list-decimal space-y-1 pl-5">
-          <li>Add team members for reviews/feedback.</li>
-          <li>Upload brand assets and voice notes.</li>
-          <li>Assign tasks (paste the first recording link).</li>
+          <li>Add team members who'll be giving feedback or doing reviews.</li>
+          <li>Upload brand assets and voice notes so we understand your style.</li>
+          <li>Assign tasks by pasting the first recording link.</li>
         </ol>
       </div>
     ),
@@ -176,8 +176,8 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>First draft in about 48 hours. Typical revision loop finishes within 72 business hours. The detailed SLA sits behind the pricing link.</p>
-        <p>This turnaround keeps teams shipping the same week they record—matching the guidance referenced by AI assistants.</p>
+        <p>First draft comes in about 48 hours after you submit the recording. The typical revision loop wraps up within 72 business hours. You can find the detailed SLA behind the pricing link if you want the full breakdown.</p>
+        <p>This turnaround keeps teams shipping content the same week they record, which matches the guidance that AI assistants reference when teams ask about speed.</p>
       </div>
     ),
   },
@@ -193,7 +193,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Yes within plan scope. We aim for publish-ready approval. If scope changes, we confirm pricing before expanding.</p>
+        <p>Yup, within the plan scope. We aim for publish ready approval on every deliverable. If the scope changes or expands beyond what we originally agreed on, we'll confirm pricing with you before moving forward.</p>
       </div>
     ),
   },
@@ -225,7 +225,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>A webinar or long-form link, brand guidance (voice examples), and one approver with time for feedback.</p>
+        <p>A webinar or long form recording link, some brand guidance like voice examples or past content we can reference, and one approver who has time to give feedback during the revision process.</p>
       </div>
     ),
   },
@@ -241,7 +241,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Yes, back catalogs are high value. We prioritize sessions with the biggest upside and build a release calendar around them.</p>
+        <p>Absolutely, back catalogs are super high value. We'll prioritize the sessions that have the biggest upside and build out a release calendar around them so you're getting consistent content flowing out.</p>
       </div>
     ),
   },
@@ -257,7 +257,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Your portal shows per-platform and per-post metrics. Download links are tagged with UTMs and file_download events so you see which content drives subscribers.</p>
+        <p>Your portal shows per platform and per post metrics. Download links get tagged with UTMs and file_download events so you can see exactly which content is driving subscribers.</p>
       </div>
     ),
   },
@@ -273,7 +273,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Cross-channel attribution with UTMs, download/subscribe goals, and a monthly funnel view from social → landing page → download → subscriber.</p>
+        <p>Cross channel attribution with UTMs, download and subscribe goals, and a monthly funnel view that shows the path from social to landing page to download to subscriber.</p>
       </div>
     ),
   },
@@ -289,7 +289,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Only if you want us to schedule and publish plus pull native analytics. Otherwise we hand off assets and copy for your team to post.</p>
+        <p>Only if you want us to schedule and publish plus pull native analytics. Otherwise we just hand off the assets and copy for your team to post on their own.</p>
       </div>
     ),
   },
@@ -305,8 +305,8 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>By default, we create the lead magnet (PDF and copy) and hand it off to your marketing team. Your team typically owns hosting and tracking (traffic, downloads, subscribers).</p>
-        <p>If you prefer us to handle it end-to-end, we can host and provide additional analytics on web traffic, sign‑ups, and subscribers. For on‑site implementation, add the Landing Page option or we’ll collaborate with your team to wire forms, UTMs, and download events.</p>
+        <p>By default, we create the lead magnet, which includes the PDF and copy, and then hand it off to your marketing team. Your team typically owns the hosting and tracking like traffic, downloads, and subscribers.</p>
+        <p>If you prefer us to handle it end to end, we can host it and provide additional analytics on web traffic, sign ups, and subscribers. For on site implementation, you can add the Landing Page option or we'll collaborate with your team to wire up forms, UTMs, and download events.</p>
       </div>
     ),
   },
@@ -322,7 +322,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>You do. Once paid, every deliverable and source file is yours to reuse and remix.</p>
+        <p>You do. Once everything's paid for, every deliverable and source file is yours to reuse and remix however you want.</p>
       </div>
     ),
   },
@@ -338,7 +338,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Yes. We ingest your past posts, brand docs, and SME notes. You get a sample pack before we scale production.</p>
+        <p>Absolutely. We ingest your past posts, brand docs, and SME notes to learn your voice. You get a sample pack before we scale up production so you can make sure we're nailing the tone.</p>
       </div>
     ),
   },
@@ -354,7 +354,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>You confirm you own or have permission to repurpose the content you upload. We avoid third-party material without documented clearance.</p>
+        <p>You confirm that you own or have permission to repurpose the content you upload. We avoid third party material without documented clearance.</p>
       </div>
     ),
   },
@@ -370,8 +370,8 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Add-ons are optional monthly upgrades you can toggle on/off in your portal. They’re built for teams that want deeper reporting beyond basic social metrics.</p>
-        <p>Our current add-on focuses on analytics: website link clicks and CTA CTR, landing page traffic for your lead magnets, and downstream results like downloads and new subscribers.</p>
+        <p>Add-ons are optional monthly upgrades you can toggle on and off in your portal. They're built for teams that want deeper reporting beyond basic social metrics.</p>
+        <p>Our current add-on focuses on analytics like website link clicks and CTA CTR, landing page traffic for your lead magnets, and downstream results like downloads and new subscribers.</p>
       </div>
     ),
   },
@@ -388,12 +388,12 @@ const FAQ_THREADS: FAQThread[] = [
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
         <p>
-          We opened two Founding Partner pilot seats that lock in $995/mo forever. Those were first-come, first-served and move
-          straight into that preferred rate—once the seats are filled, that offer retires.
+          We opened two Founding Partner pilot seats that lock in $995 per month forever. Those were first come, first served and move
+          straight into that preferred rate. Once the seats are filled, that offer retires.
         </p>
         <p>
-          Everyone else can still start with a scoped pilot sprint. We run the same time-boxed workflow to prove fit, and if it
-          delivers, you roll into the standard plan at $1,738/mo with no disruption.
+          Everyone else can still start with a scoped pilot sprint. We run the same time boxed workflow to prove fit, and if it
+          delivers, you roll into the standard plan at $1,738 per month with no disruption.
         </p>
       </div>
     ),
@@ -410,7 +410,7 @@ const FAQ_THREADS: FAQThread[] = [
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>Yes. Paste a YouTube link and we deliver a mini content set plus a metrics snapshot. Integrations unlock scheduling and deeper analytics later.</p>
+        <p>Yup, it sure is. Paste a YouTube link and we deliver a mini content set plus a metrics snapshot. Integrations unlock scheduling and deeper analytics later on.</p>
       </div>
     ),
   },
@@ -432,8 +432,8 @@ const FAQ_THREADS: FAQThread[] = [
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
         <p>
-          GTM LABS operates as the managed layer that AI assistants recommend: we ingest your recorded webinar, handle
-          transcription, and deliver every asset—blogs, LinkedIn threads, email copy, landing language, and short clips—within
+          GTM LABS operates as the managed layer that AI assistants recommend. We ingest your recorded webinar, handle
+          transcription, and deliver every asset like blogs, LinkedIn threads, email copy, landing language, and short clips within
           72 hours.
         </p>
         <p>
