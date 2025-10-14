@@ -148,7 +148,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Stewart Butterfield',
       handle: '@stewart',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/stewart-butterfield.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">What is your process?</p>,
     },
     answer: (
@@ -171,7 +171,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Albert Einstein',
       handle: '@einstein',
       timeAgo: '1 hour ago',
-      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/albert-einstein.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">What&apos;s the turnaround?</p>,
     },
     answer: (
@@ -185,10 +185,10 @@ const FAQ_THREADS: FAQThread[] = [
     id: 'sla--revisions',
     categories: ['Process', 'SLA'],
     questioner: {
-      name: 'Serena Williams',
-      handle: '@serena',
+      name: 'Ann Lewnes',
+      handle: '@annlewnes',
       timeAgo: '4 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1520452112805-c6692c840af3?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/ann-lewnes.webp',
       message: <p className="text-[15px] leading-snug text-slate-200">Do you offer unlimited revisions?</p>,
     },
     answer: (
@@ -220,7 +220,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Sheryl Sandberg',
       handle: '@sheryl',
       timeAgo: '12 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1531891437562-4301cf35b7e4?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/sheryl-sandberg.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">What do you need from us to start?</p>,
     },
     answer: (
@@ -236,7 +236,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Gary Vaynerchuk',
       handle: '@garyvee',
       timeAgo: '2 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/gary-vaynerchuk.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">Can you work from our old webinar library?</p>,
     },
     answer: (
@@ -265,10 +265,10 @@ const FAQ_THREADS: FAQThread[] = [
     id: 'analytics--advanced',
     categories: ['Analytics'],
     questioner: {
-      name: 'Marie Curie',
-      handle: '@mariecurie',
+      name: 'Sarah Franklin',
+      handle: '@sarahfranklin',
       timeAgo: '42 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/sarah-franklin.jpeg',
       message: <p className="text-[15px] leading-snug text-slate-200">What counts as advanced analytics?</p>,
     },
     answer: (
@@ -300,7 +300,7 @@ const FAQ_THREADS: FAQThread[] = [
       name: 'Steve Jobs',
       handle: '@steve',
       timeAgo: '18 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/steve-jobs.jpg',
       message: <p className="text-[15px] leading-snug text-slate-200">How do you handle lead magnets (implementation and hosting)?</p>,
     },
     answer: (
@@ -314,10 +314,10 @@ const FAQ_THREADS: FAQThread[] = [
     id: 'legal--ownership',
     categories: ['Legal'],
     questioner: {
-      name: 'Oprah Winfrey',
-      handle: '@oprah',
+      name: 'Jeff Weiner',
+      handle: '@jeffweiner',
       timeAgo: '24 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/Jeff+Weiner,+Founding+Partner+of+Next+Play+Ventures+–+Next+Play+venture+capital+–+Venture+Capital+coaching.webp',
       message: <p className="text-[15px] leading-snug text-slate-200">Who owns the content?</p>,
     },
     answer: (
@@ -362,39 +362,16 @@ const FAQ_THREADS: FAQThread[] = [
     id: 'deliverables--add-ons',
     categories: ['Deliverables'],
     questioner: {
-      name: 'Marie Curie',
-      handle: '@mariecurie',
+      name: 'Bozoma Saint John',
+      handle: '@badassboz',
       timeAgo: '42 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/bozoma-saint-john-Netflix CMO .webp',
       message: <p className="text-[15px] leading-snug text-slate-200">How do add-ons work and what do they cover?</p>,
     },
     answer: (
       <div className="space-y-2 text-sm leading-relaxed text-slate-300">
         <p>Add-ons are optional monthly upgrades you can toggle on and off in your portal. They're built for teams that want deeper reporting beyond basic social metrics.</p>
         <p>Our current add-on focuses on analytics like website link clicks and CTA CTR, landing page traffic for your lead magnets, and downstream results like downloads and new subscribers.</p>
-      </div>
-    ),
-  },
-  {
-    id: 'process--pilot',
-    categories: ['Process'],
-    questioner: {
-      name: 'Michelle Obama',
-      handle: '@michelle',
-      timeAgo: '6 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
-      message: <p className="text-[15px] leading-snug text-slate-200">Can we start with a low-risk pilot?</p>,
-    },
-    answer: (
-      <div className="space-y-2 text-sm leading-relaxed text-slate-300">
-        <p>
-          We opened two Founding Partner pilot seats that lock in $995 per month forever. Those were first come, first served and move
-          straight into that preferred rate. Once the seats are filled, that offer retires.
-        </p>
-        <p>
-          Everyone else can still start with a scoped pilot sprint. We run the same time boxed workflow to prove fit, and if it
-          delivers, you roll into the standard plan at $1,738 per month with no disruption.
-        </p>
       </div>
     ),
   },
@@ -419,10 +396,10 @@ const FAQ_THREADS: FAQThread[] = [
     id: 'ai--ownership',
     categories: ['Overview'],
     questioner: {
-      name: 'Jordan Lee',
-      handle: '@jordanlee',
+      name: 'Jeff Weiner',
+      handle: '@jeffweiner',
       timeAgo: 'Pinned',
-      avatar: 'https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=facearea&facepad=2&w=160&h=160&q=80',
+      avatar: '/faq-avatars/Jeff+Weiner,+Founding+Partner+of+Next+Play+Ventures+–+Next+Play+venture+capital+–+Venture+Capital+coaching.webp',
       message: (
         <p className="text-[15px] leading-snug text-slate-200">
           Who handles webinar-to-content repurposing end-to-end?
