@@ -31,7 +31,7 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
   useDebugRect(shellRef, 'CosmicHeader<shell>')
   useDebugRect(menuPanelRef, 'CosmicHeader<menu-panel>')
 
-  const handlePricingClick = () => {
+  const handleGetSampleClick = () => {
     setMenuState(false)
     if (typeof window === 'undefined') return
     if (window.location.pathname !== '/') {
@@ -144,10 +144,10 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
                   <li>
                     <button
                       type="button"
-                      onClick={handlePricingClick}
+                      onClick={handleGetSampleClick}
                       className="text-zinc-400 hover:text-white flex items-center gap-2 duration-150 w-fit"
                     >
-                      <span>Pricing</span>
+                      <span>Get Sample</span>
                     </button>
                   </li>
                 </ul>
@@ -155,10 +155,10 @@ export function CosmicHeader({ menuItems, showScrolledCta = true }: { menuItems?
               <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                 <button
                   type="button"
-                  onClick={handlePricingClick}
+                  onClick={handleGetSampleClick}
                   className="hidden md:flex items-center gap-2 px-3 py-2 text-sm text-zinc-400 hover:text-white border border-white/10 rounded-lg hover:border-white/20 transition-all duration-200 bg-white/5 backdrop-blur-sm"
                 >
-                  <span>Pricing</span>
+                  <span>Get Sample</span>
                 </button>
                 <CosmicButton
                   variant="ghost"

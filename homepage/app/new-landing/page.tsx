@@ -241,9 +241,18 @@ const structuredDataJson = JSON.stringify({
 
 export default function NewLandingPage() {
   const router = useRouter();
-  // Header nav items: Pricing goes to main pricing page, FAQ smooth scrolls on this page
+  // Header nav items: How It Works and FAQ smooth scroll on this page
   const navItems = [
-    { name: 'Pricing', href: '/#pricing' },
+    {
+      name: 'How It Works',
+      href: '#benefits',
+      onClick: (e: React.MouseEvent) => {
+        e.preventDefault()
+        if (typeof document !== 'undefined') {
+          document.getElementById('benefits')?.scrollIntoView({ behavior: 'smooth' })
+        }
+      }
+    },
     {
       name: 'FAQ',
       href: '#faq',
@@ -395,7 +404,7 @@ export default function NewLandingPage() {
                       size="lg"
                       onClick={() => router.push('/#pricing')}
                     >
-                      Start Free Trial
+                      Get Sample Project
                     </CosmicButton>
                   </ShimmerBorder>
                   <CosmicButton
@@ -407,7 +416,7 @@ export default function NewLandingPage() {
                   </CosmicButton>
                 </div>
                 <div className="mt-6 text-sm text-slate-400">
-                  Free plan • No card required
+                  No strings attached
                 </div>
               </AnimatedGroup>
             </section>

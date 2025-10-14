@@ -48,7 +48,7 @@ const FOUNDING_TOOLTIP_COPY = {
   schedulingPublishing: 'We handle scheduling so reporting just works. You approve everything before it goes live.',
   analytics: 'Per-platform & per-post metrics require connected accounts. We connect once and schedule posts from your workspace.',
   advancedAnalytics: 'We tag every post with UTMs and track file_downloads in GA4 so you can see which channels drive subscribers.',
-  foundingPrice: 'Lock in $999/month forever as a founding partner. Regular price is $2,999/month. Only 2 spots available.',
+  foundingPrice: 'Founding partners are grandfathered at $999/month. Regular price is $2,999/month. Only 2 spots available.',
 };
 
 // Removed ContactFormData interface since Zcal handles contact collection
@@ -401,13 +401,13 @@ export function InteractivePricing() {
             <div className="flex flex-col gap-6">
               <div className="space-y-4">
                 <h2 className="inline rounded-sm bg-blue-500/10 p-1 text-xl font-semibold text-white">
-                  Free Sample Audit
+                  Try a Sample Project
                 </h2>
-                <span className="my-3 block text-3xl font-bold text-blue-400">
-                  $0
-                </span>
                 <p className="text-slate-300 text-sm leading-relaxed">
-                  Paste a YouTube URL. We'll turn it into a mini content library and show you the numbers.
+                  We'll repurpose one of your videos on us.
+                </p>
+                <p className="text-slate-300 text-sm leading-relaxed">
+                  Paste a YouTube URL and we'll create a mini content library to show you the quality and process.
                 </p>
               </div>
 
@@ -438,7 +438,7 @@ export function InteractivePricing() {
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg animate-soft-glow"
                   >
                     <LinkIcon className="w-4 h-4 mr-2" />
-                    Get Free Audit
+                    Get Sample Project
                   </Button>
                   
                   {/* Blue Divider under CTA */}
@@ -560,7 +560,7 @@ export function InteractivePricing() {
                             </TooltipTrigger>
                             <TooltipContent sideOffset={6} className="max-w-xs text-left leading-snug">
                               <div className="space-y-1">
-                                <p className="text-amber-300 font-medium">$795/mo for 6 months → then $995/mo forever</p>
+                                <p className="text-amber-300 font-medium">$795/mo for 6 months → then $995/mo (grandfathered)</p>
                                 <p className="text-slate-300 text-xs">Lock in founding partner pricing. Only 2 spots.</p>
                               </div>
                             </TooltipContent>
@@ -837,10 +837,10 @@ export function InteractivePricing() {
                         <div>
                           <h4 className="font-semibold text-white mb-3">Founding Partner Pricing</h4>
                           <div className="space-y-2">
-                            <p><span className="text-white font-medium">First 2 companies:</span> $795/mo for 6 months, then $995/mo forever</p>
+                            <p><span className="text-white font-medium">First 2 companies:</span> $795/mo for 6 months, then $995/mo (grandfathered)</p>
                             <p><span className="text-white font-medium">Companies 3+:</span> Standard pricing at $1,738/mo</p>
                             <p className="text-xs text-slate-400 mt-3">
-                              Founding partners lock in $995/mo for life. This rate is exclusive to the first 2 companies and will not be offered again.
+                              Founding partners are grandfathered at $995/mo. This rate is exclusive to the first 2 companies and will not be offered again.
                             </p>
                           </div>
                         </div>
@@ -871,7 +871,7 @@ export function InteractivePricing() {
                         {/* Support Section */}
                         <div>
                           <h4 className="font-semibold text-white mb-3">Support</h4>
-                          <p>Email us at <a href="mailto:support@gtmlabs.io" className="text-blue-400 hover:text-blue-300 underline">support@gtmlabs.io</a> or message us in your portal.</p>
+                          <p>Email us at <a href="mailto:jovanny@gtmlabs.io" className="text-blue-400 hover:text-blue-300 underline">jovanny@gtmlabs.io</a> or message us in your portal.</p>
                           <p className="mt-2">
                             <a href="/legal/sla" className="text-blue-400 hover:text-blue-300 underline">
                               View full SLA →
