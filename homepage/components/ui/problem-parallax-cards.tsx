@@ -395,6 +395,30 @@ export default function ProblemParallaxCards({ className }: { className?: string
             );
           })}
         </div>
+
+        {/* Bridge Statement - Transition from Problem to Solution */}
+        <motion.div 
+          className="mx-auto mt-16 max-w-[700px] text-center"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <p className="text-lg md:text-xl font-medium leading-relaxed text-slate-300">
+            Your webinar shouldn't vanish after the live session ends.{' '}
+            <span className="gradient-headline font-semibold">GTM LABS</span> transforms 
+            every recording into a{' '}
+            <span className="relative inline-block">
+              <span className="gradient-headline font-semibold">content engine</span>
+              <span className="absolute inset-0 blur-xl bg-blue-500/20 -z-10" />
+            </span>
+            {' '}that keeps working, growing your list, filling your next event and proving ROI{' '}
+            <span className="relative inline-block">
+              <span className="gradient-headline font-semibold">without burning out your team</span>
+              <span className="absolute inset-0 blur-xl bg-purple-500/20 -z-10" />
+            </span>.
+          </p>
+        </motion.div>
       </div>
     </section>
   );

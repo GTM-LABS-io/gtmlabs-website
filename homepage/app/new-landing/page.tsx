@@ -19,6 +19,7 @@ import { AnimatedGroup } from '@/components/ui/animated-group'
 import { ContainerTextFlip } from '@/components/container-text-flip'
 import RuixenFeaturedImageSection from '@/components/ui/ruixen-featured-image-section'
 import ProblemParallaxCards from '@/components/ui/problem-parallax-cards'
+import HowWeHelpSection from '@/components/ui/how-we-help-section'
 import HowItWorksSection from '@/components/ui/how-it-works-section'
 import { InteractivePricingSection } from '@/components/ui/interactive-pricing-section'
 import { PricingFAQ } from '@/components/ui/pricing-faq'
@@ -426,6 +427,11 @@ export default function NewLandingPage() {
               <ProblemParallaxCards />
             </section>
 
+            {/* How We Help Section */}
+            <section id="how-we-help" className="space-y-6">
+              <HowWeHelpSection />
+            </section>
+
             {/* How It Works Timeline */}
             <section id="how-it-works" className="relative space-y-6 overflow-visible">
               <HowItWorksSection />
@@ -568,29 +574,6 @@ export default function NewLandingPage() {
                 </div>
               </div>
             </section>
-            {/* CTA Section */}
-            <section id="about" className="text-center space-y-8">
-              <div className="relative max-w-4xl mx-auto">
-                <GlassCard variant="elevated" className="p-12 hover-feature-surface">
-                  <h2 className="section-headline gradient-headline mb-4">
-                    Turn every webinar into a content engine in 72 hours
-                  </h2>
-                  <p className="section-description mb-8">
-                    Share a recording and we deliver LinkedIn posts, blog drafts, newsletter copy, landing page assets, and short-form scripts ready to publish.
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button 
-                      variant="default"
-                      className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
-                      onClick={() => router.push('/#pricing')}
-                    >
-                      View Pricing & Plans
-                    </Button>
-                  </div>
-                </GlassCard>
-              </div>
-            </section>
-
             {/* Footer */}
             <footer className="bg-black text-white py-12 border-t border-slate-700/50 relative">
               <div className="absolute inset-0 bg-black" />
