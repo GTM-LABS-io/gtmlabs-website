@@ -14,7 +14,7 @@ type CardConfig = {
   dataLabel: string;
   color: string;
   glow: string;
-  variant: "countdown" | "clock" | "graph";
+  variant: "fading-engagement" | "task-overflow" | "hourglass" | "blind-dashboard";
 };
 
 // Counter hook for animated numbers
@@ -107,6 +107,7 @@ export default function ProblemParallaxCards({ className }: { className?: string
   const brandPink = slackTokens.colors.danger[500];
   const brandPurple = slackTokens.colors.primary[500];
   const brandBlue = slackTokens.colors.blue[500];
+  const brandGreen = slackTokens.colors.success[500];
 
   function hex(hex: string, a: number) {
     const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -121,81 +122,199 @@ export default function ProblemParallaxCards({ className }: { className?: string
   const cards = useMemo<CardConfig[]>(() => ([
     {
       id: 1,
-      title: "Your Webinars Die After 60 Minutes",
-      dataLabel: "of content value wasted",
+      title: "We put everything into that webinar. And then... crickets.",
+      dataLabel: "engagement drop after 48 hours",
       color: hex(brandPink, 0.12),
       glow: `0 0 0 1px ${hex(brandPink, 0.25)}, 0 20px 60px ${hex(brandPink, 0.15)}`,
-      variant: "countdown" as const,
+      variant: "fading-engagement" as const,
     },
     {
       id: 2,
-      title: "20 Hours to Repurpose Manually",
-      dataLabel: "in labor costs",
+      title: "I can't keep feeding the content monster. My team is already working nights and weekends.",
+      dataLabel: "Team burnout level",
       color: hex(brandPurple, 0.12),
       glow: `0 0 0 1px ${hex(brandPurple, 0.25)}, 0 18px 50px ${hex(brandPurple, 0.12)}`,
-      variant: "clock" as const,
+      variant: "task-overflow" as const,
     },
     {
       id: 3,
-      title: "Missing 10,000+ Impressions",
-      dataLabel: "Per webinar, every month",
+      title: "We know we should repurpose. But who has 20 hours to turn one webinar into clips and posts?",
+      dataLabel: "hours manual work per webinar",
       color: hex(brandBlue, 0.10),
       glow: `0 0 0 1px ${hex(brandBlue, 0.25)}, 0 16px 40px ${hex(brandBlue, 0.10)}`,
-      variant: "graph" as const,
+      variant: "hourglass" as const,
+    },
+    {
+      id: 4,
+      title: "I can't prove which content actually drives pipeline. It all feels like a guessing game.",
+      dataLabel: "attribution clarity",
+      color: hex(brandGreen, 0.10),
+      glow: `0 0 0 1px ${hex(brandGreen, 0.25)}, 0 16px 40px ${hex(brandGreen, 0.10)}`,
+      variant: "blind-dashboard" as const,
     },
   ]), []);
 
-  // Stage props (front, middle, back) controls stacking/offset/speeds
+  // Stage props (front, middle, back, far back) controls stacking/offset/speeds
   const stages = [
-    { baseX: 0, baseY: 0, z: 30, speed: 1.0, mag: 20 },
-    { baseX: 40, baseY: 30, z: 20, speed: 0.7, mag: 10 },
-    { baseX: 80, baseY: 60, z: 10, speed: 0.4, mag: 5 },
+    { baseX: 0, baseY: 0, z: 40, speed: 1.0, mag: 20 },
+    { baseX: 30, baseY: 20, z: 30, speed: 0.8, mag: 12 },
+    { baseX: 60, baseY: 40, z: 20, speed: 0.5, mag: 8 },
+    { baseX: 90, baseY: 60, z: 10, speed: 0.3, mag: 4 },
   ] as const;
 
-  // order = indices into cards for [front, middle, back]
-  const [order, setOrder] = useState<number[]>([0, 1, 2]);
-  const cycleDeck = () => setOrder(([a, b, c]) => [b, c, a]);
+  // order = indices into cards for [front, middle, back, far back]
+  const [order, setOrder] = useState<number[]>([0, 1, 2, 3]);
+  const cycleDeck = () => setOrder(([a, b, c, d]) => [b, c, d, a]);
 
   // Animated numbers
-  const wasted = useCountUp(87, 1.2);
-  const labor = useCountUp(3000, 1.2);
-  const impressions = useCountUp(10000, 1.2);
-  const timeLeft = useCountdown(60, 1.8);
+  const engagementDrop = useCountUp(87, 1.2);
+  const burnoutLevel = useCountUp(85, 1.2);
+  const hoursCount = useCountUp(20, 1.2);
+  
+  // Engagement icons animation state
+  const [engagementIcons, setEngagementIcons] = useState([
+    { id: 1, opacity: 1, icon: '👥' },
+    { id: 2, opacity: 1, icon: '💬' },
+    { id: 3, opacity: 1, icon: '👍' },
+  ]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEngagementIcons(prev => 
+        prev.map(icon => ({
+          ...icon,
+          opacity: icon.opacity > 0.2 ? icon.opacity - 0.15 : 1
+        }))
+      );
+    }, 300);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Progress bar animation for task overflow
+  const progressValue = useMotionValue(0);
+  const [progressPercent, setProgressPercent] = useState(0);
+  
+  useEffect(() => {
+    const controls = animate(progressValue, 100, {
+      duration: 3,
+      repeat: Infinity,
+      ease: "linear",
+      onUpdate: (v) => setProgressPercent(Math.round(v))
+    });
+    return () => controls.stop();
+  }, [progressValue]);
 
   const renderCardBody = (card: CardConfig) => (
-    <div className="relative z-10">
-      <div className="text-white text-sm font-semibold">{card.title}</div>
-      <div className="mt-3">
-        {card.variant === "countdown" && (
+    <div className="relative z-10 flex flex-col h-full">
+      {/* Quote - Takes up most of the space */}
+      <div className="flex-1 flex items-start mb-4">
+        <span className="text-white/30 text-3xl leading-none mr-1 mt-1">"</span>
+        <p className="text-white text-base font-medium leading-relaxed flex-1">
+          {card.title}
+        </p>
+        <span className="text-white/30 text-3xl leading-none ml-1 mt-1">"</span>
+      </div>
+
+      {/* Animation - Compact, takes up ~1/3 or less */}
+      <div className="mt-auto">
+        {/* Card 1: Fading Engagement - Compact */}
+        {card.variant === "fading-engagement" && (
           <div className="flex items-center gap-3">
-            <div className="font-mono text-2xl" style={{ letterSpacing: '0.08em' }}>{timeLeft}</div>
-            <div className="h-6 w-px bg-white/10" />
-            <div className="text-sm text-white/70">
-              <span className="font-semibold">{wasted}%</span> {card.dataLabel}
+            <div className="flex items-center gap-1.5">
+              {engagementIcons.map((item) => (
+                <motion.div
+                  key={item.id}
+                  className="text-lg"
+                  animate={{ opacity: item.opacity }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {item.icon}
+                </motion.div>
+              ))}
+            </div>
+            <div className="text-xs text-white/60">
+              <span className="font-semibold">{engagementDrop}%</span> {card.dataLabel}
             </div>
           </div>
         )}
-        {card.variant === "clock" && (
-          <div className="flex items-center gap-3">
-            <div className="relative h-10 w-10 rounded-full border" style={{ borderColor: '#2A2B35' }}>
-              <div className="absolute left-1/2 bottom-1/2 h-4 w-0.5 origin-bottom bg-white/80 animate-spin" style={{ animationDuration: '6s' }} />
-              <div className="absolute left-1/2 bottom-1/2 h-3 w-0.5 origin-bottom bg-white/60 animate-spin" style={{ animationDuration: '12s' }} />
+
+        {/* Card 2: Task Overflow - Compact single progress bar */}
+        {card.variant === "task-overflow" && (
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between text-[10px] text-white/40">
+              <span>Team Workload</span>
+              <span className="text-white/30">{burnoutLevel}%</span>
             </div>
-            <div className="text-sm text-white/70">
-              <span className="font-semibold">${labor.toLocaleString()}</span> {card.dataLabel}
+            <div className="relative h-2.5 bg-white/5 rounded-full overflow-hidden">
+              <motion.div
+                className="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-500/70 to-purple-400/70 rounded-full"
+                initial={{ width: '0%' }}
+                animate={{ width: '85%' }}
+                transition={{ duration: 8, ease: "easeOut" }}
+              />
+            </div>
+            <div className="text-xs text-white/60">
+              {card.dataLabel}
             </div>
           </div>
         )}
-        {card.variant === "graph" && (
-          <div className="grid h-16 grid-cols-8 items-end gap-1">
-            {[2, 2, 2, 2].map((h, i) => (
-              <motion.div key={`flat-${i}`} className="col-span-1 rounded bg-white/10" initial={{ height: 0 }} animate={{ height: h }} transition={{ delay: 0.05 + i * 0.05 }} />
-            ))}
-            {[4, 8, 12, 16].map((h, i) => (
-              <motion.div key={`growth-${i}`} className="col-span-1 rounded bg-white/20" initial={{ height: 0 }} animate={{ height: h }} transition={{ delay: 0.15 + i * 0.05 }} />
-            ))}
-            <div className="col-span-8 mt-2 text-sm text-white/70">
-              <span className="font-semibold">{impressions.toLocaleString()}+</span> {card.dataLabel}
+
+        {/* Card 3: Hourglass - Compact */}
+        {card.variant === "hourglass" && (
+          <div className="flex items-center gap-3">
+            <div className="relative w-8 h-12">
+              {/* Simplified hourglass */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                {/* Top bulb */}
+                <div className="w-7 h-4 border border-white/30 rounded-t-full relative overflow-hidden">
+                  <motion.div
+                    className="absolute bottom-0 w-full bg-white/20"
+                    animate={{ height: ['100%', '0%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  />
+                </div>
+                {/* Narrow middle */}
+                <div className="w-1.5 h-1.5 bg-white/30" />
+                {/* Bottom bulb */}
+                <div className="w-7 h-4 border border-white/30 rounded-b-full relative overflow-hidden">
+                  <motion.div
+                    className="absolute bottom-0 w-full bg-white/20"
+                    animate={{ height: ['0%', '100%'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="text-xs text-white/60">
+              <span className="font-semibold">{hoursCount}</span> {card.dataLabel}
+            </div>
+          </div>
+        )}
+
+        {/* Card 4: Blind Dashboard - Compact */}
+        {card.variant === "blind-dashboard" && (
+          <div className="space-y-1.5">
+            <div className="grid grid-cols-5 gap-1.5 h-10 items-end">
+              {[18, 28, 15, 24, 20].map((height, i) => (
+                <motion.div
+                  key={i}
+                  className="bg-white/10 rounded relative"
+                  initial={{ height: 0 }}
+                  animate={{ height: `${height}px` }}
+                  transition={{ 
+                    duration: 1.2,
+                    delay: i * 0.15,
+                    ease: "easeOut"
+                  }}
+                >
+                  <div className="absolute inset-0 flex items-center justify-center text-white/50 text-[10px] font-bold">
+                    ?
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            <div className="text-xs text-white/60">
+              <span className="font-semibold">0%</span> {card.dataLabel}
             </div>
           </div>
         )}
@@ -207,7 +326,7 @@ export default function ProblemParallaxCards({ className }: { className?: string
     <section ref={sectionRef} className={"py-20"} style={{ background: "transparent" }}>
       <div className="mx-auto w-full max-w-[1200px] px-4">
         <h2 className="text-center font-bold" style={{ fontSize: 34, lineHeight: 1.2 }}>
-          <span className="gradient-headline">67% of B2B Companies Run Webinars, But...</span>
+          <span className="gradient-headline">What We Hear From Marketing Teams</span>
         </h2>
 
         <div className="mt-10 flex flex-col gap-4 md:hidden" ref={mobileStackRef}>
@@ -229,14 +348,14 @@ export default function ProblemParallaxCards({ className }: { className?: string
           onMouseMove={onMove}
           onMouseLeave={onLeave}
         >
-          {[0,1,2].map((stageIndex) => {
+          {[0,1,2,3].map((stageIndex) => {
             const card = cards[order[stageIndex]];
             const stage = stages[stageIndex];
             const { x, y, mx, my, tiltX, tiltY } = useCardTransforms(stage.speed, stage.mag, stage.baseX, stage.baseY);
             const isHovered = hovered === stageIndex;
             const blurOther = hovered !== null && !isHovered ? 2 : 0;
             const extraGlow = isHovered ? 0.4 : 0;
-            const opacity = stageIndex === 2 ? backOpacity : stageIndex === 1 ? midOpacity : 1;
+            const opacity = stageIndex === 3 ? backOpacity : stageIndex === 2 ? midOpacity : stageIndex === 1 ? 0.9 : 1;
             const xCombined = useTransform([x, mx], ([a, b]) => (a as number) + (b as number));
             const yCombined = useTransform([y, my], ([a, b]) => (a as number) + (b as number));
 
