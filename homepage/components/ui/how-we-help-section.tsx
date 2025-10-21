@@ -18,7 +18,7 @@ export default function HowWeHelpSection() {
       <TwoColumnFeature
         eyebrow="ROI"
         title="Stop Throwing It All Away"
-        description="You spent $5,000 on that webinar. Production, speakers, promotion, your team's time. And then it's over. One post, maybe two, then nothing. We turn that single recording into 30+ assets that compound your investment for a month."
+        description="You put weeks into that webinar, production, speakers, promotion, your team's time. We turn that single recording into 30+ assets that work for a month, so nothing gets wasted."
         imageFrame="plain"
         image={<MultiplierAnimation />}
       >
@@ -40,7 +40,7 @@ export default function HowWeHelpSection() {
       <TwoColumnFeature
         eyebrow="Leverage"
         title="Give Your Team a Fighting Chance"
-        description="Your team is maxed out, working late nights, and you can't hire more people. Budget's locked. They don't need more hours, they need leverage. We give them 10x output without adding a single hour to their week."
+        description="Your team is maxed out, working late, and you can't hire more people. We give them 10x output without adding a single hour to their week."
         reverse
         imageFrame="plain"
         image={<BalanceScaleAnimation />}
@@ -63,7 +63,7 @@ export default function HowWeHelpSection() {
       <TwoColumnFeature
         eyebrow="Attribution"
         title="Walk In with Real Numbers"
-        description="Someone always asks: 'Is this actually working?' And you're stuck showing likes and impressions, metrics that feel hollow when the real question is about revenue. We track every post from first touch to subscriber, so you finally have the numbers that matter. No more defending yourself with vanity metrics."
+        description="Someone always asks if it's working, and you're stuck showing likes and impressions, metrics that feel hollow when the real question is about revenue. We track every post from first touch to subscriber, so you finally have the numbers that matter."
         imageFrame="plain"
         image={<FogLiftAnimation />}
       >
@@ -85,7 +85,7 @@ export default function HowWeHelpSection() {
       <TwoColumnFeature
         eyebrow="Revenue"
         title="Turn Marketing Into a Revenue Engine"
-        description="You're writing checks for marketing every month. Webinars, ads, tools, headcount. And you're wondering when this starts paying for itself. We make every webinar work 10x harder so marketing becomes the growth channel you invest in, not the cost center you tolerate."
+        description="You're writing checks for marketing every month and wondering when it starts paying for itself. We make every webinar work 10x harder so marketing becomes the growth channel you invest in, not the cost center you tolerate."
         reverse
         imageFrame="plain"
         image={<FlywheelAnimation />}
