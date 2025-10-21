@@ -13,11 +13,11 @@ import { TiltedScroll } from '@/components/ui/tilted-scroll'
 import DisplayCards from '@/components/ui/display-cards'
 import AnalyticsCards from '@/components/ui/analytics-cards'
 import CustomizationGraph from '@/components/ui/customization-graph'
+import { ContentLibraryCards } from '@/components/ui/content-library-cards'
 
 import { ShimmerBorder } from '@/components/ui/shimmer-border'
 import { AnimatedGroup } from '@/components/ui/animated-group'
 import { ContainerTextFlip } from '@/components/container-text-flip'
-import RuixenFeaturedImageSection from '@/components/ui/ruixen-featured-image-section'
 import ProblemParallaxCards from '@/components/ui/problem-parallax-cards'
 import HowWeHelpSection from '@/components/ui/how-we-help-section'
 import HowItWorksSection from '@/components/ui/how-it-works-section'
@@ -32,7 +32,10 @@ import {
   Palette,
   BarChart3,
   ListChecks,
-  Sliders
+  Sliders,
+  CheckCircle,
+  Smartphone,
+  FileEdit
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -439,22 +442,15 @@ export default function NewLandingPage() {
 
             {/* Removed older FeatureTabs block; new Ruixen tabbed section below is authoritative */}
 
-            {/* Ruixen Featured Image Section (new, separate from existing FeatureTabs) */}
-            <section id="features-ruixen" className="space-y-12">
-              <RuixenFeaturedImageSection />
-            </section>
-
-            
-
             {/* Benefits - Alternating two-column features */}
             <section id="benefits" className="space-y-14">
               <div className="text-center">
-                <h2 className="section-headline gradient-headline">Powered by AI, Delivered with Precision</h2>
+                <h2 className="section-headline gradient-headline">What You Get (And How We Deliver It)</h2>
               </div>
               <TwoColumnFeature
-                eyebrow="Repurpose"
-                title="The Fastest Way to Repurpose Webinars"
-                description="Get blog posts, LinkedIn content, newsletters, and lead magnets. Delivered in 72 hours."
+                eyebrow="Speed"
+                title="Stop Waiting Weeks for Content"
+                description="Your team doesn't have bandwidth to turn around content in days, but your calendar doesn't wait. We deliver 30+ finished assets in 48 hours so you can move at the speed your business actually needs."
                 imageFrame="plain"
                 image={
                   <TiltedScroll
@@ -472,78 +468,56 @@ export default function NewLandingPage() {
               >
                 <div className="space-y-3">
                   <MiniFeatureCard
-                    icon={<Sparkles className="w-5 h-5 text-blue-300" />}
-                    title="Fully Managed"
-                    description="Upload once; we handle writing, design, and delivery."
+                    icon={<Zap className="w-5 h-5 text-blue-300" />}
+                    title="Ship This Week, Not Next Month"
+                    description="No waiting on freelancers or internal queues. Content arrives ready to publish while your webinar is still relevant."
                   />
                   <MiniFeatureCard
-                    icon={<Zap className="w-5 h-5 text-blue-300" />}
-                    title="Zero Hassle"
-                    description="No extra tools. Brand voice applied. Publish-ready."
+                    icon={<CheckCircle className="w-5 h-5 text-blue-300" />}
+                    title="Zero Project Management"
+                    description="You approve once at the end, not baby-sit through every draft. No Slack threads, no status updates, no chasing people down."
                   />
                 </div>
               </TwoColumnFeature>
               <TwoColumnFeature
-                eyebrow="Branding"
-                title="Visually Consistent Across Every Channel"
-                description="Every piece we create looks and sounds like it came from your team. We match your visual identity, brand voice, and design standards so nothing feels outsourced."
+                eyebrow="Quality"
+                title="Looks Like Your Team Made It"
+                description="You can't hand this off to just anyone without it sounding generic or off-brand. We match your visual style and tone so closely that even your team won't know it came from outside."
                 reverse
                 imageFrame="plain"
                 image={<DisplayCards />}
               >
-                {/* Mini Feature Cards under Themes */}
                 <div className="space-y-3">
                   <MiniFeatureCard
                     icon={<Palette className="w-5 h-5 text-blue-300" />}
-                    title="Visual Identity Match"
-                    description="Your colors, fonts, logo placement, and design style applied to every asset."
+                    title="Matches Your Visual Standards"
+                    description="Your colors, fonts, logo placement, and design style on every asset. Nothing looks cheap or rushed."
                   />
                   <MiniFeatureCard
-                    icon={<Layers className="w-5 h-5 text-blue-300" />}
-                    title="Voice & Tone Alignment"
-                    description="We analyze your existing content to replicate your writing style, terminology, and brand personality."
-                  />
-                </div>
-              </TwoColumnFeature>
-              <TwoColumnFeature
-                eyebrow="Results"
-                title="Actionable Results"
-                description="See exactly how your repurposed content performs. Track views, clicks, and shares across every channel so you know what is working and what is not."
-                imageFrame="plain"
-                image={<AnalyticsCards className="mx-auto" />}
-              >
-                <div className="space-y-3">
-                  <MiniFeatureCard
-                    icon={<BarChart3 className="w-5 h-5 text-blue-300" />}
-                    title="Engagement & Reach"
-                    description="Measure impressions, engagement rates, and traffic driven from each piece."
-                  />
-                  <MiniFeatureCard
-                    icon={<ListChecks className="w-5 h-5 text-blue-300" />}
-                    title="Lead Impact"
-                    description="Track which content pieces generate signups, downloads, or webinar replays."
+                    icon={<MessageCircle className="w-5 h-5 text-blue-300" />}
+                    title="Sounds Like You Wrote It"
+                    description="We study your existing content to replicate your terminology and tone. Your CEO won't ask why it sounds different."
                   />
                 </div>
               </TwoColumnFeature>
               <TwoColumnFeature
-                eyebrow="Customization"
-                title="Strategically Adapted for Your Audience"
-                description="We don't just repurpose content. We strategically adapt it for different audiences and goals. Each piece is optimized for where it will be shared and who will see it."
+                eyebrow="Deliverables"
+                title="Everything You Need for a Month"
+                description="You're not getting clips and hoping they work. You're getting a full content system: social posts with copy, blogs ready to publish, newsletters drafted, and lead magnets designed."
                 imageFrame="plain"
-                image={<CustomizationGraph className="mx-auto" />}
-                reverse
+                image={<ContentLibraryCards />}
               >
                 <div className="space-y-3">
                   <MiniFeatureCard
-                    icon={<Sliders className="w-5 h-5 text-blue-300" />}
-                    title="Audience-Targeted Messaging"
-                    description="Different angles for executives, technical buyers, or end users based on your buyer personas."
+                    icon={<Smartphone className="w-5 h-5 text-blue-300" />}
+                    title="Social & Video Content"
+                    description="12 clips optimized for each platform, 8 posts with visuals and copy, carousel content for LinkedIn. Everything scheduled and ready to publish."
                   />
                   <MiniFeatureCard
-                    icon={<Sparkles className="w-5 h-5 text-blue-300" />}
-                    title="Platform-Native Optimization"
-                    description="LinkedIn posts optimized for professional engagement. TikTok clips formatted for viral reach. Blogs structured for SEO."
-                />
+                    icon={<FileEdit className="w-5 h-5 text-blue-300" />}
+                    title="Written & Lead Gen Assets"
+                    description="SEO blog post to drive organic traffic, newsletter to send your list, lead magnet PDF to capture new subscribers. Each one moves prospects closer to signing up for your next webinar."
+                  />
                 </div>
               </TwoColumnFeature>
             </section>
