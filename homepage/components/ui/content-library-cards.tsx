@@ -72,26 +72,26 @@ const ContentCard = ({
           transformStyle: "preserve-3d",
         }}
         className={cn(
-          "relative w-full transform-gpu overflow-hidden rounded-xl bg-black/40 backdrop-blur-sm p-6 shadow-lg border border-white/10 cursor-pointer",
+          "relative w-full transform-gpu overflow-hidden rounded-xl bg-[#000]/90 backdrop-blur-sm p-6 shadow-lg border-2 border-white/10 cursor-pointer hover:border-white/20 hover:bg-[#000]",
           "border-t-4",
           variantClasses[variant]
         )}
       >
         <div style={{ transform: "translateZ(20px)" }} className="space-y-4">
-          {/* Icon */}
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10">
-            <div className="h-6 w-6 text-blue-400">{icon}</div>
+          {/* Icon + Category (side by side) */}
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10">
+              <div className="h-5 w-5 text-blue-400">{icon}</div>
+            </div>
+            <h4 className="text-lg font-bold text-white leading-tight">{category}</h4>
           </div>
 
-          {/* Category */}
-          <div>
-            <h4 className="text-lg font-bold text-white">{category}</h4>
-            <p className="text-sm text-gray-400 mt-1">{description}</p>
-          </div>
+          {/* Description (more space now) */}
+          <p className="text-sm text-gray-400 leading-relaxed">{description}</p>
 
           {/* Count */}
-          <div className="pt-2">
-            <span className="text-3xl font-bold bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
+          <div className="pt-1">
+            <span className="text-2xl font-bold bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
               {count}
             </span>
           </div>
@@ -125,7 +125,7 @@ export const ContentLibraryCards = () => {
         </svg>
       ),
       category: "Video Content",
-      description: "Optimized for every platform",
+      description: "Short-form clips, talking head segments, and highlight reels optimized for LinkedIn, Instagram, TikTok, and YouTube.",
       count: "12 clips",
       variant: "blue-light",
     },
@@ -136,7 +136,7 @@ export const ContentLibraryCards = () => {
         </svg>
       ),
       category: "Social Content",
-      description: "Posts with copy and visuals",
+      description: "Fully-written posts with custom graphics, carousels, and quote cards ready to schedule across your social channels.",
       count: "8 posts",
       variant: "blue-medium",
     },
@@ -147,7 +147,7 @@ export const ContentLibraryCards = () => {
         </svg>
       ),
       category: "Written Assets",
-      description: "SEO blogs and newsletters",
+      description: "SEO-optimized blog posts, newsletter drafts, and long-form content designed to drive organic traffic and nurture your list.",
       count: "3 pieces",
       variant: "blue-dark",
     },
@@ -158,7 +158,7 @@ export const ContentLibraryCards = () => {
         </svg>
       ),
       category: "Lead Generation",
-      description: "Designed PDFs and guides",
+      description: "Custom lead magnets tailored to your audience. Examples include whitepapers, technical briefs, checklists, templates, and benchmark reports. We select the right format based on your market and goals.",
       count: "1 magnet",
       variant: "blue-darker",
     },
