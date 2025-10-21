@@ -431,9 +431,7 @@ export default function NewLandingPage() {
             </section>
 
             {/* How We Help Section */}
-            <section id="how-we-help" className="space-y-6">
-              <HowWeHelpSection />
-            </section>
+            <HowWeHelpSection />
 
             {/* How It Works Timeline */}
             <section id="how-it-works" className="relative space-y-6 overflow-visible">

@@ -8,7 +8,20 @@ export default function HowWeHelpSection() {
   return (
     <section id="how-we-help" className="space-y-14">
       <div className="text-center">
-        <h2 className="section-headline gradient-headline">How We Help</h2>
+        <h2 className="section-headline">
+          <span 
+            style={{
+              background: 'linear-gradient(90deg, #F4F4F5 0%, #97C7FD 50%, #F4F4F5 100%)',
+              WebkitBackgroundClip: 'text',
+              backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              color: 'transparent',
+              display: 'inline-block'
+            }}
+          >
+            How We Help
+          </span>
+        </h2>
         <p className="text-center text-lg md:text-xl text-slate-400 mt-4 max-w-[700px] mx-auto">
           Stop throwing money away. Give your team a chance. Walk into the board meeting with real numbers.
         </p>
