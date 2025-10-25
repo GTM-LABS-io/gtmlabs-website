@@ -243,13 +243,50 @@ async function handleToolCall(toolName: string, args: any): Promise<any> {
   throw new Error(`Unknown tool: ${toolName}`);
 }
 
+export async function GET() {
+  // Return MCP server info for discovery
+  return new Response(
+    JSON.stringify({
+      name: 'gtm-labs',
+      version: '1.0.0',
+      description: 'GTM Labs MCP Server - Access components from GTM Labs projects',
+      protocol: 'mcp',
+      transport: 'sse',
+      endpoint: '/api/mcp/sse',
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+    }
+  );
+}
+
 export async function POST(request: NextRequest) {
   const encoder = new TextEncoder();
   
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        const body = await request.json();
+        // Read body text first
+        const bodyText = await request.text();
+        
+        // Handle empty body
+        if (!bodyText || bodyText.trim() === '') {
+          const response: JsonRpcResponse = {
+            jsonrpc: '2.0',
+            error: {
+              code: -32700,
+              message: 'Parse error: Empty request body',
+            },
+          };
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(response)}\n\n`));
+          controller.close();
+          return;
+        }
+        
+        const body = JSON.parse(bodyText);
         
         // Handle tools/call specially (async)
         if (body.method === 'tools/call') {
