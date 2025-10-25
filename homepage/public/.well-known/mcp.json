@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "gtm-labs": {
+      "url": "https://www.gtmlabs.io/api/mcp/sse",
+      "name": "GTM Labs Components",
+      "description": "Access GTM Labs components from GitHub",
+      "version": "1.0.0"
+    }
+  }
+}

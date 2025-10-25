@@ -1,0 +1,4 @@
+# MCP SDK - install from Anthropic's GitHub
+# Install with: pip install git+https://github.com/anthropics/anthropic-sdk-python.git#subdirectory=mcp
+# Or use the standalone command:
+# pip install mcp-server

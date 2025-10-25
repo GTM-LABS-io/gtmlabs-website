@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GTM Labs Design System MCP</title>
+  <meta name="description" content="Build websites with GTM Labs design patterns in your AI IDE">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      color: #fafafa;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    
+    /* Header */
+    header {
+      padding: 2rem 0;
+      border-bottom: 1px solid rgba(229, 229, 229, 0.1);
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+    
+    /* Hero */
+    .hero {
+      padding: 6rem 0;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .hero p {
+      font-size: 1.25rem;
+      color: #a3a3a3;
+      max-width: 600px;
+      margin: 0 auto 3rem;
+    }
+    
+    /* Install Box */
+    .install-box {
+      background: rgba(38, 38, 38, 0.5);
+      border: 1px solid rgba(229, 229, 229, 0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin: 3rem auto;
+      max-width: 800px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .install-box h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #0ea5e9;
+    }
+    
+    .install-step {
+      margin: 2rem 0;
+    }
+    
+    .install-step h3 {
+      font-size: 1.125rem;
+      margin-bottom: 0.75rem;
+      color: #e5e5e5;
+    }
+    
+    .code-block {
+      background: #171717;
+      border: 1px solid rgba(229, 229, 229, 0.1);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+      position: relative;
+    }
+    
+    .code-block code {
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+      color: #0ea5e9;
+    }
+    
+    .copy-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(14, 165, 233, 0.1);
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      color: #0ea5e9;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      transition: all 0.2s ease;
+    }
+    
+    .copy-button:hover {
+      background: rgba(14, 165, 233, 0.2);
+    }
+    
+    /* Buttons */
+    .cta-button {
+      background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+      color: white;
+      font-size: 1.125rem;
+      font-weight: 600;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.3);
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px -5px rgba(14, 165, 233, 0.5);
+    }
+    
+    .secondary-button {
+      background: rgba(38, 38, 38, 0.5);
+      border: 1px solid rgba(229, 229, 229, 0.1);
+      color: #e5e5e5;
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      margin-left: 1rem;
+    }
+    
+    .secondary-button:hover {
+      border-color: rgba(14, 165, 233, 0.3);
+      background: rgba(14, 165, 233, 0.05);
+    }
+    
+    /* Features */
+    .features {
+      padding: 4rem 0;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 3rem;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .feature-card {
+      background: rgba(38, 38, 38, 0.5);
+      border: 1px solid rgba(229, 229, 229, 0.1);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(14, 165, 233, 0.3);
+      box-shadow: 0 20px 40px -10px rgba(14, 165, 233, 0.2);
+    }
+    
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: #0ea5e9;
+    }
+    
+    .feature-card p {
+      color: #a3a3a3;
+    }
+    
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(229, 229, 229, 0.1);
+      padding: 3rem 0;
+      margin-top: 6rem;
+      text-align: center;
+      color: #a3a3a3;
+    }
+    
+    footer a {
+      color: #0ea5e9;
+      text-decoration: none;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/" class="logo">GTM Labs</a>
+    </div>
+  </header>
+  
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Build with <span class="gradient-text">GTM Labs Design</span></h1>
+        <p>Install our design system MCP in your AI IDE and build websites with our exact components, animations, and styling.</p>
+        <div>
+          <a href="/mcp/gtm-labs-mcp.py" download class="cta-button">Download MCP</a>
+          <a href="https://github.com/yourusername/gtm-labs-mcp" class="secondary-button">View on GitHub</a>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <div class="container">
+        <div class="install-box">
+          <h2>🚀 Quick Install</h2>
+          
+          <div class="install-step">
+            <h3>Step 1: Download the MCP</h3>
+            <div class="code-block">
+              <button class="copy-button" onclick="copyCode(this, 'curl -o ~/gtm-labs-mcp.py https://gtmlabs.io/mcp/gtm-labs-mcp.py')">Copy</button>
+              <code>curl -o ~/gtm-labs-mcp.py https://gtmlabs.io/mcp/gtm-labs-mcp.py</code>
+            </div>
+          </div>
+          
+          <div class="install-step">
+            <h3>Step 2: Add to Your IDE</h3>
+            <p style="color: #a3a3a3; margin-bottom: 1rem;">For Cursor, Windsurf, or Claude Desktop:</p>
+            <div class="code-block">
+              <button class="copy-button" onclick="copyCode(this, configCode)">Copy</button>
+              <code>{
+  "mcpServers": {
+    "gtm-labs": {
+      "command": "python",
+      "args": ["/Users/yourname/gtm-labs-mcp.py"]
+    }
+  }
+}</code>
+            </div>
+          </div>
+          
+          <div class="install-step">
+            <h3>Step 3: Restart Your IDE</h3>
+            <p style="color: #a3a3a3;">Completely quit and restart your AI IDE.</p>
+          </div>
+          
+          <div class="install-step">
+            <h3>Step 4: Start Building!</h3>
+            <div class="code-block">
+              <button class="copy-button" onclick="copyCode(this, 'Use GTM Labs MCP to build me a landing page')">Copy</button>
+              <code>"Use GTM Labs MCP to build me a landing page"</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">What You Get</h2>
+        
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>Complete Design System</h3>
+            <p>Colors, typography, spacing, and shadows - everything you need to match our style perfectly.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Production Components</h3>
+            <p>Hero sections, feature cards, navigation bars, and more - all with animations and hover effects.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Easy Customization</h3>
+            <p>Change colors, fonts, and spacing while keeping the proven structure and interactions.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <h3>Fully Responsive</h3>
+            <p>Mobile-first design that looks great on any device, with no additional work needed.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <h3>Smooth Animations</h3>
+            <p>Gradient shifts, fade-ins, hover lifts - all the micro-interactions that make sites feel premium.</p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3>Build in Seconds</h3>
+            <p>Tell your AI what you want and get production-ready code instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Example Usage</h2>
+        
+        <div class="install-box">
+          <h3>Build a Landing Page</h3>
+          <div class="code-block">
+            <code>"Use GTM Labs MCP to build me a landing page for my 'FitTrack' app. 
+Include hero, 3 feature cards, and navbar. Use green (#10B981) as primary."</code>
+          </div>
+          
+          <h3 style="margin-top: 2rem;">Get a Component</h3>
+          <div class="code-block">
+            <code>"Use GTM Labs MCP to show me the hero section code"</code>
+          </div>
+          
+          <h3 style="margin-top: 2rem;">Customize Colors</h3>
+          <div class="code-block">
+            <code>"Use GTM Labs MCP customize_colors with primary='#FF6B6B' and build me a hero"</code>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer>
+    <div class="container">
+      <p>Built by <a href="https://gtmlabs.io">GTM Labs</a></p>
+      <p style="margin-top: 1rem;">
+        <a href="https://github.com/yourusername/gtm-labs-mcp">GitHub</a> · 
+        <a href="https://gtmlabs.io/mcp/docs">Documentation</a> · 
+        <a href="mailto:support@gtmlabs.io">Support</a>
+      </p>
+    </div>
+  </footer>
+  
+  <script>
+    const configCode = `{
+  "mcpServers": {
+    "gtm-labs": {
+      "command": "python",
+      "args": ["/Users/yourname/gtm-labs-mcp.py"]
+    }
+  }
+}`;
+    
+    function copyCode(button, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        setTimeout(() => {
+          button.textContent = originalText;
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

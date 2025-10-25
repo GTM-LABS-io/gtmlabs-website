@@ -1,0 +1,6 @@
+{
+  "gtm-labs": {
+    "command": "python3.11",
+    "args": ["/Users/jovannytovar/mcp-servers/gtm-labs-mcp.py"]
+  }
+}
