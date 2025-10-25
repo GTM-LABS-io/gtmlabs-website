@@ -8,12 +8,14 @@ async function fetchFromGitHub(path: string) {
   const response = await fetch(url, {
     headers: {
       'Accept': 'application/vnd.github.v3+json',
+      'User-Agent': 'gtm-labs-mcp-api/1.0',
     },
     next: { revalidate: 60 }
   });
   
   if (!response.ok) {
-    throw new Error(`GitHub API error: ${response.status}`);
+    const text = await response.text().catch(() => '');
+    throw new Error(`GitHub API error ${response.status}: ${text || response.statusText}`);
   }
   
   return response.json();
@@ -21,25 +23,20 @@ async function fetchFromGitHub(path: string) {
 
 async function scanComponents(basePath = 'homepage/components'): Promise<any[]> {
   const components: any[] = [];
+  const items = await fetchFromGitHub(basePath);
   
-  try {
-    const items = await fetchFromGitHub(basePath);
-    
-    for (const item of items) {
-      if (item.type === 'file' && /\.(tsx|ts|jsx|js)$/.test(item.name)) {
-        components.push({
-          name: item.name.replace(/\.(tsx|ts|jsx|js)$/, ''),
-          path: item.path,
-          url: item.html_url,
-          type: 'file'
-        });
-      } else if (item.type === 'dir') {
-        const subComponents = await scanComponents(item.path);
-        components.push(...subComponents);
-      }
+  for (const item of items) {
+    if (item.type === 'file' && /\.(tsx|ts|jsx|js)$/.test(item.name)) {
+      components.push({
+        name: item.name.replace(/\.(tsx|ts|jsx|js)$/, ''),
+        path: item.path,
+        url: item.html_url,
+        type: 'file'
+      });
+    } else if (item.type === 'dir') {
+      const subComponents = await scanComponents(item.path);
+      components.push(...subComponents);
     }
-  } catch (error) {
-    console.error('Error scanning components:', error);
   }
   
   return components;
@@ -86,8 +83,9 @@ export async function GET(request: Request) {
     });
   } catch (error: any) {
     return NextResponse.json(
-      { error: error.message },
+      { error: error?.message || 'Unknown error while getting component' },
       { status: 500 }
     );
   }
 }
+
