@@ -424,8 +424,12 @@ async function handleToolCall(toolName: string, args: any): Promise<any> {
   throw new Error(`Unknown tool: ${toolName}`);
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const encoder = new TextEncoder();
+  const authHeader = request.headers.get('Authorization');
+  
+  // For now, we accept connections without auth (auth type: none)
+  // In the future, we can add OAuth support here
   
   // Return SSE stream that sends server info immediately
   const stream = new ReadableStream({

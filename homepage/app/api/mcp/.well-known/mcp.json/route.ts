@@ -14,7 +14,7 @@ export async function GET() {
     capabilities: {
       tools: true,
       resources: true,
-      prompts: false,
+      prompts: true,
     },
     authentication: {
       type: 'none', // We'll add OAuth later if needed

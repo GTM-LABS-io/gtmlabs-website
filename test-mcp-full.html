@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Full MCP Protocol Test</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      background: #1e1e1e;
+      color: #d4d4d4;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 { color: #4ec9b0; }
+    h2 { color: #569cd6; margin-top: 30px; }
+    .section {
+      margin: 20px 0;
+      padding: 15px;
+      background: #252526;
+      border-radius: 4px;
+    }
+    button {
+      background: #0e639c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover { background: #1177bb; }
+    button.success { background: #0e7c0e; }
+    button.success:hover { background: #107c10; }
+    #output {
+      white-space: pre-wrap;
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid #3c3c3c;
+      max-height: 600px;
+      overflow-y: auto;
+      font-size: 12px;
+    }
+    .success { color: #4ec9b0; }
+    .error { color: #f48771; }
+    .info { color: #569cd6; }
+    .warning { color: #dcdcaa; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🧪 Complete MCP Protocol Test Suite</h1>
+    
+    <div class="section">
+      <h2>📡 Connection & Discovery</h2>
+      <button onclick="testSSE()">Connect SSE Stream</button>
+      <button onclick="testMetadata()">Get Metadata</button>
+      <button onclick="testHealth()">Health Check</button>
+    </div>
+
+    <div class="section">
+      <h2>🤝 Protocol Handshake</h2>
+      <button onclick="testInitialize()">1. Initialize</button>
+      <button onclick="testInitialized()">2. Initialized Notification</button>
+    </div>
+
+    <div class="section">
+      <h2>🛠️ Tools</h2>
+      <button onclick="testToolsList()">List Tools</button>
+      <button onclick="testListComponents()">Call: list_components</button>
+      <button onclick="testSearchComponents()">Call: search_components</button>
+      <button onclick="testGetComponent()">Call: get_component</button>
+    </div>
+
+    <div class="section">
+      <h2>📦 Resources</h2>
+      <button onclick="testResourcesList()">List Resources</button>
+      <button onclick="testReadResourceList()">Read: component://list</button>
+      <button onclick="testReadResourceCategories()">Read: component://categories</button>
+    </div>
+
+    <div class="section">
+      <h2>💬 Prompts</h2>
+      <button onclick="testPromptsList()">List Prompts</button>
+      <button onclick="testGetPromptFind()">Get: find-component</button>
+      <button onclick="testGetPromptUsage()">Get: component-usage</button>
+    </div>
+
+    <div class="section">
+      <h2>🧹 Utilities</h2>
+      <button onclick="clearOutput()" class="success">Clear Output</button>
+      <button onclick="runFullTest()" class="success">Run Full Test Suite</button>
+    </div>
+
+    <div class="section">
+      <h2>📊 Output:</h2>
+      <div id="output"></div>
+    </div>
+  </div>
+
+  <script>
+    const output = document.getElementById('output');
+    const BASE_URL = 'https://www.gtmlabs.io/api/mcp';
+    let eventSource = null;
+
+    function log(message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const className = type;
+      output.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+      output.scrollTop = output.scrollHeight;
+    }
+
+    function clearOutput() {
+      output.innerHTML = '';
+    }
+
+    // SSE Connection
+    function testSSE() {
+      if (eventSource) {
+        eventSource.close();
+      }
+
+      log('🔌 Connecting to SSE stream...', 'info');
+      
+      eventSource = new EventSource(`${BASE_URL}/sse`);
+      
+      eventSource.onopen = () => {
+        log('✓ SSE connection opened', 'success');
+      };
+
+      eventSource.addEventListener('message', (e) => {
+        log('📨 Received message event:', 'success');
+        try {
+          const data = JSON.parse(e.data);
+          log(JSON.stringify(data, null, 2), 'info');
+        } catch (err) {
+          log(e.data, 'info');
+        }
+      });
+
+      eventSource.onerror = (e) => {
+        log('✗ SSE error occurred', 'error');
+      };
+    }
+
+    // Metadata & Health
+    async function testMetadata() {
+      log('📋 Fetching server metadata...', 'info');
+      try {
+        const response = await fetch(`${BASE_URL}/.well-known/mcp.json`);
+        const data = await response.json();
+        log('✓ Metadata received:', 'success');
+        log(JSON.stringify(data, null, 2), 'info');
+      } catch (error) {
+        log('✗ Metadata fetch failed:', 'error');
+        log(error.message, 'error');
+      }
+    }
+
+    async function testHealth() {
+      log('❤️ Checking server health...', 'info');
+      try {
+        const response = await fetch(`${BASE_URL}/health`);
+        const data = await response.json();
+        log('✓ Health check passed:', 'success');
+        log(JSON.stringify(data, null, 2), 'info');
+      } catch (error) {
+        log('✗ Health check failed:', 'error');
+        log(error.message, 'error');
+      }
+    }
+
+    // MCP Request Helper
+    async function sendMCPRequest(method, params = {}) {
+      const request = {
+        jsonrpc: '2.0',
+        id: Date.now(),
+        method,
+        params
+      };
+
+      log(`📤 Sending ${method}...`, 'info');
+
+      try {
+        const response = await fetch(`${BASE_URL}/sse`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(request)
+        });
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n');
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.substring(6);
+              try {
+                const json = JSON.parse(data);
+                if (json.error) {
+                  log('✗ Error response:', 'error');
+                  log(JSON.stringify(json.error, null, 2), 'error');
+                } else {
+                  log('✓ Response received:', 'success');
+                  log(JSON.stringify(json.result, null, 2), 'info');
+                }
+              } catch (e) {
+                log(data, 'info');
+              }
+            }
+          }
+        }
+      } catch (error) {
+        log('✗ Request failed:', 'error');
+        log(error.message, 'error');
+      }
+    }
+
+    // Protocol Handshake
+    function testInitialize() {
+      sendMCPRequest('initialize', {
+        protocolVersion: '2024-11-05',
+        capabilities: {},
+        clientInfo: { name: 'test-client', version: '1.0.0' }
+      });
+    }
+
+    function testInitialized() {
+      sendMCPRequest('notifications/initialized', {});
+    }
+
+    // Tools
+    function testToolsList() {
+      sendMCPRequest('tools/list', {});
+    }
+
+    function testListComponents() {
+      sendMCPRequest('tools/call', {
+        name: 'list_components',
+        arguments: {}
+      });
+    }
+
+    function testSearchComponents() {
+      sendMCPRequest('tools/call', {
+        name: 'search_components',
+        arguments: { query: 'hero' }
+      });
+    }
+
+    function testGetComponent() {
+      sendMCPRequest('tools/call', {
+        name: 'get_component',
+        arguments: { name: 'hero-button' }
+      });
+    }
+
+    // Resources
+    function testResourcesList() {
+      sendMCPRequest('resources/list', {});
+    }
+
+    function testReadResourceList() {
+      sendMCPRequest('resources/read', {
+        uri: 'component://list'
+      });
+    }
+
+    function testReadResourceCategories() {
+      sendMCPRequest('resources/read', {
+        uri: 'component://categories'
+      });
+    }
+
+    // Prompts
+    function testPromptsList() {
+      sendMCPRequest('prompts/list', {});
+    }
+
+    function testGetPromptFind() {
+      sendMCPRequest('prompts/get', {
+        name: 'find-component',
+        arguments: { use_case: 'pricing page' }
+      });
+    }
+
+    function testGetPromptUsage() {
+      sendMCPRequest('prompts/get', {
+        name: 'component-usage',
+        arguments: { component_name: 'hero-button' }
+      });
+    }
+
+    // Full Test Suite
+    async function runFullTest() {
+      clearOutput();
+      log('🚀 Starting full test suite...', 'warning');
+      log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'warning');
+      
+      await testHealth();
+      await new Promise(r => setTimeout(r, 500));
+      
+      await testMetadata();
+      await new Promise(r => setTimeout(r, 500));
+      
+      testSSE();
+      await new Promise(r => setTimeout(r, 1000));
+      
+      await testInitialize();
+      await new Promise(r => setTimeout(r, 500));
+      
+      await testToolsList();
+      await new Promise(r => setTimeout(r, 500));
+      
+      await testResourcesList();
+      await new Promise(r => setTimeout(r, 500));
+      
+      await testPromptsList();
+      await new Promise(r => setTimeout(r, 500));
+      
+      await testSearchComponents();
+      
+      log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'warning');
+      log('✅ Full test suite completed!', 'success');
+    }
+  </script>
+</body>
+</html>
