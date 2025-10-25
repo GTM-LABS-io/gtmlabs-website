@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   return NextResponse.json({
     name: 'GTM Labs MCP API',
-    version: '1.0.0',
+    version: '1.0.1',
     description: 'Access GTM Labs components via API',
     endpoints: {
       list_components: {
