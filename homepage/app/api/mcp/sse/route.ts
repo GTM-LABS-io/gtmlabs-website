@@ -73,7 +73,13 @@ function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
         protocolVersion: '2024-11-05',
         capabilities: {
           tools: {},
-          resources: {},
+          resources: {
+            subscribe: false,
+            listChanged: false,
+          },
+          prompts: {
+            listChanged: false,
+          },
         },
         serverInfo: {
           name: 'gtm-labs',
@@ -145,13 +151,167 @@ function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
     };
   }
 
-  // List resources (empty for now)
+  // List resources - expose components as resources
   if (method === 'resources/list') {
     return {
       jsonrpc: '2.0',
       id,
       result: {
-        resources: [],
+        resources: [
+          {
+            uri: 'component://list',
+            name: 'Component List',
+            description: 'List of all available GTM Labs components',
+            mimeType: 'application/json',
+          },
+          {
+            uri: 'component://categories',
+            name: 'Component Categories',
+            description: 'Available component categories',
+            mimeType: 'application/json',
+          },
+        ],
+      },
+    };
+  }
+
+  // Read resource content
+  if (method === 'resources/read') {
+    const uri = params?.uri;
+    
+    if (uri === 'component://list') {
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: {
+          contents: [
+            {
+              uri: 'component://list',
+              mimeType: 'application/json',
+              text: JSON.stringify({
+                message: 'Use the list_components tool to get the full list',
+                hint: 'Call tools/call with name: "list_components"',
+              }, null, 2),
+            },
+          ],
+        },
+      };
+    }
+    
+    if (uri === 'component://categories') {
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: {
+          contents: [
+            {
+              uri: 'component://categories',
+              mimeType: 'application/json',
+              text: JSON.stringify({
+                categories: ['ui', 'sections', 'animations', 'cards', 'experiments'],
+                description: 'Available component categories in GTM Labs',
+              }, null, 2),
+            },
+          ],
+        },
+      };
+    }
+    
+    return {
+      jsonrpc: '2.0',
+      id,
+      error: {
+        code: -32602,
+        message: `Resource not found: ${uri}`,
+      },
+    };
+  }
+
+  // List prompts
+  if (method === 'prompts/list') {
+    return {
+      jsonrpc: '2.0',
+      id,
+      result: {
+        prompts: [
+          {
+            name: 'find-component',
+            description: 'Help find the right component for a specific use case',
+            arguments: [
+              {
+                name: 'use_case',
+                description: 'Describe what you want to build (e.g., "pricing page", "hero section")',
+                required: true,
+              },
+            ],
+          },
+          {
+            name: 'component-usage',
+            description: 'Get instructions on how to use a specific component',
+            arguments: [
+              {
+                name: 'component_name',
+                description: 'Name of the component',
+                required: true,
+              },
+            ],
+          },
+        ],
+      },
+    };
+  }
+
+  // Get prompt
+  if (method === 'prompts/get') {
+    const promptName = params?.name;
+    const args = params?.arguments || {};
+    
+    if (promptName === 'find-component') {
+      const useCase = args.use_case || 'general UI component';
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: {
+          description: `Finding components for: ${useCase}`,
+          messages: [
+            {
+              role: 'user',
+              content: {
+                type: 'text',
+                text: `I need help finding GTM Labs components for this use case: ${useCase}. Please search the available components and suggest the most suitable ones.`,
+              },
+            },
+          ],
+        },
+      };
+    }
+    
+    if (promptName === 'component-usage') {
+      const componentName = args.component_name || '';
+      return {
+        jsonrpc: '2.0',
+        id,
+        result: {
+          description: `Usage guide for: ${componentName}`,
+          messages: [
+            {
+              role: 'user',
+              content: {
+                type: 'text',
+                text: `Please get the component "${componentName}" and explain how to use it, including its props and any important implementation details.`,
+              },
+            },
+          ],
+        },
+      };
+    }
+    
+    return {
+      jsonrpc: '2.0',
+      id,
+      error: {
+        code: -32602,
+        message: `Prompt not found: ${promptName}`,
       },
     };
   }
@@ -279,7 +439,13 @@ export async function GET() {
           version: '1.0.0',
           capabilities: {
             tools: {},
-            resources: {},
+            resources: {
+              subscribe: false,
+              listChanged: false,
+            },
+            prompts: {
+              listChanged: false,
+            },
           },
         },
       };
