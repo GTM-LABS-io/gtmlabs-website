@@ -32,8 +32,7 @@ async function fetchFromGitHub(path: string) {
   });
   
   if (!response.ok) {
-    const text = await response.text().catch(() => '');
-    throw new Error(`GitHub API error ${response.status}: ${text || response.statusText}`);
+    throw new Error(`GitHub API error ${response.status}`);
   }
   
   return response.json();
@@ -64,7 +63,7 @@ async function scanComponents(basePath = 'homepage/components'): Promise<any[]> 
 function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
   const { method, params, id } = request;
 
-  // Initialize - required handshake
+  // Initialize
   if (method === 'initialize') {
     return {
       jsonrpc: '2.0',
@@ -83,7 +82,7 @@ function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
     };
   }
 
-  // Initialized notification (no response needed, but handle it)
+  // Initialized notification
   if (method === 'notifications/initialized') {
     return {
       jsonrpc: '2.0',
@@ -145,7 +144,7 @@ function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
     };
   }
 
-  // List resources (empty for now)
+  // List resources
   if (method === 'resources/list') {
     return {
       jsonrpc: '2.0',
@@ -264,58 +263,14 @@ async function handleToolCall(toolName: string, args: any): Promise<any> {
   throw new Error(`Unknown tool: ${toolName}`);
 }
 
-export async function GET() {
-  // Generate a unique session ID
-  const sessionId = crypto.randomUUID();
-  const encoder = new TextEncoder();
-  
-  // Return SSE stream with endpoint event
-  const stream = new ReadableStream({
-    start(controller) {
-      // Send endpoint event with session-based message URL
-      const endpointEvent = `event: endpoint\ndata: /api/mcp/messages?sessionId=${sessionId}\n\n`;
-      controller.enqueue(encoder.encode(endpointEvent));
-      
-      // Keep connection alive
-      const heartbeat = setInterval(() => {
-        try {
-          controller.enqueue(encoder.encode(': heartbeat\n\n'));
-        } catch (e) {
-          clearInterval(heartbeat);
-        }
-      }, 30000);
-      
-      // Cleanup after 5 minutes
-      setTimeout(() => {
-        clearInterval(heartbeat);
-        controller.close();
-      }, 300000);
-    },
-  });
-
-  return new Response(stream, {
-    headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache, no-transform',
-      'Connection': 'keep-alive',
-      'X-Accel-Buffering': 'no',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    },
-  });
-}
-
 export async function POST(request: NextRequest) {
   const encoder = new TextEncoder();
   
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        // Read body text first
         const bodyText = await request.text();
         
-        // Handle empty body
         if (!bodyText || bodyText.trim() === '') {
           const response: JsonRpcResponse = {
             jsonrpc: '2.0',
@@ -357,7 +312,7 @@ export async function POST(request: NextRequest) {
             controller.enqueue(encoder.encode(`data: ${JSON.stringify(response)}\n\n`));
           }
         } else {
-          // Handle sync methods (initialize, tools/list)
+          // Handle sync methods (initialize, tools/list, etc.)
           const response = handleJsonRpc(body);
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(response)}\n\n`));
         }
@@ -385,7 +340,7 @@ export async function POST(request: NextRequest) {
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+      'Access-Control-Allow-Methods': 'POST,OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     },
   });
@@ -396,7 +351,7 @@ export async function OPTIONS() {
     status: 204,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+      'Access-Control-Allow-Methods': 'POST,OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     },
   });
