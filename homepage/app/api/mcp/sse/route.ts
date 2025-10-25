@@ -73,12 +73,22 @@ function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
         protocolVersion: '2024-11-05',
         capabilities: {
           tools: {},
+          resources: {},
         },
         serverInfo: {
           name: 'gtm-labs',
           version: '1.0.0',
         },
       },
+    };
+  }
+
+  // Initialized notification (no response needed, but handle it)
+  if (method === 'notifications/initialized') {
+    return {
+      jsonrpc: '2.0',
+      id,
+      result: {},
     };
   }
 
@@ -131,6 +141,17 @@ function handleJsonRpc(request: JsonRpcRequest): JsonRpcResponse {
             },
           },
         ],
+      },
+    };
+  }
+
+  // List resources (empty for now)
+  if (method === 'resources/list') {
+    return {
+      jsonrpc: '2.0',
+      id,
+      result: {
+        resources: [],
       },
     };
   }
