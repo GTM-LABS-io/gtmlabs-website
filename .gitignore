@@ -11,3 +11,15 @@ mcp-distribution/
 docs/
 *.md
 !homepage/README.md
+
+# User additions
+extensions.json
+homepage-idea.md
+jog-api.md
+prosp-api.md
+service-overview.md
+
+# Folders
+deep research/
+/examples/
+/into/
