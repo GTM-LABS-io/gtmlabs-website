@@ -265,18 +265,28 @@ async function handleToolCall(toolName: string, args: any): Promise<any> {
 }
 
 export async function GET() {
-  // Generate a unique session ID
-  const sessionId = crypto.randomUUID();
   const encoder = new TextEncoder();
   
-  // Return SSE stream with endpoint event
+  // Return SSE stream that sends server info immediately
   const stream = new ReadableStream({
     start(controller) {
-      // Send endpoint event with session-based message URL
-      const endpointEvent = `event: endpoint\ndata: /api/mcp/messages?sessionId=${sessionId}\n\n`;
-      controller.enqueue(encoder.encode(endpointEvent));
+      // Send initial server info as SSE message event
+      const serverInfo = {
+        jsonrpc: '2.0',
+        method: 'server/info',
+        params: {
+          name: 'gtm-labs',
+          version: '1.0.0',
+          capabilities: {
+            tools: {},
+            resources: {},
+          },
+        },
+      };
       
-      // Keep connection alive
+      controller.enqueue(encoder.encode(`event: message\ndata: ${JSON.stringify(serverInfo)}\n\n`));
+      
+      // Keep connection alive with heartbeat
       const heartbeat = setInterval(() => {
         try {
           controller.enqueue(encoder.encode(': heartbeat\n\n'));
@@ -285,11 +295,11 @@ export async function GET() {
         }
       }, 30000);
       
-      // Cleanup after 5 minutes
+      // Cleanup after 10 minutes
       setTimeout(() => {
         clearInterval(heartbeat);
         controller.close();
-      }, 300000);
+      }, 600000);
     },
   });
 
