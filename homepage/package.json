@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "echo 'no lint configured'",
-    "prepare": "husky",
+    "prepare": "husky || true",
     "guard:unlock": "bash scripts/guard/unlock.sh",
     "guard:lock": "bash scripts/guard/lock.sh"
   },
